@@ -3,6 +3,7 @@ package testdao;
 import by.academy.alekhno.dao.impl.ClotherImpl;
 import by.academy.alekhno.dao.impl.RoleImpl;
 import by.academy.alekhno.dao.impl.UserDaoImpl;
+import by.academy.alekhno.dao.impl.UserImpl;
 import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.UserDao;
 import by.academy.alekhno.exception.SqlException;
@@ -18,11 +19,13 @@ public class TestDao {
 		User user = new User();
 		user.setLogin("boris");
 		UserDao userDao = new UserDaoImpl();
-		System.out.println(userDao.getUser(user));
+		User userDB = userDao.getUser(user);
+		System.out.println(userDB);
+		
 		GenericDao<Clother> genericDao = new ClotherImpl();
 		Clother clother = new Clother();
 		clother.setId(1);
-		clother.setPrice(55000);
+		clother.setPrice(60000);
 		Model model = new Model();
 		model.setId(1);
 		clother.setModel(model);
@@ -39,6 +42,14 @@ public class TestDao {
 		} catch (SqlException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
+		}
+		
+		GenericDao<User> genericDaoU = new UserImpl();
+		try {
+			System.out.println(genericDaoU.getByID(userDB));
+		} catch (SqlException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
