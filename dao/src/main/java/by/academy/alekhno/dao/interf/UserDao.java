@@ -1,4 +1,4 @@
-package by.academy.alekhno.dao;
+package by.academy.alekhno.dao.interf;
 
 import java.util.List;
 
