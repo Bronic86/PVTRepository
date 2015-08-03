@@ -4,12 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
-import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
-import by.academy.alekhno.vo.Contact;
-import by.academy.alekhno.vo.Model;
-import by.academy.alekhno.vo.Type;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.User;
 
 public class UserImpl extends AbstractDao<User> {
@@ -19,22 +17,22 @@ public class UserImpl extends AbstractDao<User> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO users (id, login, password, first_name, second_name, contact_id)"
-					+ " VALUES (?, ?, ?, ?, ?, ?)";
-//			return Bundle.getQueryResource("add.user");
+//			return "INSERT INTO users (id, login, password, first_name, second_name, telephone)"
+//					+ " VALUES (?, ?, ?, ?, ?, ?)";
+			return Bundle.getQueryResource("query.add.user");
 		case DELETE:
-			return "DELETE FROM users WHERE id=?";
-//			return Bundle.getQueryResource("delete.user");
+//			return "DELETE FROM users WHERE id=?";
+			return Bundle.getQueryResource("query.delete.user");
 		case UPDATE:
-			return "UPDATE users SET login=?, password=?, first_name=?, second_name=?,"
-					+ " contact_id=? WHERE id=?";
-//			return Bundle.getQueryResource("update.user");
+//			return "UPDATE users SET login=?, password=?, first_name=?, second_name=?,"
+//					+ " telephone=? WHERE id=?";
+			return Bundle.getQueryResource("query.update.user");
 		case GET_ALL:
-			return "SELECT * FROM users";
-//			return Bundle.getQueryResource("get.all.user");
+//			return "SELECT * FROM users";
+			return Bundle.getQueryResource("query.get.all.user");
 		case GET_BY_ID:
-			return "SELECT * FROM users WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.user");
+//			return "SELECT * FROM users WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.user");
 		default:
 			
 		}
@@ -43,7 +41,7 @@ public class UserImpl extends AbstractDao<User> {
 	}
 
 	@Override
-	protected User getVO(ResultSet resultSet) {
+	protected User getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		User user = new User();
 		try {
@@ -52,20 +50,19 @@ public class UserImpl extends AbstractDao<User> {
 			user.setPassword(resultSet.getString("password"));
 			user.setFirstName(resultSet.getString("first_name"));
 			user.setSecondName(resultSet.getString("second_name"));
-			GenericDao<Contact> genericDao = new ContactImpl();
-			Contact contact = new Contact();
-			contact.setId(resultSet.getInt("type_id"));
-			user.setContact(genericDao.getByID(contact));
+			user.setTelephone(resultSet.getLong("telephone"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get user VO error.");
+			throw exc;
 		}
 		return user;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, User user,
-			SqlMethode sqlMethode) {
+			SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -75,11 +72,13 @@ public class UserImpl extends AbstractDao<User> {
 				preparedStatement.setString(3, user.getPassword());
 				preparedStatement.setString(4, user.getFirstName());
 				preparedStatement.setString(5, user.getSecondName());
-				preparedStatement.setInt(6, user.getContact().getId());
+				preparedStatement.setLong(6, user.getTelephone());
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("User setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -87,7 +86,9 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("User setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -95,12 +96,14 @@ public class UserImpl extends AbstractDao<User> {
 				preparedStatement.setString(2, user.getPassword());
 				preparedStatement.setString(3, user.getFirstName());
 				preparedStatement.setString(4, user.getSecondName());
-				preparedStatement.setInt(5, user.getContact().getId());
+				preparedStatement.setLong(5, user.getTelephone());
 				preparedStatement.setInt(6, user.getId());
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("User setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -110,7 +113,9 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("User setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			

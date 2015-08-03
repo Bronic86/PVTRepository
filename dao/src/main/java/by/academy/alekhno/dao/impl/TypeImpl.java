@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Type;
 
 public class TypeImpl extends AbstractDao<Type> {
@@ -15,20 +17,20 @@ public class TypeImpl extends AbstractDao<Type> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO types (id, name) VALUES (?, ?)";
-//			return Bundle.getQueryResource("add.type");
+//			return "INSERT INTO types (id, name) VALUES (?, ?)";
+			return Bundle.getQueryResource("query.add.type");
 		case DELETE:
-			return "DELETE FROM types WHERE id=?";
-//			return Bundle.getQueryResource("delete.type");
+//			return "DELETE FROM types WHERE id=?";
+			return Bundle.getQueryResource("query.delete.type");
 		case UPDATE:
-			return "UPDATE types SET name=? WHERE id=?";
-//			return Bundle.getQueryResource("update.type");
+//			return "UPDATE types SET name=? WHERE id=?";
+			return Bundle.getQueryResource("query.update.type");
 		case GET_ALL:
-			return "SELECT * FROM types";
-//			return Bundle.getQueryResource("get.all.type");
+//			return "SELECT * FROM types";
+			return Bundle.getQueryResource("query.get.all.type");
 		case GET_BY_ID:
-			return "SELECT * FROM types WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.type");
+//			return "SELECT * FROM types WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.type");
 		default:
 			
 		}
@@ -37,7 +39,7 @@ public class TypeImpl extends AbstractDao<Type> {
 	}
 
 	@Override
-	protected Type getVO(ResultSet resultSet) {
+	protected Type getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		Type type = new Type();
 		try {
@@ -45,14 +47,16 @@ public class TypeImpl extends AbstractDao<Type> {
 			type.setName(resultSet.getString("name"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get type VO error.");
+			throw exc;
 		}
 		return type;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Type type,
-			SqlMethode sqlMethode) {
+			SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -62,7 +66,9 @@ public class TypeImpl extends AbstractDao<Type> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Type setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -70,7 +76,9 @@ public class TypeImpl extends AbstractDao<Type> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Type setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -79,7 +87,9 @@ public class TypeImpl extends AbstractDao<Type> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Type setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -89,7 +99,9 @@ public class TypeImpl extends AbstractDao<Type> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Type setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			

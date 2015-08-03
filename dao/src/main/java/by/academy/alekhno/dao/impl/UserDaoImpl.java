@@ -24,19 +24,17 @@ public class UserDaoImpl implements UserDao {
 		try {
 		connection = ConnectionPool.getInstance().getConnection();
 //		preparedStatement = connection.prepareStatement(Bundle.getQueryResource(BUNDLE_QUERY_GET_USER));
-		preparedStatement = connection.prepareStatement("SELECT * FROM clients WHERE login=?");
+		preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login=?");
 		preparedStatement.setString(1, user.getLogin());
 		resultSet = preparedStatement.executeQuery();
-		System.out.println(resultSet.next());
-//		if (resultSet.next()) {
-//			userDB.setId(resultSet.getInt("id"));
-//			userDB.setLogin(resultSet.getString("login"));
-//			userDB.setPassword(resultSet.getString("password"));
-//			userDB.setFirstName(resultSet.getString("first_name"));
-//			userDB.setSecondName(resultSet.getString("second_name"));
-//			userDB.setTelephone(resultSet.getString("telephone"));
-//			userDB.setEmail(resultSet.getString("email"));
-//		}
+		if (resultSet.next()) {
+			userDB.setId(resultSet.getInt("id"));
+			userDB.setLogin(resultSet.getString("login"));
+			userDB.setPassword(resultSet.getString("password"));
+			userDB.setFirstName(resultSet.getString("first_name"));
+			userDB.setSecondName(resultSet.getString("second_name"));
+			userDB.setTelephone(resultSet.getLong("telephone"));
+		}
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
