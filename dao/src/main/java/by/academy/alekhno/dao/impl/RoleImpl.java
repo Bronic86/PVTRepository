@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Role;
 
 public class RoleImpl extends AbstractDao<Role> {
@@ -16,20 +17,20 @@ public class RoleImpl extends AbstractDao<Role> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO roles (id, name) VALUES (?, ?)";
-//			return Bundle.getQueryResource("add.role");
+//			return "INSERT INTO roles (id, name) VALUES (?, ?)";
+			return Bundle.getQueryResource("query.add.role");
 		case DELETE:
-			return "DELETE FROM roles WHERE id=?";
-//			return Bundle.getQueryResource("delete.role");
+//			return "DELETE FROM roles WHERE id=?";
+			return Bundle.getQueryResource("query.delete.role");
 		case UPDATE:
-			return "UPDATE roles SET name=? WHERE id=?";
-//			return Bundle.getQueryResource("update.role");
+//			return "UPDATE roles SET name=? WHERE id=?";
+			return Bundle.getQueryResource("query.update.role");
 		case GET_ALL:
-			return "SELECT * FROM roles";
-//			return Bundle.getQueryResource("get.all.role");
+//			return "SELECT * FROM roles";
+			return Bundle.getQueryResource("query.get.all.role");
 		case GET_BY_ID:
-			return "SELECT * FROM roles WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.role");
+//			return "SELECT * FROM roles WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.role");
 		default:
 			
 		}
@@ -38,7 +39,7 @@ public class RoleImpl extends AbstractDao<Role> {
 	}
 
 	@Override
-	protected Role getVO(ResultSet resultSet) {
+	protected Role getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		Role role = new Role();
 		try {
@@ -46,13 +47,15 @@ public class RoleImpl extends AbstractDao<Role> {
 			role.setName(resultSet.getString("name"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get role VO error.");
+			throw exc;
 		}
 		return role;
 	}
 
 	@Override
-	protected void setParam(PreparedStatement preparedStatement, Role role, SqlMethode sqlMethode) {
+	protected void setParam(PreparedStatement preparedStatement, Role role, SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -62,7 +65,9 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Role setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -70,7 +75,9 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Role setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -79,7 +86,9 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Role setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -89,7 +98,9 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Role setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			

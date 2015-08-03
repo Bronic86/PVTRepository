@@ -4,9 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
 
@@ -17,20 +19,20 @@ public class ModelImpl extends AbstractDao<Model> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO models (id, name, type_id) VALUES (?, ?, ?)";
-//			return Bundle.getQueryResource("add.model");
+//			return "INSERT INTO models (id, name, type_id) VALUES (?, ?, ?)";
+			return Bundle.getQueryResource("query.add.model");
 		case DELETE:
-			return "DELETE FROM models WHERE id=?";
-//			return Bundle.getQueryResource("delete.model");
+//			return "DELETE FROM models WHERE id=?";
+			return Bundle.getQueryResource("query.delete.model");
 		case UPDATE:
-			return "UPDATE models SET name=?, type_id=? WHERE id=?";
-//			return Bundle.getQueryResource("update.model");
+//			return "UPDATE models SET name=?, type_id=? WHERE id=?";
+			return Bundle.getQueryResource("query.update.model");
 		case GET_ALL:
-			return "SELECT * FROM models";
-//			return Bundle.getQueryResource("get.all.model");
+//			return "SELECT * FROM models";
+			return Bundle.getQueryResource("query.get.all.model");
 		case GET_BY_ID:
-			return "SELECT * FROM models WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.model");
+//			return "SELECT * FROM models WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.model");
 		default:
 			
 		}
@@ -39,7 +41,7 @@ public class ModelImpl extends AbstractDao<Model> {
 	}
 
 	@Override
-	protected Model getVO(ResultSet resultSet) {
+	protected Model getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		Model model = new Model();
 		try {
@@ -51,14 +53,16 @@ public class ModelImpl extends AbstractDao<Model> {
 			model.setType(genericDao.getByID(type));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get model VO error.");
+			throw exc;
 		}
 		return model;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Model model,
-			SqlMethode sqlMethode) {
+			SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -69,7 +73,9 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Model setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -77,7 +83,9 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Model setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -87,7 +95,9 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Model setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -97,7 +107,9 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Model setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			

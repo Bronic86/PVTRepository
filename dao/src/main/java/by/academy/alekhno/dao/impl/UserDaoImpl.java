@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 		connection = ConnectionPool.getInstance().getConnection();
 //		preparedStatement = connection.prepareStatement(Bundle.getQueryResource(BUNDLE_QUERY_GET_USER));
-		preparedStatement = connection.prepareStatement("SELECT * FROM clients WHERE login=?");
+		preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login=?");
 		preparedStatement.setString(1, user.getLogin());
 		resultSet = preparedStatement.executeQuery();
 		System.out.println(resultSet.next());

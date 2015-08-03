@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Clother;
 import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.User;
@@ -19,22 +21,22 @@ public class OrderImpl extends AbstractDao<Order> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO orders (id, user_id, clother_id, quantity, ordering_day)"
-					+ " VALUES (?, ?, ?, ?, ?)";
-//			return Bundle.getQueryResource("add.order");
+//			return "INSERT INTO orders (id, user_id, clother_id, quantity, ordering_day)"
+//					+ " VALUES (?, ?, ?, ?, ?)";
+			return Bundle.getQueryResource("query.add.order");
 		case DELETE:
-			return "DELETE FROM orders WHERE id=?";
-//			return Bundle.getQueryResource("delete.order");
+//			return "DELETE FROM orders WHERE id=?";
+			return Bundle.getQueryResource("query.delete.order");
 		case UPDATE:
-			return "UPDATE orders SET user_id=?, clother_id=?, quantity=?, ordering_day=?,"
-					+ " WHERE id=?";
-//			return Bundle.getQueryResource("update.order");
+//			return "UPDATE orders SET user_id=?, clother_id=?, quantity=?, ordering_day=?,"
+//					+ " WHERE id=?";
+			return Bundle.getQueryResource("query.update.order");
 		case GET_ALL:
-			return "SELECT * FROM orders";
-//			return Bundle.getQueryResource("get.all.order");
+//			return "SELECT * FROM orders";
+			return Bundle.getQueryResource("query.get.all.order");
 		case GET_BY_ID:
-			return "SELECT * FROM orders WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.order");
+//			return "SELECT * FROM orders WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.order");
 		default:
 			
 		}
@@ -43,7 +45,7 @@ public class OrderImpl extends AbstractDao<Order> {
 	}
 
 	@Override
-	protected Order getVO(ResultSet resultSet) {
+	protected Order getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		Order order = new Order();
 		try {
@@ -63,14 +65,16 @@ public class OrderImpl extends AbstractDao<Order> {
 			order.setOrdering_day(resultSet.getDate("ordering_day"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get order VO error.");
+			throw exc;
 		}
 		return order;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Order order,
-			SqlMethode sqlMethode) {
+			SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -83,7 +87,9 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Order setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -91,7 +97,9 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Order setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -103,7 +111,9 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Order setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -113,7 +123,9 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("Order setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			

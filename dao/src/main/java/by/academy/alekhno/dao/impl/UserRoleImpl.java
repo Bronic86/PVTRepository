@@ -4,10 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
-import by.academy.alekhno.vo.Contact;
+import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Role;
 import by.academy.alekhno.vo.User;
 import by.academy.alekhno.vo.UserRole;
@@ -19,21 +20,20 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-			return "INSERT INTO users_role (id, user, role)"
-					+ " VALUES (?, ?, ?)";
-//			return Bundle.getQueryResource("add.user_role");
+//			return "INSERT INTO users_role (id, user, role) VALUES (?, ?, ?)";
+			return Bundle.getQueryResource("query.add.user_role");
 		case DELETE:
-			return "DELETE FROM users_role WHERE id=?";
-//			return Bundle.getQueryResource("delete.user_role");
+//			return "DELETE FROM users_role WHERE id=?";
+			return Bundle.getQueryResource("query.delete.user_role");
 		case UPDATE:
-			return "UPDATE users_role SET user=?, role=? WHERE id=?";
-//			return Bundle.getQueryResource("update.user_role");
+//			return "UPDATE users_role SET user=?, role=? WHERE id=?";
+			return Bundle.getQueryResource("query.update.user_role");
 		case GET_ALL:
-			return "SELECT * FROM users_role";
-//			return Bundle.getQueryResource("get.all.user_role");
+//			return "SELECT * FROM users_role";
+			return Bundle.getQueryResource("query.get.all.user_role");
 		case GET_BY_ID:
-			return "SELECT * FROM users_role WHERE id=?";
-//			return Bundle.getQueryResource("get.by.id.user_role");
+//			return "SELECT * FROM users_role WHERE id=?";
+			return Bundle.getQueryResource("query.get.by.id.user_role");
 		default:
 			
 		}
@@ -42,7 +42,7 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 	}
 
 	@Override
-	protected UserRole getVO(ResultSet resultSet) {
+	protected UserRole getVO(ResultSet resultSet) throws SqlException {
 		// TODO Auto-generated method stub
 		UserRole userRole = new UserRole();
 		try {
@@ -59,14 +59,16 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 			userRole.setUser(genericDaoU.getByID(user));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SqlException exc = new SqlException();
+			exc.addMessage("Get userRole VO error.");
+			throw exc;
 		}
 		return userRole;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, UserRole userRole,
-			SqlMethode sqlMethode) {
+			SqlMethode sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -77,7 +79,9 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("UserRole setParam add error.");
+				throw exc;
 			}
 		case DELETE:
 			try {
@@ -85,7 +89,9 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("UserRole setParam delete error.");
+				throw exc;
 			}
 		case UPDATE:
 			try {
@@ -95,7 +101,9 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("UserRole setParam update error.");
+				throw exc;
 			}
 		case GET_ALL:
 			break;
@@ -105,7 +113,9 @@ public class UserRoleImpl extends AbstractDao<UserRole> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				SqlException exc = new SqlException();
+				exc.addMessage("UserRole setParam get_by_id error.");
+				throw exc;
 			}
 		default:
 			
