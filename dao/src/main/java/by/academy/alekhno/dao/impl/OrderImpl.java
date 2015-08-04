@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Clother;
 import by.academy.alekhno.vo.Order;
@@ -17,7 +17,7 @@ import by.academy.alekhno.vo.User;
 public class OrderImpl extends AbstractDao<Order> {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -74,7 +74,7 @@ public class OrderImpl extends AbstractDao<Order> {
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Order order,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:

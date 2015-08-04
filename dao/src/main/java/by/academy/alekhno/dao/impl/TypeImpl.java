@@ -5,15 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Type;
 
 public class TypeImpl extends AbstractDao<Type> {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -56,7 +56,7 @@ public class TypeImpl extends AbstractDao<Type> {
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Type type,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:

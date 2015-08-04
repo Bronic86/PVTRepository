@@ -25,6 +25,12 @@ public class TestDao {
 		GenericDao<Clother> genericDao = new ClotherImpl();
 		Clother clother = new Clother();
 		clother.setId(1);
+		try {
+			System.out.println(genericDao.getByID(clother));
+		} catch (SqlException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		clother.setPrice(60000);
 		Model model = new Model();
 		model.setId(1);

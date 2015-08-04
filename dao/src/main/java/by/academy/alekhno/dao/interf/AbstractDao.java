@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.academy.alekhno.dao.connection.ConnectionPool;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.exception.SqlException;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
@@ -18,7 +19,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		ResultSet resultSet = null;
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(getSql(SqlMethode.GET_ALL));
+			preparedStatement = connection.prepareStatement(getSql(SqlMethodeEnum.GET_ALL));
 			resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()){
 				t.add(getVO(resultSet));
@@ -43,8 +44,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		PreparedStatement preparedStatement = null;		
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(getSql(SqlMethode.UPDATE));
-			setParam(preparedStatement, t, SqlMethode.UPDATE);
+			preparedStatement = connection.prepareStatement(getSql(SqlMethodeEnum.UPDATE));
+			setParam(preparedStatement, t, SqlMethodeEnum.UPDATE);
 			preparedStatement.executeUpdate();			
 		} catch (SqlException e) {
 			// TODO Auto-generated catch block
@@ -65,8 +66,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		PreparedStatement preparedStatement = null;		
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(getSql(SqlMethode.DELETE));
-			setParam(preparedStatement, t, SqlMethode.DELETE);
+			preparedStatement = connection.prepareStatement(getSql(SqlMethodeEnum.DELETE));
+			setParam(preparedStatement, t, SqlMethodeEnum.DELETE);
 			preparedStatement.executeUpdate();			
 		} catch (SqlException e) {
 			// TODO Auto-generated catch block
@@ -88,8 +89,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		ResultSet resultSet = null;
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(getSql(SqlMethode.ADD));
-			setParam(preparedStatement, t, SqlMethode.ADD);
+			preparedStatement = connection.prepareStatement(getSql(SqlMethodeEnum.ADD));
+			setParam(preparedStatement, t, SqlMethodeEnum.ADD);
 			preparedStatement.executeUpdate();
 			
 		} catch (SqlException e) {
@@ -113,8 +114,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		ResultSet resultSet = null;
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(getSql(SqlMethode.GET_BY_ID));
-			setParam(preparedStatement, t, SqlMethode.GET_BY_ID);
+			preparedStatement = connection.prepareStatement(getSql(SqlMethodeEnum.GET_BY_ID));
+			setParam(preparedStatement, t, SqlMethodeEnum.GET_BY_ID);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()){
 				tFinding = getVO(resultSet);
@@ -134,7 +135,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 
 
 
-	private void close(ResultSet resultSet, PreparedStatement preparedStatement) {
+	protected void close(ResultSet resultSet, PreparedStatement preparedStatement) {
 		
 		if (resultSet != null) {
             try {
@@ -152,10 +153,10 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
         }
 	}
 	
-	protected abstract String getSql(SqlMethode sqlMethode);
+	protected abstract String getSql(SqlMethodeEnum sqlMethode);
 	
 	protected abstract T getVO(ResultSet resultSet) throws SqlException;
 	
-	protected abstract void setParam(PreparedStatement preparedStatement, T t, SqlMethode sqlMethode) throws SqlException;
+	protected abstract void setParam(PreparedStatement preparedStatement, T t, SqlMethodeEnum sqlMethode) throws SqlException;
 	
 }

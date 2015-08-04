@@ -1,37 +1,33 @@
 package by.academy.alekhno.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.connection.ConnectionPool;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
+import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.User;
 
-public class UserImpl extends AbstractDao<User> {
+public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-//			return "INSERT INTO users (id, login, password, first_name, second_name, telephone)"
-//					+ " VALUES (?, ?, ?, ?, ?, ?)";
 			return Bundle.getQueryResource("query.add.user");
 		case DELETE:
-//			return "DELETE FROM users WHERE id=?";
 			return Bundle.getQueryResource("query.delete.user");
 		case UPDATE:
-//			return "UPDATE users SET login=?, password=?, first_name=?, second_name=?,"
-//					+ " telephone=? WHERE id=?";
 			return Bundle.getQueryResource("query.update.user");
 		case GET_ALL:
-//			return "SELECT * FROM users";
 			return Bundle.getQueryResource("query.get.all.user");
 		case GET_BY_ID:
-//			return "SELECT * FROM users WHERE id=?";
 			return Bundle.getQueryResource("query.get.by.id.user");
 		default:
 			
@@ -62,7 +58,7 @@ public class UserImpl extends AbstractDao<User> {
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, User user,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -120,6 +116,32 @@ public class UserImpl extends AbstractDao<User> {
 		default:
 			
 		}
+	}
+
+	public User getByLogin(User user) throws SqlException {
+		// TODO Auto-generated method stub
+		User userFinding = null; 
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try{
+			Connection connection = ConnectionPool.getInstance().getConnection();
+			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.user.by.login"));
+			preparedStatement.setString(1, user.getLogin());
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()){
+				userFinding = getVO(resultSet);
+			}			
+		} catch (SqlException e) {
+			// TODO Auto-generated catch block
+			e.addMessage("Error to get_user_by_login.");
+			throw e;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return userFinding;
 	}
 
 }
