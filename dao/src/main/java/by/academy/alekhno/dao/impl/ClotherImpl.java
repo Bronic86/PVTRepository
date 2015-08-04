@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Clother;
 import by.academy.alekhno.vo.Model;
@@ -15,22 +15,18 @@ import by.academy.alekhno.vo.Model;
 public class ClotherImpl extends AbstractDao<Clother> {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			return Bundle.getQueryResource("query.add.clother");
 		case DELETE:
-//			return "DELETE FROM clothes WHERE id=?";
 			return Bundle.getQueryResource("query.delete.clother");
 		case UPDATE:
-//			return "UPDATE clothes SET model_id=?, price=? WHERE id=?";
 			return Bundle.getQueryResource("query.update.clother");
 		case GET_ALL:
-//			return "SELECT * FROM clothes";
 			return Bundle.getQueryResource("query.get.all.clother");
 		case GET_BY_ID:
-//			return "SELECT * FROM clothes WHERE id=?";
 			return Bundle.getQueryResource("query.get.by.id.clother");
 		default:
 			
@@ -45,7 +41,7 @@ public class ClotherImpl extends AbstractDao<Clother> {
 		Clother clother = new Clother();
 		try {
 			clother.setId(resultSet.getInt("id"));
-			
+			//May be it's bad realization
 			GenericDao<Model> genericDao = new ModelImpl();
 			Model model = new Model();
 			model.setId(resultSet.getInt("model_id"));
@@ -63,7 +59,7 @@ public class ClotherImpl extends AbstractDao<Clother> {
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Clother clother,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:

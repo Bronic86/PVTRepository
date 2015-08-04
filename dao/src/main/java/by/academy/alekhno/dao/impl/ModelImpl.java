@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.GenericDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
@@ -15,7 +15,7 @@ import by.academy.alekhno.vo.Type;
 public class ModelImpl extends AbstractDao<Model> {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -62,7 +62,7 @@ public class ModelImpl extends AbstractDao<Model> {
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Model model,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:

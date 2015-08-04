@@ -5,15 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.enums.SqlMethodeEnum;
 import by.academy.alekhno.dao.interf.AbstractDao;
-import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.SqlException;
 import by.academy.alekhno.vo.Role;
 
 public class RoleImpl extends AbstractDao<Role> {
 
 	@Override
-	protected String getSql(SqlMethode sqlMethode) {
+	protected String getSql(SqlMethodeEnum sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
@@ -55,7 +55,7 @@ public class RoleImpl extends AbstractDao<Role> {
 	}
 
 	@Override
-	protected void setParam(PreparedStatement preparedStatement, Role role, SqlMethode sqlMethode) throws SqlException {
+	protected void setParam(PreparedStatement preparedStatement, Role role, SqlMethodeEnum sqlMethode) throws SqlException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:

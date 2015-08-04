@@ -1,1 +1,0 @@
-query.get.user=SELECT * FROM clients WHERE login=?
