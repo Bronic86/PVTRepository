@@ -6,9 +6,8 @@ import java.sql.SQLException;
 
 import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
-import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
-import by.academy.alekhno.exception.SqlException;
+import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
 
@@ -19,19 +18,14 @@ public class ModelImpl extends AbstractDao<Model> {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-//			return "INSERT INTO models (id, name, type_id) VALUES (?, ?, ?)";
 			return Bundle.getQueryResource("query.add.model");
 		case DELETE:
-//			return "DELETE FROM models WHERE id=?";
 			return Bundle.getQueryResource("query.delete.model");
 		case UPDATE:
-//			return "UPDATE models SET name=?, type_id=? WHERE id=?";
 			return Bundle.getQueryResource("query.update.model");
 		case GET_ALL:
-//			return "SELECT * FROM models";
 			return Bundle.getQueryResource("query.get.all.model");
 		case GET_BY_ID:
-//			return "SELECT * FROM models WHERE id=?";
 			return Bundle.getQueryResource("query.get.by.id.model");
 		default:
 			
@@ -41,41 +35,38 @@ public class ModelImpl extends AbstractDao<Model> {
 	}
 
 	@Override
-	protected Model getVO(ResultSet resultSet) throws SqlException {
+	protected Model getVO(ResultSet resultSet) throws DaoException{
 		// TODO Auto-generated method stub
 		Model model = new Model();
+		Type type = new Type();
 		try {
 			model.setId(resultSet.getInt("id"));
 			model.setName(resultSet.getString("name"));
-			GenericDao<Type> genericDao = new TypeImpl();
-			Type type = new Type();
 			type.setId(resultSet.getInt("type_id"));
-			model.setType(genericDao.getByID(type));
+			type.setName(resultSet.getString("type_name"));
+			model.setType(type);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			SqlException exc = new SqlException();
-			exc.addMessage("Get model VO error.");
-			throw exc;
+			throw new DaoException("Get VO Model exception");
 		}
 		return model;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Model model,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethode sqlMethode) throws DaoException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			try {
 				preparedStatement.setInt(1, model.getId());
 				preparedStatement.setString(2, model.getName());
-				preparedStatement.setInt(3, model.getType().getId());
+				Type type = model.getType();
+				preparedStatement.setInt(3, type.getId());
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Model setParam add error.");
-				throw exc;
+				throw new DaoException("Set Model preparesStatement for ADD exception.");
 			}
 		case DELETE:
 			try {
@@ -83,21 +74,18 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Model setParam delete error.");
-				throw exc;
+				throw new DaoException("Set Model preparesStatement for DELETE exception.");
 			}
 		case UPDATE:
 			try {
 				preparedStatement.setString(1, model.getName());
-				preparedStatement.setInt(2, model.getType().getId());
+				Type type = model.getType();
+				preparedStatement.setInt(2, type.getId());
 				preparedStatement.setInt(3, model.getId());
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Model setParam update error.");
-				throw exc;
+				throw new DaoException("Set Model preparesStatement for UPDATE exception.");
 			}
 		case GET_ALL:
 			break;
@@ -107,9 +95,7 @@ public class ModelImpl extends AbstractDao<Model> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Model setParam get_by_id error.");
-				throw exc;
+				throw new DaoException("Set Model preparesStatement for GET_BY_ID exception.");
 			}
 		default:
 			

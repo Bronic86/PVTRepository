@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.academy.alekhno.dao.connection.ConnectionPool;
-import by.academy.alekhno.exception.SqlException;
+import by.academy.alekhno.exception.DaoException;
+
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
 	
-	public List<T> getAll () throws SqlException{
+	public List<T> getAll () throws DaoException {
 		List<T> t = new ArrayList<T>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -23,13 +24,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			while(resultSet.next()){
 				t.add(getVO(resultSet));
 			}
-		} catch (SqlException e) {
-			// TODO Auto-generated catch block
-			e.addMessage("Error to get list.");
-			throw e;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException("Get all exception.");
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -38,7 +34,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 	
 	
 	
-	public void update(T t) throws SqlException {
+	public void update(T t) throws DaoException {
 		// TODO Auto-generated method stub
 		PreparedStatement preparedStatement = null;		
 		try{
@@ -46,13 +42,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			preparedStatement = connection.prepareStatement(getSql(SqlMethode.UPDATE));
 			setParam(preparedStatement, t, SqlMethode.UPDATE);
 			preparedStatement.executeUpdate();			
-		} catch (SqlException e) {
-			// TODO Auto-generated catch block
-			e.addMessage("Error to update.");
-			throw e;
 		}  catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException("Update exception");
 		} finally {
 			close(null, preparedStatement);
 		}		
@@ -60,7 +51,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 
 
 
-	public void delete(T t) throws SqlException {
+	public void delete(T t) throws DaoException {
 		// TODO Auto-generated method stub
 		PreparedStatement preparedStatement = null;		
 		try{
@@ -68,13 +59,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			preparedStatement = connection.prepareStatement(getSql(SqlMethode.DELETE));
 			setParam(preparedStatement, t, SqlMethode.DELETE);
 			preparedStatement.executeUpdate();			
-		} catch (SqlException e) {
-			// TODO Auto-generated catch block
-			e.addMessage("Error to delete.");
-			throw e;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException("Delete exception");
 		} finally {
 			close(null, preparedStatement);
 		}
@@ -82,7 +68,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 
 
 
-	public void add(T t) throws SqlException {
+	public void add(T t) throws DaoException {
 		// TODO Auto-generated method stub
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -92,13 +78,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			setParam(preparedStatement, t, SqlMethode.ADD);
 			preparedStatement.executeUpdate();
 			
-		} catch (SqlException e) {
-			// TODO Auto-generated catch block
-			e.addMessage("Error to add.");
-			throw e;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException("Add exception");
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -106,7 +87,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 
 
 
-	public T getByID(T t) throws SqlException {
+	public T getByID(T t) throws DaoException {
 		// TODO Auto-generated method stub
 		T tFinding = null; 
 		PreparedStatement preparedStatement = null;
@@ -119,13 +100,8 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			if (resultSet.next()){
 				tFinding = getVO(resultSet);
 			}			
-		} catch (SqlException e) {
-			// TODO Auto-generated catch block
-			e.addMessage("Error to get_by_id list.");
-			throw e;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DaoException("Get by ID exception");
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -134,28 +110,29 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 
 
 
-	private void close(ResultSet resultSet, PreparedStatement preparedStatement) {
+	protected void close(ResultSet resultSet, PreparedStatement preparedStatement) throws DaoException {
 		
 		if (resultSet != null) {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DaoException("Close resultSet exception.");
             }
         }
         if (preparedStatement != null) {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+            	throw new DaoException("Close preparedStatement exception.");
             }
         }
 	}
 	
 	protected abstract String getSql(SqlMethode sqlMethode);
 	
-	protected abstract T getVO(ResultSet resultSet) throws SqlException;
+	protected abstract T getVO(ResultSet resultSet) throws DaoException;
 	
-	protected abstract void setParam(PreparedStatement preparedStatement, T t, SqlMethode sqlMethode) throws SqlException;
+	protected abstract void setParam
+		(PreparedStatement preparedStatement, T t, SqlMethode sqlMethode) throws DaoException;
 	
 }

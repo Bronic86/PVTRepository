@@ -1,37 +1,33 @@
 package by.academy.alekhno.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
+import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
-import by.academy.alekhno.exception.SqlException;
+import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.User;
 
-public class UserImpl extends AbstractDao<User> {
+public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
-//			return "INSERT INTO users (id, login, password, first_name, second_name, telephone)"
-//					+ " VALUES (?, ?, ?, ?, ?, ?)";
 			return Bundle.getQueryResource("query.add.user");
 		case DELETE:
-//			return "DELETE FROM users WHERE id=?";
 			return Bundle.getQueryResource("query.delete.user");
 		case UPDATE:
-//			return "UPDATE users SET login=?, password=?, first_name=?, second_name=?,"
-//					+ " telephone=? WHERE id=?";
 			return Bundle.getQueryResource("query.update.user");
 		case GET_ALL:
-//			return "SELECT * FROM users";
 			return Bundle.getQueryResource("query.get.all.user");
 		case GET_BY_ID:
-//			return "SELECT * FROM users WHERE id=?";
 			return Bundle.getQueryResource("query.get.by.id.user");
 		default:
 			
@@ -41,7 +37,7 @@ public class UserImpl extends AbstractDao<User> {
 	}
 
 	@Override
-	protected User getVO(ResultSet resultSet) throws SqlException {
+	protected User getVO(ResultSet resultSet) throws DaoException {
 		// TODO Auto-generated method stub
 		User user = new User();
 		try {
@@ -53,22 +49,22 @@ public class UserImpl extends AbstractDao<User> {
 			user.setTelephone(resultSet.getLong("telephone"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			SqlException exc = new SqlException();
-			exc.addMessage("Get user VO error.");
-			throw exc;
+			throw new DaoException("Get VO User exception.");
 		}
 		return user;
 	}
 
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, User user,
-			SqlMethode sqlMethode) throws SqlException {
+			SqlMethode sqlMethode) throws DaoException {
 		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			try {
 				preparedStatement.setInt(1, user.getId());
 				preparedStatement.setString(2, user.getLogin());
+				
+			//May be return password=null
 				preparedStatement.setString(3, user.getPassword());
 				preparedStatement.setString(4, user.getFirstName());
 				preparedStatement.setString(5, user.getSecondName());
@@ -76,9 +72,7 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("User setParam add error.");
-				throw exc;
+				throw new DaoException("User setParam for ADD exception.");
 			}
 		case DELETE:
 			try {
@@ -86,9 +80,7 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("User setParam delete error.");
-				throw exc;
+				throw new DaoException("User setParam for DELETE exception.");
 			}
 		case UPDATE:
 			try {
@@ -101,9 +93,7 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("User setParam update error.");
-				throw exc;
+				throw new DaoException("User setParam for UPDATE exception.");
 			}
 		case GET_ALL:
 			break;
@@ -113,13 +103,54 @@ public class UserImpl extends AbstractDao<User> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("User setParam get_by_id error.");
-				throw exc;
+				throw new DaoException("User setParam for GET_BY_ID exception.");
 			}
 		default:
 			
 		}
+	}
+
+	public User getByLogin(User user) throws DaoException {
+		// TODO Auto-generated method stub
+		User userFinding = new User(); 
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try{
+			Connection connection = ConnectionPool.getInstance().getConnection();
+			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.login.user"));
+			preparedStatement.setString(1, user.getLogin());
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()){
+				userFinding = getVO(resultSet);
+			}			
+		} catch (SQLException e) {
+			throw new DaoException("Get User by login exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return userFinding;
+	}
+
+	public User getByLoginAndPassword(User user) throws DaoException {
+		// TODO Auto-generated method stub
+		User userFinding = new User(); 
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try{
+			Connection connection = ConnectionPool.getInstance().getConnection();
+			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.login.and.password.user"));
+			preparedStatement.setString(1, user.getLogin());
+			preparedStatement.setString(2, user.getPassword());
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()){
+				userFinding = getVO(resultSet);
+			}			
+		} catch (SQLException e) {
+			throw new DaoException("Get User by login and password exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return userFinding;
 	}
 
 }

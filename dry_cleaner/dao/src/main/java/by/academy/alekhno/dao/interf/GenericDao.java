@@ -3,18 +3,18 @@ package by.academy.alekhno.dao.interf;
 
 import java.util.List;
 
-import by.academy.alekhno.exception.SqlException;
+import by.academy.alekhno.exception.DaoException;
 
 public interface GenericDao<T> {
 
-	List<T> getAll() throws SqlException;
+	List<T> getAll() throws DaoException;
 	
-	void update(T t) throws SqlException;
+	void update(T t) throws DaoException;
 	
-	void delete(T t) throws SqlException;
+	void delete(T t) throws DaoException;
 	
-	void add(T t) throws SqlException;
+	void add(T t) throws DaoException;
 	
-	T getByID (T t) throws SqlException;
+	T getByID (T t) throws DaoException;
 	
 }
