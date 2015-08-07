@@ -13,10 +13,51 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>by.academy.alekhno</groupId>
+    	<artifactId>vo</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>by.academy.alekhno</groupId>
+    	<artifactId>dao</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.webjars.bower</groupId>
+    	<artifactId>md5</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>commons-codec</groupId>
+    	<artifactId>commons-codec</artifactId>
+    </dependency>
   </dependencies>
   <parent>
   	<groupId>by.academy.alekhno</groupId>
   	<artifactId>dry_cleaner</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../</relativePath>
   </parent>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>by.academy.alekhno</groupId>
+  			<artifactId>vo</artifactId>
+  			<version>1.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>by.academy.alekhno</groupId>
+  			<artifactId>dao</artifactId>
+  			<version>1.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.webjars.bower</groupId>
+  			<artifactId>md5</artifactId>
+  			<version>0.3.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>commons-codec</groupId>
+  			<artifactId>commons-codec</artifactId>
+  			<version>1.9</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>

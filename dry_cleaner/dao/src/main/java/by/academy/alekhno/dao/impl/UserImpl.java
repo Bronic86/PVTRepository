@@ -110,7 +110,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 		}
 	}
 
-	public User getByLogin(User user) throws DaoException {
+	public User getByLogin(String login) throws DaoException {
 		// TODO Auto-generated method stub
 		User userFinding = new User(); 
 		PreparedStatement preparedStatement = null;
@@ -118,7 +118,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 		try{
 			Connection connection = ConnectionPool.getInstance().getConnection();
 			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.login.user"));
-			preparedStatement.setString(1, user.getLogin());
+			preparedStatement.setString(1, login);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()){
 				userFinding = getVO(resultSet);

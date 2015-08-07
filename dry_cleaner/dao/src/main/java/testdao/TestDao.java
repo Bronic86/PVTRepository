@@ -27,11 +27,28 @@ public class TestDao {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+		
+		try {
+			System.out.println("after add " + new UserImpl().getByLogin(user.getLogin()));
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		User user1 = new User();
+		
 		user1.setLogin(user.getLogin());
 		user1.setPassword(user.getPassword());
+		System.out.println("user1 " + user1);
+		CustomUserDao uDao = new UserImpl();
+		try {
+			user = uDao.getByLoginAndPassword(user1);
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		user.setFirstName("ChangePerson");
-		System.out.println("2 " + user1);
+		user.setLogin("newLogin");
+		System.out.println("user " + user);
 		
 		try {
 			genericU.update(user);
@@ -44,7 +61,7 @@ public class TestDao {
 		CustomUserDao daoU = new UserImpl();
 		User user2 = new User();
 		try {
-			user2 = daoU.getByLoginAndPassword(user1);
+			user2 = daoU.getByLoginAndPassword(user);
 			System.out.println("after update " + user2);
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block

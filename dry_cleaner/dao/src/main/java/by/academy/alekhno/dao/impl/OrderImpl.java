@@ -1,12 +1,17 @@
 package by.academy.alekhno.dao.impl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
+import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Clother;
@@ -15,12 +20,12 @@ import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.Type;
 import by.academy.alekhno.vo.User;
 
-public class OrderImpl extends AbstractDao<Order> {
+public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
 		// TODO Auto-generated method stub
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			return Bundle.getQueryResource("query.add.order");
 		case DELETE:
@@ -32,9 +37,9 @@ public class OrderImpl extends AbstractDao<Order> {
 		case GET_BY_ID:
 			return Bundle.getQueryResource("query.get.by.id.order");
 		default:
-			
+
 		}
-			
+
 		return null;
 	}
 
@@ -44,7 +49,7 @@ public class OrderImpl extends AbstractDao<Order> {
 		Order order = new Order();
 		try {
 			order.setId(resultSet.getInt("id"));
-			
+
 			User user = new User();
 			user.setId(resultSet.getInt("id"));
 			user.setLogin(resultSet.getString("login"));
@@ -53,7 +58,7 @@ public class OrderImpl extends AbstractDao<Order> {
 			user.setSecondName(resultSet.getString("second_name"));
 			user.setTelephone(resultSet.getLong("telephone"));
 			order.setUser(user);
-			
+
 			Clother clother = new Clother();
 			clother.setId(resultSet.getInt("id"));
 			Model model = new Model();
@@ -65,7 +70,7 @@ public class OrderImpl extends AbstractDao<Order> {
 			model.setType(type);
 			clother.setPrice(resultSet.getDouble("price"));
 			order.setClother(clother);
-			
+
 			order.setQuantity(resultSet.getInt("quantity"));
 			order.setOrdering_day(resultSet.getDate("ordering_day"));
 		} catch (SQLException e) {
@@ -79,7 +84,7 @@ public class OrderImpl extends AbstractDao<Order> {
 	protected void setParam(PreparedStatement preparedStatement, Order order,
 			SqlMethode sqlMethode) throws DaoException {
 		// TODO Auto-generated method stub
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			try {
 				preparedStatement.setInt(1, order.getId());
@@ -92,7 +97,8 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new DaoException("Set Order preparesStatement for ADD exception.");
+				throw new DaoException(
+						"Set Order preparesStatement for ADD exception.");
 			}
 		case DELETE:
 			try {
@@ -100,7 +106,8 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new DaoException("Set Order preparesStatement for DELETE exception.");
+				throw new DaoException(
+						"Set Order preparesStatement for DELETE exception.");
 			}
 		case UPDATE:
 			try {
@@ -114,7 +121,8 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new DaoException("Set Order preparesStatement for UPDATE exception.");
+				throw new DaoException(
+						"Set Order preparesStatement for UPDATE exception.");
 			}
 		case GET_ALL:
 			break;
@@ -124,11 +132,35 @@ public class OrderImpl extends AbstractDao<Order> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new DaoException("Set Order preparesStatement for GET_BY_ID exception.");
+				throw new DaoException(
+						"Set Order preparesStatement for GET_BY_ID exception.");
 			}
 		default:
-			
+
 		}
+	}
+
+	public List<Order> getOrdersByUserId(int id) throws DaoException {
+		// TODO Auto-generated method stub
+		List<Order> orders = new ArrayList<Order>();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			Connection connection = ConnectionPool.getInstance()
+					.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.orders.by.user.id"));
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				orders.add(getVO(resultSet));
+			}
+		} catch (SQLException e) {
+			throw new DaoException("Get User by login exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return orders;
 	}
 
 }

@@ -1,16 +1,19 @@
 package by.academy.alekhno.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bundle.Bundle;
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
+import by.academy.alekhno.dao.interf.CustomTypeDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Type;
 
-public class TypeImpl extends AbstractDao<Type> {
+public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
@@ -95,6 +98,26 @@ public class TypeImpl extends AbstractDao<Type> {
 		default:
 
 		}
+	}
+
+	public Type getByName(String name) throws DaoException {
+		// TODO Auto-generated method stub
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try{
+			Connection connection = ConnectionPool.getInstance().getConnection();
+			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.name.type"));
+			preparedStatement.setString(1, name);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()){
+				return getVO(resultSet);
+			}			
+		} catch (SQLException e) {
+			throw new DaoException("GetByName Type exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return null;
 	}
 
 }
