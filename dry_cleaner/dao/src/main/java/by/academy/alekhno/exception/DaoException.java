@@ -1,13 +1,16 @@
 package by.academy.alekhno.exception;
 
-import java.sql.SQLException;
 
-public class SqlException extends SQLException {
-
-	private static final long serialVersionUID = 1L;
+public class DaoException extends Exception {
 
 	private String message;
+	public DaoException(){
+	}
 	
+	public DaoException(String message) {
+		this.message = this.message + "\n" + message;
+	}
+
 	public void addMessage (String message) {
 		this.message = this.message + "\n" + message;
 	}

@@ -1,55 +1,86 @@
 package testdao;
 
-import by.academy.alekhno.dao.impl.ClotherImpl;
-import by.academy.alekhno.dao.impl.RoleImpl;
-import by.academy.alekhno.dao.impl.UserDaoImpl;
 import by.academy.alekhno.dao.impl.UserImpl;
+import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.dao.interf.GenericDao;
-import by.academy.alekhno.dao.interf.UserDao;
-import by.academy.alekhno.exception.SqlException;
-import by.academy.alekhno.vo.Clother;
-import by.academy.alekhno.vo.Model;
+import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.User;
+
+
 
 public class TestDao {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Start method");
 		User user = new User();
-		user.setLogin("boris");
-		UserDao userDao = new UserDaoImpl();
-		User userDB = userDao.getUser(user);
-		System.out.println(userDB);
+		user.setLogin("Person");
+		user.setPassword("123");
+		user.setFirstName("Name");
+		user.setSecondName("Surname");
+		user.setTelephone(375291234567l);
+		System.out.println("1 " + user);
 		
-		GenericDao<Clother> genericDao = new ClotherImpl();
-		Clother clother = new Clother();
-		clother.setId(1);
-		clother.setPrice(60000);
-		Model model = new Model();
-		model.setId(1);
-		clother.setModel(model);
-		
+		GenericDao<User> genericU = new UserImpl();
 		try {
-			genericDao.update(clother);
-		} catch (SqlException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			clother = genericDao.getByID(clother);
-			System.out.println(clother.getPrice());
-		} catch (SqlException e) {
+			genericU.add(user);
+		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		
-		GenericDao<User> genericDaoU = new UserImpl();
 		try {
-			System.out.println(genericDaoU.getByID(userDB));
-		} catch (SqlException e) {
+			System.out.println("after add " + new UserImpl().getByLogin(user.getLogin()));
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		User user1 = new User();
+		
+		user1.setLogin(user.getLogin());
+		user1.setPassword(user.getPassword());
+		System.out.println("user1 " + user1);
+		CustomUserDao uDao = new UserImpl();
+		try {
+			user = uDao.getByLoginAndPassword(user1);
+		} catch (DaoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		user.setFirstName("ChangePerson");
+		user.setLogin("newLogin");
+		System.out.println("user " + user);
+		
+		try {
+			genericU.update(user);
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		
+		
+		CustomUserDao daoU = new UserImpl();
+		User user2 = new User();
+		try {
+			user2 = daoU.getByLoginAndPassword(user);
+			System.out.println("after update " + user2);
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			genericU.delete(user2);
+		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		try {
+			user2 = daoU.getByLoginAndPassword(user2);
+			System.out.println("after delete " + user2);
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 		}
 	}
 

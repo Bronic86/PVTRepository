@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
-import by.academy.alekhno.exception.SqlException;
+import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Role;
 
 public class RoleImpl extends AbstractDao<Role> {
@@ -15,31 +15,26 @@ public class RoleImpl extends AbstractDao<Role> {
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
 		// TODO Auto-generated method stub
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
-//			return "INSERT INTO roles (id, name) VALUES (?, ?)";
 			return Bundle.getQueryResource("query.add.role");
 		case DELETE:
-//			return "DELETE FROM roles WHERE id=?";
 			return Bundle.getQueryResource("query.delete.role");
 		case UPDATE:
-//			return "UPDATE roles SET name=? WHERE id=?";
 			return Bundle.getQueryResource("query.update.role");
 		case GET_ALL:
-//			return "SELECT * FROM roles";
 			return Bundle.getQueryResource("query.get.all.role");
 		case GET_BY_ID:
-//			return "SELECT * FROM roles WHERE id=?";
 			return Bundle.getQueryResource("query.get.by.id.role");
 		default:
-			
+
 		}
-			
+
 		return null;
 	}
 
 	@Override
-	protected Role getVO(ResultSet resultSet) throws SqlException {
+	protected Role getVO(ResultSet resultSet) throws DaoException {
 		// TODO Auto-generated method stub
 		Role role = new Role();
 		try {
@@ -47,17 +42,16 @@ public class RoleImpl extends AbstractDao<Role> {
 			role.setName(resultSet.getString("name"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			SqlException exc = new SqlException();
-			exc.addMessage("Get role VO error.");
-			throw exc;
+			throw new DaoException("Get VO Role exception.");
 		}
 		return role;
 	}
 
 	@Override
-	protected void setParam(PreparedStatement preparedStatement, Role role, SqlMethode sqlMethode) throws SqlException {
+	protected void setParam(PreparedStatement preparedStatement, Role role,
+			SqlMethode sqlMethode) throws DaoException {
 		// TODO Auto-generated method stub
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			try {
 				preparedStatement.setInt(1, role.getId());
@@ -65,9 +59,7 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Role setParam add error.");
-				throw exc;
+				throw new DaoException("Set Role preparesStatement for ADD exception.");
 			}
 		case DELETE:
 			try {
@@ -75,9 +67,7 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Role setParam delete error.");
-				throw exc;
+				throw new DaoException("Set Role preparesStatement for DELETE exception.");
 			}
 		case UPDATE:
 			try {
@@ -86,9 +76,7 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Role setParam update error.");
-				throw exc;
+				throw new DaoException("Set Role preparesStatement for UPDATE exception.");
 			}
 		case GET_ALL:
 			break;
@@ -98,14 +86,11 @@ public class RoleImpl extends AbstractDao<Role> {
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				SqlException exc = new SqlException();
-				exc.addMessage("Role setParam get_by_id error.");
-				throw exc;
+				throw new DaoException("Set Role preparesStatement for GET_BY_ID exception.");
 			}
 		default:
-			
+
 		}
 	}
 
-	
 }
