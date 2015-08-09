@@ -46,10 +46,6 @@
         	<groupId>by.academy.alekhno</groupId>
         	<artifactId>vo</artifactId>
         </dependency>
-        <dependency>
-        	<groupId>by.academy.alekhno</groupId>
-        	<artifactId>service</artifactId>
-        </dependency>
   </dependencies>
   <build>
  
@@ -105,11 +101,6 @@
   		<dependency>
   			<groupId>by.academy.alekhno</groupId>
   			<artifactId>vo</artifactId>
-  			<version>1.0</version>
-  		</dependency>
-  		<dependency>
-  			<groupId>by.academy.alekhno</groupId>
-  			<artifactId>service</artifactId>
   			<version>1.0</version>
   		</dependency>
   	</dependencies>

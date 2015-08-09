@@ -8,9 +8,11 @@ import java.util.List;
 
 
 
+
 import bundle.Bundle;
 import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.UserDao;
+import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.User;
 
 public class UserDaoImpl implements UserDao {
@@ -22,7 +24,12 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-		connection = ConnectionPool.getInstance().getConnection();
+		try {
+			connection = ConnectionPool.getInstance().getConnection();
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		preparedStatement = connection.prepareStatement(Bundle.getQueryResource(BUNDLE_QUERY_GET_USER));
 		preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login=?");
 		preparedStatement.setString(1, user.getLogin());

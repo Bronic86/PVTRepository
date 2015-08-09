@@ -6,11 +6,12 @@ import java.sql.SQLException;
 
 import bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDao;
+import by.academy.alekhno.dao.interf.CustomRole;
 import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Role;
 
-public class RoleImpl extends AbstractDao<Role> {
+public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {

@@ -6,9 +6,11 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import by.academy.alekhno.dao.impl.OrderImpl;
+import by.academy.alekhno.dao.impl.RoleImpl;
 import by.academy.alekhno.dao.impl.UserImpl;
 import by.academy.alekhno.dao.impl.UserRoleImpl;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
+import by.academy.alekhno.dao.interf.CustomRole;
 import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.dao.interf.CustomUserRoleDao;
 import by.academy.alekhno.dao.interf.GenericDao;
@@ -22,7 +24,7 @@ import by.academy.alekhno.service.interf.UserService;
 
 public class UserServiceImpl implements UserService {
 
-	public void authorization(String login, String password) throws ServiceException, DaoException {
+	public User authorization(String login, String password) throws ServiceException, DaoException {
 		// TODO Auto-generated method stub
 		CustomUserDao daoUser = new UserImpl();
 		User user = new User();
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
 		if(findingUser == null){
 			throw new ServiceException("Authorithation error.");
 		}
+		return findingUser;
 	}
 	
 	private String modifyPassword(String password) {
@@ -42,10 +45,22 @@ public class UserServiceImpl implements UserService {
 
 	public void registration(User user) throws ServiceException, DaoException {
 		// TODO Auto-generated method stub
-		GenericDao<User> daoUser = new UserImpl();
+		CustomUserDao daoUser = new UserImpl();
+		CustomUserRoleDao daoUserRole = new UserRoleImpl();
+		CustomRole daoRole = new RoleImpl();
 		String login = user.getLogin();
+		String password = modifyPassword(user.getPassword());
+		user.setPassword(password);
 			if (!loginExist(login)) {
 				daoUser.add(user);
+				User newUser = daoUser.getByLogin(login);
+				UserRole userRole = new UserRole();
+				userRole.setUser(newUser);
+				Role role = new Role();
+				role.setId(1);
+				role = daoRole.getByID(role);
+				userRole.setRole(role);
+				daoUserRole.add(userRole);
 			} else {
 				throw new ServiceException("Login exist.");
 			}
@@ -54,7 +69,7 @@ public class UserServiceImpl implements UserService {
 	private boolean loginExist(String login) throws ServiceException, DaoException {
 		CustomUserDao daoUser = new UserImpl();
 		User user = daoUser.getByLogin(login);
-		return user.getLogin() != null;
+		return user != null;
 	}
 
 	public void addOrder(Order order) throws DaoException {

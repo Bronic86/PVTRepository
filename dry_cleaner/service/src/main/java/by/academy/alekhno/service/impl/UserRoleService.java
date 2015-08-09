@@ -1,4 +1,4 @@
-package by.academy.alekhno.service;
+package by.academy.alekhno.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;

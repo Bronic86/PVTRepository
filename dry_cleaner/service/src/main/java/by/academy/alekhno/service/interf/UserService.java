@@ -10,7 +10,7 @@ import by.academy.alekhno.vo.User;
 
 public interface UserService {
 
-	void authorization(String login, String password) throws DaoException, ServiceException;
+	User authorization(String login, String password) throws DaoException, ServiceException;
 	
 	void registration(User user) throws ServiceException, DaoException;
 	

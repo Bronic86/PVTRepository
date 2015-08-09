@@ -1,6 +1,7 @@
-package by.academy.alekhno.service;
+package by.academy.alekhno.service.impl;
 
 import by.academy.alekhno.dao.impl.ClotherImpl;
+import by.academy.alekhno.dao.interf.CustomClotherDao;
 import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
@@ -8,7 +9,7 @@ import by.academy.alekhno.vo.Clother;
 
 public class ClotherService {
 
-	public void add(Clother clother) throws ServiceException{
+	public void add(Clother clother) throws ServiceException, DaoException{
 		GenericDao<Clother> daoClother = new ClotherImpl();
 		if(!clotherExist(clother)){
 			try {
@@ -22,7 +23,7 @@ public class ClotherService {
 		}
 	}
 
-	private boolean clotherExist(Clother clother) {
+	private boolean clotherExist(Clother clother) throws DaoException {
 		// TODO Auto-generated method stub
 		CustomClotherDao daoClother = new ClotherImpl();
 		int id = daoClother.getIdByFields(clother);
