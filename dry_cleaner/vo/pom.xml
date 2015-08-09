@@ -8,7 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
-  <groupId>by.academy.alekhno</groupId>
   <artifactId>vo</artifactId>
   <version>1.0</version>
   <name>vo</name>

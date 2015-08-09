@@ -1,4 +1,4 @@
-package by.academy.alekhno.service;
+package by.academy.alekhno.service.impl;
 
 import by.academy.alekhno.dao.impl.TypeImpl;
 import by.academy.alekhno.dao.interf.CustomTypeDao;

@@ -139,7 +139,7 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 		} finally {
 			close(resultSet, preparedStatement);
 		}
-		return null;
+		return roles;
 	}
 
 }

@@ -112,7 +112,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	public User getByLogin(String login) throws DaoException {
 		// TODO Auto-generated method stub
-		User userFinding = new User(); 
+		User userFinding = null; 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
@@ -133,7 +133,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	public User getByLoginAndPassword(User user) throws DaoException {
 		// TODO Auto-generated method stub
-		User userFinding = new User(); 
+		User userFinding = null; 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
