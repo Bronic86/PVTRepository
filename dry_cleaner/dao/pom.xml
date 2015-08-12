@@ -13,17 +13,10 @@
   </properties>
   
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
 	<!-- Database (MySQL) -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.36</version>
             <type>jar</type>
 			<scope>compile</scope>
         </dependency>
@@ -31,14 +24,12 @@
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-pool</groupId>
             <artifactId>commons-pool</artifactId>
-            <version>1.6</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -47,9 +38,9 @@
         	<artifactId>vo</artifactId>
         </dependency>
   </dependencies>
+  
   <build>
- 
-  <plugins>
+   <plugins>
    
       <!-- Maven JAR Plugin --> 
       <plugin>
@@ -61,7 +52,7 @@
             <manifest>
             	<addClasspath>true</addClasspath>
              	 <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>testdao/TestDao</mainClass>
+              <mainClass></mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -94,7 +85,6 @@
   	<groupId>by.academy.alekhno</groupId>
   	<artifactId>dry_cleaner</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../</relativePath>
   </parent>
   <dependencyManagement>
   	<dependencies>
@@ -102,6 +92,21 @@
   			<groupId>by.academy.alekhno</groupId>
   			<artifactId>vo</artifactId>
   			<version>1.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>mysql</groupId>
+  			<artifactId>mysql-connector-java</artifactId>
+  			<version>5.1.36</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>commons-dbcp</groupId>
+  			<artifactId>commons-dbcp</artifactId>
+  			<version>1.4</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>commons-pool</groupId>
+  			<artifactId>commons-pool</artifactId>
+  			<version>1.6</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

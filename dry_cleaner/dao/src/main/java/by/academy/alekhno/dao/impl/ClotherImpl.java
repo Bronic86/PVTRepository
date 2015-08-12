@@ -54,6 +54,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 			type.setId(resultSet.getInt("type_id"));
 			type.setName(resultSet.getString("type_name"));
 			model.setType(type);
+			clother.setModel(model);
 			clother.setPrice(resultSet.getDouble("price"));
 		} catch (SQLException e) {
 			throw new DaoException("Get VO Clother exception");

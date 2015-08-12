@@ -8,4 +8,6 @@ import by.academy.alekhno.vo.Order;
 public interface CustomOrderDao extends GenericDao<Order> {
 
 	List<Order> getOrdersByUserId(int id) throws DaoException;
+
+	List<Integer> getIdByFields(Order order) throws DaoException;
 }

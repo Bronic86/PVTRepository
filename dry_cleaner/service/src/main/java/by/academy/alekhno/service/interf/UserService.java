@@ -24,4 +24,6 @@ public interface UserService {
 	
 	List<Role> getRoleByUserId(int user_id) throws DaoException;
 	
+	User getUserByLogin(String login) throws DaoException;
+	
 }
