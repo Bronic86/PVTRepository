@@ -1,11 +1,14 @@
 package by.academy.alekhno;
 
+import static org.junit.Assert.*;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.Before;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static org.mockito.Mockito.*;
 import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
@@ -15,76 +18,81 @@ import by.academy.alekhno.vo.User;
 
 
 @Ignore
-public class UserServiceTest{
+public class UserServiceTest {
 
-//	public UserServiceTest(String testName) {
-//		userGet = new User();
-//		userGet.setLogin(login1);
-//		userGet.setPassword(password1);
-//		// TODO Auto-generated constructor stub
-//	}
-	
 	private final int id = 1;
-	private final String login1 = "boris";
-	private final String password1 = "4dbf44c6b1be736ee92ef90090452fc2";
+	private final String login = "boris123";
+	private final String password = "4dbf44c6b1be736ee92ef90090452fc2";
 	private final String firstName = "Boris";
 	private final String secondName = "Alekhno";
 	private final long telephone = 375291234567l;
-	private final User userGet = userChange;
-	private static User userChange;
-	static{
-		userChange = new User();
-		userChange.setLogin("boris");
-		userChange.setPassword("4dbf44c6b1be736ee92ef90090452fc2");
-	}
-	
-	
-	private UserService userInterf;
-	private CustomUserDao daoUser;
-	private CustomUserDao daoUserRole;
-	private Mockery mockingContext = new Mockery();
-//	private String login;
-//	private String password;
-	private User user = new User();
-//	private User user1;
 
-	@Before
-	public void doBeforeTest() throws DaoException, ServiceException {
-		userInterf = new UserServiceImpl();
-		daoUser = mockingContext.mock(CustomUserDao.class);
-		user.setLogin(login1);
-		user.setPassword(login1);
-//		user1 = null;
-		
-	}
+	private Mockery mockingContext = new JUnit4Mockery();
+	private CustomUserDao daoUser;
 
 	@Test
 	public void authorize() throws DaoException, ServiceException {
+		
+		daoUser = mock(CustomUserDao.class);
+		final User user1 = new User();
+		user1.setId(id);
+		user1.setLogin(login);
+		user1.setPassword(password);
+		user1.setFirstName(firstName);
+		user1.setSecondName(secondName);
+		user1.setTelephone(telephone);
+
+		when(daoUser.getByLogin(login))
+				.thenReturn(
+						new User(id, login, password, firstName, secondName,
+								telephone));
+
+		// daoUser = mockingContext.mock(CustomUserDao.class);
+		final User user = new User();
+		user.setLogin(login);
+		user.setPassword(login);
+		System.out.println(user);
+
+		// final User user1 = new User();
+		// user1.setId(id);
+		// user1.setLogin(login);
+		// user1.setPassword(password);
+		// user1.setFirstName(firstName);
+		// user1.setSecondName(secondName);
+		// user1.setTelephone(telephone);
+		System.out.println(user1);
+		final User userMock = user1;
+
+		// mockingContext.checking(new Expectations() {
+		// {
+		// oneOf(daoUser).getByLogin(login);
+		// will(returnValue(new User()));
+		// }
+		// });
+		UserService userInterf = new UserServiceImpl();
+		User userF = userInterf.getUserByLogin(login);
+		 assertEquals(user1, userF);
+		System.out.println(userF);
+	}
+
+	@Test
+	public void authorizeEx() throws DaoException, ServiceException {
+		final UserService userInterf = new UserServiceImpl();
+		daoUser = mockingContext.mock(CustomUserDao.class);
+		User user = new User();
+		user.setLogin("boris");
+		user.setPassword(password);
 		mockingContext.checking(new Expectations() {
 			{
-				
-				final User user2 = userGet; 
-				one(daoUser).getByLoginAndPassword(user2);
-				will(returnValue(user2));
+				oneOf(daoUser).getByLoginAndPassword(new User());
+				will(returnValue(null));
 			}
 		});
 		
-		System.out.println(userInterf.authorization(login1, login1));
+		System.out.println(daoUser.getByLoginAndPassword(user));
+		User fUser = userInterf.authorization(login, password);
+		System.out.println(fUser);
+		assertNull(fUser);
 	}
-	
-	@Test(expected = ServiceException.class)
-	public void authorizeEx() throws DaoException, ServiceException {
-		mockingContext.checking(new Expectations() {
-			{
-				final User user2 = userGet;
-				final User user1 = null;
-				one(daoUser).getByLoginAndPassword(user2);
-				will(returnValue(user1));
-			}
-		});
-		userInterf.authorization(user.getLogin(), user.getPassword());
-	}
-	
-	
 
 }

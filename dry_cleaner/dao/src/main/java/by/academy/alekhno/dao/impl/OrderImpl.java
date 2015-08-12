@@ -93,7 +93,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				Clother clother = order.getClother();
 				preparedStatement.setInt(3, clother.getId());
 				preparedStatement.setInt(4, order.getQuantity());
-				preparedStatement.setDate(5, (Date) order.getOrdering_day());
+				preparedStatement.setDate(5, new java.sql.Date(order.getOrdering_day().getTime()));
 				break;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -116,7 +116,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				Clother clother = order.getClother();
 				preparedStatement.setInt(2, clother.getId());
 				preparedStatement.setInt(3, order.getQuantity());
-				preparedStatement.setDate(4, (Date) order.getOrdering_day());
+				preparedStatement.setDate(4, new java.sql.Date(order.getOrdering_day().getTime()));
 				preparedStatement.setInt(5, order.getId());
 				break;
 			} catch (SQLException e) {
@@ -161,6 +161,32 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 			close(resultSet, preparedStatement);
 		}
 		return orders;
+	}
+
+	public List<Integer> getIdByFields(Order order) throws DaoException {
+		// TODO Auto-generated method stub
+		List<Integer> idList = new ArrayList<>();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try{
+			Connection connection = ConnectionPool.getInstance().getConnection();
+			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.id.by.fields.order"));
+			Clother clother = order.getClother();
+			User user = order.getUser();
+			preparedStatement.setInt(1, user.getId());
+			preparedStatement.setInt(2, clother.getId());
+			preparedStatement.setDate(3, new java.sql.Date(order.getOrdering_day().getTime()));
+			preparedStatement.setInt(4, order.getQuantity());
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()){
+				idList.add(resultSet.getInt("id"));
+			}			
+		} catch (SQLException e) {
+			throw new DaoException("getIdByFields Clother exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return idList;
 	}
 
 }

@@ -3,6 +3,9 @@ package by.academy.alekhno.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import by.academy.alekhno.dao.impl.OrderImpl;
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(password);
 		User findingUser = daoUser.getByLoginAndPassword(user);
 		if(findingUser == null){
-			throw new ServiceException("Authorithation error.");
+			throw new ServiceException("Login or password is incorrect.");
 		}
 		return findingUser;
 	}
@@ -111,4 +114,13 @@ public class UserServiceImpl implements UserService {
 		return roles;
 	}
 
+	public User getUserByLogin(String login) throws DaoException {
+		// TODO Auto-generated method stub
+		CustomUserDao daoUser = new UserImpl();
+//		User user = new User();
+//		user.setLogin(login);
+		return daoUser.getByLogin(login);
+	}
+
+	
 }

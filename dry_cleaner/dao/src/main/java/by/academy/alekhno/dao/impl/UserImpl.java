@@ -146,7 +146,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				userFinding = getVO(resultSet);
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("Get User by login and password exception");
+			throw new DaoException("Sorry, server problem.");
 		} finally {
 			close(resultSet, preparedStatement);
 		}

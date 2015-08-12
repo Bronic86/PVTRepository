@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 public class Bundle {
 	 private static String pathBaseResource = "base";
-	 private static String pathQueryResource = "resources";
+	 private static String pathQueryResource = "query";
 
 	 public static String getBaseResource(String key) {
 		 ResourceBundle bundle = ResourceBundle.getBundle(pathBaseResource);
