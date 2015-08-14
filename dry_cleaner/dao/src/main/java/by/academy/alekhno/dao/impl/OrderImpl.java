@@ -1,7 +1,6 @@
 package by.academy.alekhno.dao.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -156,7 +155,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				orders.add(getVO(resultSet));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Get User by login exception");
+			throw new DaoException("GetOrdersByUserId exception");
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -165,7 +164,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 
 	public List<Integer> getIdByFields(Order order) throws DaoException {
 		// TODO Auto-generated method stub
-		List<Integer> idList = new ArrayList<>();
+		List<Integer> idList = new ArrayList<Integer>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
@@ -187,6 +186,30 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 			close(resultSet, preparedStatement);
 		}
 		return idList;
+	}
+
+	@Override
+	public List<Order> getOrdersByClotherId(int id) throws DaoException {
+		// TODO Auto-generated method stub
+		List<Order> orders = new ArrayList<Order>();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			Connection connection = ConnectionPool.getInstance()
+					.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.orders.by.clother.id"));
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				orders.add(getVO(resultSet));
+			}
+		} catch (SQLException e) {
+			throw new DaoException("GetOrdersByClotherId exception");
+		} finally {
+			close(resultSet, preparedStatement);
+		}
+		return orders;
 	}
 
 }

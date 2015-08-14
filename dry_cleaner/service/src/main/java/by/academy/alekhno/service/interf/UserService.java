@@ -2,6 +2,10 @@ package by.academy.alekhno.service.interf;
 
 import java.util.List;
 
+import by.academy.alekhno.dao.interf.CustomOrderDao;
+import by.academy.alekhno.dao.interf.CustomRole;
+import by.academy.alekhno.dao.interf.CustomUserDao;
+import by.academy.alekhno.dao.interf.CustomUserRoleDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.vo.Order;
@@ -26,4 +30,19 @@ public interface UserService {
 	
 	User getUserByLogin(String login) throws DaoException;
 	
+	CustomUserDao getDaoUser() throws ServiceException;
+	
+	void setDaoUser(CustomUserDao daoUser);
+	
+	CustomOrderDao getDaoOrder() throws ServiceException;
+	
+	void setDaoOrder(CustomOrderDao daoOrder);
+	
+	CustomUserRoleDao getDaoUserRole() throws ServiceException;
+	
+	void setDaoUserRole(CustomUserRoleDao daoUserRole);
+	
+	CustomRole getDaoRole() throws ServiceException;
+	
+	void setDaoRole(CustomRole daoRole);
 }

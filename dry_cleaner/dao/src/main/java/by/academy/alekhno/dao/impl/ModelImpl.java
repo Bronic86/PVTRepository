@@ -15,7 +15,6 @@ import by.academy.alekhno.dao.interf.SqlMethode;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
-import by.academy.alekhno.vo.User;
 
 public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 
