@@ -2,6 +2,10 @@ package by.academy.alekhno.service.interf;
 
 import java.util.List;
 
+import by.academy.alekhno.dao.interf.CustomClotherDao;
+import by.academy.alekhno.dao.interf.CustomModelDao;
+import by.academy.alekhno.dao.interf.CustomOrderDao;
+import by.academy.alekhno.dao.interf.CustomTypeDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.vo.Clother;
@@ -32,5 +36,21 @@ public interface ClotherService {
 	
 	void deleteModel(int id) throws DaoException, ServiceException;
 	
-	void deleteClother(int id) throws DaoException;
+	void deleteClother(int id) throws DaoException, ServiceException;
+	
+	void setDaoClother(CustomClotherDao daoClother);
+	
+	CustomClotherDao getDaoClother() throws ServiceException;
+	
+	void setDaoModel(CustomModelDao daoModel);
+	
+	CustomModelDao getDaoModel() throws ServiceException;
+	
+	void setDaoType(CustomTypeDao daoType);
+	
+	CustomTypeDao getDaoType() throws ServiceException;
+	
+	CustomOrderDao getDaoOrder() throws ServiceException;
+	 
+	void setDaoOrder(CustomOrderDao daoOrder);
 }
