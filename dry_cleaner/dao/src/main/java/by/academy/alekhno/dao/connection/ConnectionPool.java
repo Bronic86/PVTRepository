@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
@@ -14,6 +15,7 @@ import bundle.Bundle;
 import by.academy.alekhno.exception.DaoException;
 
 public class ConnectionPool {
+	private static final Logger logger = Logger.getLogger(ConnectionPool.class.getName());
 	private static Lock lock = new ReentrantLock();
 	private static final String BUNDLE_BASE_PATH = "base.path";
 	private static final String BUNDLE_BASE_LOGIN = "base.login";
@@ -25,15 +27,17 @@ public class ConnectionPool {
 
     public static ConnectionPool getInstance() throws DaoException {
     	try{
+//    		logger.debug("Try to get instance");
 	    	lock.lock();	
-	    	
 	        if (ourInstance == null) {
 	            ourInstance = new ConnectionPool();
+//	            logger.debug("Create instance");
 	            return ourInstance;
 	        }
     	} finally {
     		lock.unlock();
     	}
+//    	logger.debug("Get instance");
         return ourInstance;
     }
 
@@ -53,11 +57,13 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() {
+//    	logger.debug("Get connection");
         return connection;
     }
 
     public void close() throws DaoException {
         try {
+//        	logger.debug("Close connection");
             connection.close();
         } catch (SQLException e) {
         	throw new DaoException("Close connection error");

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import by.academy.alekhno.dao.impl.UserImpl;
+import by.academy.alekhno.dao.impl.UserRoleImpl;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.service.impl.UserServiceImpl;
@@ -37,6 +39,8 @@ public class AuthorizationCommand implements Command {
 //		}
 
 		UserService userService = new UserServiceImpl();
+		userService.setDaoUser(new UserImpl());
+		userService.setDaoUserRole(new UserRoleImpl());
 		try{
 			User user = userService.authorization(login, password);
 //			if (user != null) {
