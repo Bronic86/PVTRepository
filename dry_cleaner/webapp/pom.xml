@@ -6,9 +6,11 @@
   <version>1.0</version>
   <name>webapp Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  
   <build>
     <finalName>dry_cleaner</finalName>
   </build>
+  
   <parent>
   	<groupId>by.academy.alekhno</groupId>
   	<artifactId>dry_cleaner</artifactId>
@@ -18,10 +20,6 @@
   	<dependency>
   		<groupId>by.academy.alekhno</groupId>
   		<artifactId>service</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>javax.servlet</groupId>
-  		<artifactId>jstl</artifactId>
   	</dependency>
   	<dependency>
   		<groupId>javax.servlet</groupId>
@@ -35,6 +33,10 @@
   		<groupId>by.academy.alekhno</groupId>
   		<artifactId>vo</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>jstl</artifactId>
+  	</dependency>
   </dependencies>
   
  
@@ -45,11 +47,6 @@
   			<groupId>by.academy.alekhno</groupId>
   			<artifactId>service</artifactId>
   			<version>1.0</version>
-  		</dependency>
-  		<dependency>
-  			<groupId>javax.servlet</groupId>
-  			<artifactId>jstl</artifactId>
-  			<version>1.2</version>
   		</dependency>
   		<dependency>
   			<groupId>javax.servlet</groupId>
@@ -65,6 +62,11 @@
   			<groupId>by.academy.alekhno</groupId>
   			<artifactId>vo</artifactId>
   			<version>1.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>javax.servlet</groupId>
+  			<artifactId>jstl</artifactId>
+  			<version>1.2</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

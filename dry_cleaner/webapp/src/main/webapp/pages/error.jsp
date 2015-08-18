@@ -1,28 +1,18 @@
-<%@include file="head_jsp.jsp"%>
+<%@include file="puzzle/head_jsp.jsp"%>
 <html>
     <head>
-        <title>Error authorization</title>
+        <title>Error page</title>
     </head>
     <body>
         <header style="text-align: center">
-            <h2>Error</h2>
+            <h1>Error</h1>
         </header>
         <article>
-            <div style='float: left; width: 200px; height: 800px'>
-                <li>
-                    <h3>Navigation menu</h3>
-                    <ul>
-                        <a href="authorization.jsp">Authorization</a>
-                    </ul>
-                    <ul>
-                        <a href="registration.jsp">Registration</a>
-                    </ul>
-                </li>
-            </div>
+            <%@include file="puzzle/menu.jsp"%>
             <div>
-                <h4><%=request.getAttribute("message_error")%></h4>
+                <h4><c:out value="${message_error}"/></h4>
             </div>
         </article>
-        <%@include file="footer_jsp.jsp"%>
+        <%@include file="puzzle/footer_jsp.jsp"%>
     </body>
 </html>
