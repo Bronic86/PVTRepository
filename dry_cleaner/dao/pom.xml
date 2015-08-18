@@ -37,6 +37,30 @@
         	<groupId>by.academy.alekhno</groupId>
         	<artifactId>vo</artifactId>
         </dependency>
+        <dependency>
+        	<groupId>org.unitils</groupId>
+        	<artifactId>unitils-core</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.unitils</groupId>
+        	<artifactId>unitils-database</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>junit</groupId>
+        	<artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>log4j</groupId>
+        	<artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.dbunit</groupId>
+        	<artifactId>dbunit</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.unitils</groupId>
+        	<artifactId>unitils-dbunit</artifactId>
+        </dependency>
   </dependencies>
   
   <build>
@@ -107,6 +131,36 @@
   			<groupId>commons-pool</groupId>
   			<artifactId>commons-pool</artifactId>
   			<version>1.6</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.unitils</groupId>
+  			<artifactId>unitils-core</artifactId>
+  			<version>3.4.2</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.unitils</groupId>
+  			<artifactId>unitils-database</artifactId>
+  			<version>3.4.2</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>4.12</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>log4j</groupId>
+  			<artifactId>log4j</artifactId>
+  			<version>1.2.16</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.dbunit</groupId>
+  			<artifactId>dbunit</artifactId>
+  			<version>2.5.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.unitils</groupId>
+  			<artifactId>unitils-dbunit</artifactId>
+  			<version>3.4.2</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

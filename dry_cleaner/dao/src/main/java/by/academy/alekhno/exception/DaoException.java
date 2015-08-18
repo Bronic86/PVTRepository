@@ -3,7 +3,8 @@ package by.academy.alekhno.exception;
 
 public class DaoException extends Exception {
 
-	private String message;
+	private String message = "";
+	
 	public DaoException(){
 	}
 	

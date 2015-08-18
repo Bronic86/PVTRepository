@@ -1,7 +1,7 @@
 package by.academy.alekhno.exception;
 
 public class ServiceException extends Exception {
-	private String message;
+	private String message = "";
 //	private String stackTrace;
 
 	public ServiceException(String message) {

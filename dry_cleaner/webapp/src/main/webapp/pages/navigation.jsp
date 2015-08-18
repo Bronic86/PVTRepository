@@ -1,17 +1,16 @@
-<%@include file="head_jsp.jsp"%>
+<%@include file="puzzle/head_jsp.jsp"%>
 <html>
     <head>
         <title>Navigation</title>
     </head>
     <body>
-        <h1>Hello user.</h1>
+    	<%@include file="puzzle/header.jsp" %>
         <div>
-        	<%@include file="header.jsp"%>
+        	<%@include file="puzzle/menu.jsp"%>
         	<article>
-        	<%=request.getAttribute("user") %><br>
-            	<a href="#">Add order</a>
+        	<c:out value = "${user}"/>
             </article>
-            <%@include file="footer_jsp.jsp"%>
         </div>
+        <%@include file="puzzle/footer_jsp.jsp"%>
     </body>
 </html>
