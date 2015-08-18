@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import bundle.Bundle;
 import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
@@ -17,20 +19,25 @@ import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
 
 public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
+	private Logger logger = Logger.getLogger(ModelImpl.class.getName());
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		// TODO Auto-generated method stub
 		switch (sqlMethode) {
 		case ADD:
+			logger.debug("GetSql choose ADD");
 			return Bundle.getQueryResource("query.add.model");
 		case DELETE:
+			logger.debug("GetSql choose DELETE");
 			return Bundle.getQueryResource("query.delete.model");
 		case UPDATE:
+			logger.debug("GetSql choose UPDATE");
 			return Bundle.getQueryResource("query.update.model");
 		case GET_ALL:
+			logger.debug("GetSql choose GET_ALL");
 			return Bundle.getQueryResource("query.get.all.model");
 		case GET_BY_ID:
+			logger.debug("GetSql choose GET_BY_ID");
 			return Bundle.getQueryResource("query.get.by.id.model");
 		default:
 
@@ -41,7 +48,7 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 
 	@Override
 	protected Model getVO(ResultSet resultSet) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getVO");
 		Model model = new Model();
 		Type type = new Type();
 		try {
@@ -51,8 +58,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 			type.setName(resultSet.getString("type_name"));
 			model.setType(type);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new DaoException("Get VO Model exception");
+			logger.error("SQLException getVO", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		}
 		return model;
 	}
@@ -60,7 +67,6 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Model model,
 			SqlMethode sqlMethode) throws DaoException {
-		// TODO Auto-generated method stub
 		switch (sqlMethode) {
 		case ADD:
 			try {
@@ -68,20 +74,20 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				preparedStatement.setString(2, model.getName());
 				Type type = model.getType();
 				preparedStatement.setInt(3, type.getId());
+				logger.debug("SetParam choose ADD");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Model preparesStatement for ADD exception.");
+				logger.error("SQLException SetParam choose ADD", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case DELETE:
 			try {
 				preparedStatement.setInt(1, model.getId());
+				logger.debug("SetParam choose DELETE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Model preparesStatement for DELETE exception.");
+				logger.error("SQLException SetParam choose DELETE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case UPDATE:
 			try {
@@ -89,22 +95,23 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				Type type = model.getType();
 				preparedStatement.setInt(2, type.getId());
 				preparedStatement.setInt(3, model.getId());
+				logger.debug("SetParam choose UPDATE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Model preparesStatement for UPDATE exception.");
+				logger.error("SQLException SetParam choose UPDATE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case GET_ALL:
+			logger.debug("SetParam choose GET_ALL");
 			break;
 		case GET_BY_ID:
 			try {
 				preparedStatement.setInt(1, model.getId());
+				logger.debug("SetParam choose GET_BY_ID");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Model preparesStatement for GET_BY_ID exception.");
+				logger.error("SQLException SetParam choose GET_BY_ID", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		default:
 
@@ -112,7 +119,7 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 	}
 
 	public int getIdByFields(Model model) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getIdByFields");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
@@ -128,7 +135,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				return resultSet.getInt("id");
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Get Model id  by fields exception");
+			logger.error("SQLException getIdByFields", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -136,7 +144,7 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 	}
 
 	public List<Model> getByTypeId(int type_id) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getByTypeId");
 		List<Model> models = new ArrayList<Model>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -151,7 +159,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				models.add(getVO(resultSet));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("GetByTypeId Model exception");
+			logger.error("SQLException getByTypeId", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}

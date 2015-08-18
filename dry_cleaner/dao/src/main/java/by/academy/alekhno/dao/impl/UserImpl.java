@@ -20,7 +20,6 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			logger.debug("GetSql choose ADD");
@@ -46,7 +45,6 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	@Override
 	protected User getVO(ResultSet resultSet) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.debug("Start getVO");
 		User user = new User();
 		try {
@@ -57,9 +55,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 			user.setSecondName(resultSet.getString("second_name"));
 			user.setTelephone(resultSet.getLong("telephone"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			logger.error("SQLException getVO", e);
-			throw new DaoException("Get VO User exception.");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		}
 		logger.debug("End getVO");
 		return user;
@@ -68,7 +65,6 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, User user,
 			SqlMethode sqlMethode) throws DaoException {
-		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			try {
@@ -83,9 +79,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				logger.debug("SetParam choose ADD");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException("User setParam for ADD exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case DELETE:
 			try {
@@ -93,9 +88,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				logger.debug("SetParam choose DELETE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException("User setParam for DELETE exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case UPDATE:
 			try {
@@ -108,9 +102,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				logger.debug("SetParam choose UPDATE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException("User setParam for UPDATE exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -121,9 +114,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				logger.debug("SetParam choose GET_BY_ID");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException("User setParam for GET_BY_ID exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		default:
 			
@@ -131,7 +123,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	}
 
 	public User getByLogin(String login) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start get user by login");
 		User userFinding = null; 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -144,7 +136,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				userFinding = getVO(resultSet);
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("Get User by login exception");
+			logger.error("SQLException getByLogin", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -152,7 +145,7 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	}
 
 	public User getByLoginAndPassword(User user) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start get user by login and password");
 		User userFinding = null; 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -166,7 +159,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				userFinding = getVO(resultSet);
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("Sorry, server problem.");
+			logger.error("SQLException getByLoginAndPassword", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}

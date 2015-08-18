@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.exception.DaoException;
@@ -74,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
 	public CustomOrderDao getDaoOrder() throws ServiceException {
 		logger.info("GetDaoOrder.");
 		if (daoOrder == null) {
-//			logger.error("daoOrder didn't set.");
+			logger.error("daoOrder didn't set.");
 			throw new ServiceException("Didn't set daoOrder.");
 		}
 		return daoOrder;
@@ -86,7 +87,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public List<Order> getOrdersByClotherId(int id) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("getOrdersByClotherId.");
 		List<Order> orders = new ArrayList<Order>();
 		try {

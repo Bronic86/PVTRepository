@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import bundle.Bundle;
 import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
@@ -20,20 +22,25 @@ import by.academy.alekhno.vo.Type;
 import by.academy.alekhno.vo.User;
 
 public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
+	private Logger logger = Logger.getLogger(OrderImpl.class.getName());
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		// TODO Auto-generated method stub
 		switch (sqlMethode) {
 		case ADD:
+			logger.debug("GetSql choose ADD");
 			return Bundle.getQueryResource("query.add.order");
 		case DELETE:
+			logger.debug("GetSql choose DELETE");
 			return Bundle.getQueryResource("query.delete.order");
 		case UPDATE:
+			logger.debug("GetSql choose UPDATE");
 			return Bundle.getQueryResource("query.update.order");
 		case GET_ALL:
+			logger.debug("GetSql choose GET_ALL");
 			return Bundle.getQueryResource("query.get.all.order");
 		case GET_BY_ID:
+			logger.debug("GetSql choose GET_BY_ID");
 			return Bundle.getQueryResource("query.get.by.id.order");
 		default:
 
@@ -44,7 +51,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 
 	@Override
 	protected Order getVO(ResultSet resultSet) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getVO");
 		Order order = new Order();
 		try {
 			order.setId(resultSet.getInt("id"));
@@ -73,8 +80,8 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 			order.setQuantity(resultSet.getInt("quantity"));
 			order.setOrdering_day(resultSet.getDate("ordering_day"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new DaoException("Get VO Order exception");
+			logger.error("SQLException getVO", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		}
 		return order;
 	}
@@ -82,7 +89,6 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, Order order,
 			SqlMethode sqlMethode) throws DaoException {
-		// TODO Auto-generated method stub
 		switch (sqlMethode) {
 		case ADD:
 			try {
@@ -93,20 +99,20 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				preparedStatement.setInt(3, clother.getId());
 				preparedStatement.setInt(4, order.getQuantity());
 				preparedStatement.setDate(5, new java.sql.Date(order.getOrdering_day().getTime()));
+				logger.debug("SetParam choose ADD");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Order preparesStatement for ADD exception.");
+				logger.error("SQLException SetParam choose ADD", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case DELETE:
 			try {
 				preparedStatement.setInt(1, order.getId());
+				logger.debug("SetParam choose DELETE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Order preparesStatement for DELETE exception.");
+				logger.error("SQLException SetParam choose DELETE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case UPDATE:
 			try {
@@ -117,22 +123,23 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				preparedStatement.setInt(3, order.getQuantity());
 				preparedStatement.setDate(4, new java.sql.Date(order.getOrdering_day().getTime()));
 				preparedStatement.setInt(5, order.getId());
+				logger.debug("SetParam choose UPDATE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Order preparesStatement for UPDATE exception.");
+				logger.error("SQLException SetParam choose UPDATE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case GET_ALL:
+			logger.debug("SetParam choose GET_ALL");
 			break;
 		case GET_BY_ID:
 			try {
 				preparedStatement.setInt(1, order.getId());
+				logger.debug("SetParam choose GET_BY_ID");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				throw new DaoException(
-						"Set Order preparesStatement for GET_BY_ID exception.");
+				logger.error("SQLException SetParam choose GET_BY_ID", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		default:
 
@@ -140,7 +147,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 	}
 
 	public List<Order> getOrdersByUserId(int id) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getOrdersByUserId");
 		List<Order> orders = new ArrayList<Order>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -155,7 +162,8 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				orders.add(getVO(resultSet));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("GetOrdersByUserId exception");
+			logger.error("SQLException getOrdersByUserId", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -163,7 +171,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 	}
 
 	public List<Integer> getIdByFields(Order order) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getIdByFields");
 		List<Integer> idList = new ArrayList<Integer>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -181,7 +189,8 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				idList.add(resultSet.getInt("id"));
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("getIdByFields Clother exception");
+			logger.error("SQLException getIdByFields", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -190,7 +199,7 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 
 	@Override
 	public List<Order> getOrdersByClotherId(int id) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getOrdersByClotherId");
 		List<Order> orders = new ArrayList<Order>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -205,7 +214,8 @@ public class OrderImpl extends AbstractDao<Order> implements CustomOrderDao {
 				orders.add(getVO(resultSet));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("GetOrdersByClotherId exception");
+			logger.error("SQLException getOrdersByClotherId", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}

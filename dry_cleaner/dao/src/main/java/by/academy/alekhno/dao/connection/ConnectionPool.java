@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Logger;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import bundle.Bundle;
 import by.academy.alekhno.exception.DaoException;
@@ -27,17 +27,17 @@ public class ConnectionPool {
 
     public static ConnectionPool getInstance() throws DaoException {
     	try{
-//    		logger.debug("Try to get instance");
+    		logger.debug("Try to get instance");
 	    	lock.lock();	
 	        if (ourInstance == null) {
 	            ourInstance = new ConnectionPool();
-//	            logger.debug("Create instance");
+	            logger.debug("Create instance");
 	            return ourInstance;
 	        }
     	} finally {
     		lock.unlock();
     	}
-//    	logger.debug("Get instance");
+    	logger.debug("Get instance");
         return ourInstance;
     }
 
@@ -57,13 +57,13 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() {
-//    	logger.debug("Get connection");
+    	logger.debug("Get connection");
         return connection;
     }
 
     public void close() throws DaoException {
         try {
-//        	logger.debug("Close connection");
+        	logger.debug("Close connection");
             connection.close();
         } catch (SQLException e) {
         	throw new DaoException("Close connection error");
