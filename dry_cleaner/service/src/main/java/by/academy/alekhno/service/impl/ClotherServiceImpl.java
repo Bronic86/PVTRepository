@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import by.academy.alekhno.dao.interf.CustomClotherDao;
 import by.academy.alekhno.dao.interf.CustomModelDao;
@@ -31,7 +32,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public List<Type> getTypes() throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("GetTypes.");
 		List<Type> types = new ArrayList<Type>();
 		try {
@@ -44,7 +44,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public List<Model> getModelsByTypeId(int type_id) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("GetModelsByTypeId.");
 		List<Model> models = new ArrayList<Model>();
 		try {
@@ -57,7 +56,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public List<Clother> getClothesByModelId(int model_id) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("GetClothesByModelId.");
 		List<Clother> clothes = new ArrayList<Clother>();
 		try {
@@ -70,7 +68,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void addType(String name) throws DaoException, ServiceException {
-		// TODO Auto-generated method stub
 		logger.info("Start addType.");
 		Type type = new Type();
 		type.setName(name);
@@ -82,14 +79,13 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Type exist");
+			 logger.error("Type exist");
 			throw new ServiceException("Type exist.");
 		}
 		logger.info("End addType.");
 	}
 
 	private boolean existName(String name) throws DaoException {
-		// TODO Auto-generated method stub
 		Type type = null;
 		try {
 			lock.lock();
@@ -101,7 +97,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void addModel(Model model) throws DaoException, ServiceException {
-		// TODO Auto-generated method stub
 		logger.info("Start addModel.");
 		if (!existModel(model)) {
 			try {
@@ -111,14 +106,13 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Model exist");
+			 logger.error("Model exist");
 			throw new ServiceException("Type exist.");
 		}
 		logger.info("End addModel.");
 	}
 
 	private boolean existModel(Model model) throws DaoException {
-		// TODO Auto-generated method stub
 		int id = 0;
 		try {
 			lock.lock();
@@ -131,7 +125,6 @@ public class ClotherServiceImpl implements ClotherService {
 
 	public void addClother(Clother clother) throws ServiceException,
 			DaoException {
-		// TODO Auto-generated method stub
 		logger.info("Start addClother.");
 		if (!existClother(clother)) {
 			try {
@@ -141,14 +134,13 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Clother exist");
+			 logger.error("Clother exist");
 			throw new ServiceException("Clother exist.");
 		}
 		logger.info("End addClother.");
 	}
 
 	private boolean existClother(Clother clother) throws DaoException {
-		// TODO Auto-generated method stub
 		int id = 0;
 		try {
 			lock.lock();
@@ -160,7 +152,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void updateType(Type type) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("UpdateType.");
 		try {
 			lock.lock();
@@ -171,7 +162,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void updateModel(Model model) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("UpdateModel.");
 		try {
 			lock.lock();
@@ -182,7 +172,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void updateClother(Clother clother) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.info("UpdateClother.");
 		try {
 			lock.lock();
@@ -193,7 +182,6 @@ public class ClotherServiceImpl implements ClotherService {
 	}
 
 	public void deleteType(int type_id) throws DaoException, ServiceException {
-		// TODO Auto-generated method stub
 		logger.info("Start deleteType.");
 		Type type = new Type();
 		type.setId(type_id);
@@ -212,14 +200,13 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Models exist. Didn't delete type.");
+			 logger.error("Models exist. Didn't delete type.");
 			throw new ServiceException("Can't delete type.");
 		}
 		logger.info("End deleteType.");
 	}
 
 	public void deleteModel(int model_id) throws DaoException, ServiceException {
-		// TODO Auto-generated method stub
 		logger.info("Start deleteModel.");
 		Model model = new Model();
 		model.setId(model_id);
@@ -238,14 +225,14 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Clother exist. Didn't delete model.");
+			 logger.error("Clother exist. Didn't delete model.");
 			throw new ServiceException("Can't delete model.");
 		}
 		logger.info("End deleteModel.");
 	}
 
-	public void deleteClother(int clother_id) throws DaoException, ServiceException {
-		// TODO Auto-generated method stub
+	public void deleteClother(int clother_id) throws DaoException,
+			ServiceException {
 		logger.info("Start deleteClother.");
 		Clother clother = new Clother();
 		clother.setId(clother_id);
@@ -264,7 +251,7 @@ public class ClotherServiceImpl implements ClotherService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("Order exist. Didn't delete model.");
+			 logger.error("Order exist. Didn't delete model.");
 			throw new ServiceException("Can't delete clother.");
 		}
 		logger.info("End deleteClother.");
@@ -273,7 +260,7 @@ public class ClotherServiceImpl implements ClotherService {
 	public CustomTypeDao getDaoType() throws ServiceException {
 		logger.info("GetDaoType.");
 		if (daoType == null) {
-			// logger.error("DaoType didn't set.");
+			 logger.error("DaoType didn't set.");
 			throw new ServiceException("Didn't set daoType.");
 		}
 		return daoType;
@@ -287,7 +274,7 @@ public class ClotherServiceImpl implements ClotherService {
 	public CustomModelDao getDaoModel() throws ServiceException {
 		logger.info("GetDaoModel.");
 		if (daoModel == null) {
-			// logger.error("DaoModel didn't set.");
+			 logger.error("DaoModel didn't set.");
 			throw new ServiceException("Didn't set daoModel.");
 		}
 		return daoModel;
@@ -301,7 +288,7 @@ public class ClotherServiceImpl implements ClotherService {
 	public CustomClotherDao getDaoClother() throws ServiceException {
 		logger.info("GetDaoClother.");
 		if (daoClother == null) {
-			// logger.error("DaoClother didn't set.");
+			 logger.error("DaoClother didn't set.");
 			throw new ServiceException("Didn't set daoClother.");
 		}
 		return daoClother;
@@ -311,11 +298,11 @@ public class ClotherServiceImpl implements ClotherService {
 		logger.info("SetDaoClother.");
 		this.daoClother = daoClother;
 	}
-	
+
 	public CustomOrderDao getDaoOrder() throws ServiceException {
 		logger.info("getDaoOrder.");
 		if (daoOrder == null) {
-			// logger.error("getDaoOrder didn't set.");
+			 logger.error("getDaoOrder didn't set.");
 			throw new ServiceException("Didn't set daoClother.");
 		}
 		return daoOrder;

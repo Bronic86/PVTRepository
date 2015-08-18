@@ -1,5 +1,7 @@
 package by.academy.alekhno.service.impl;
 
+import org.apache.log4j.Logger;
+
 import by.academy.alekhno.dao.impl.ModelImpl;
 import by.academy.alekhno.dao.interf.CustomModelDao;
 import by.academy.alekhno.dao.interf.GenericDao;
@@ -7,7 +9,9 @@ import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.vo.Model;
 
-public class ModelService {
+public class ModelServiceImpl {
+	private static final Logger logger = Logger
+			.getLogger(ModelServiceImpl.class.getName());
 
 	public void add(Model model) throws ServiceException {
 		GenericDao<Model> daoModel = new ModelImpl();
@@ -16,7 +20,6 @@ public class ModelService {
 				daoModel.add(model);
 			}
 		} catch (DaoException e) {
-			// TODO Auto-generated catch block
 			throw new ServiceException("Add Model error.\n" + e.getMessage());
 		}
 	}

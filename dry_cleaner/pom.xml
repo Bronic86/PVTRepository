@@ -11,6 +11,7 @@
   	<module>webapp</module>
     <module>vo</module>
   </modules>
+  
   <properties>
  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  <jdk.version>1.7</jdk.version>
@@ -57,19 +58,4 @@
   </plugins>
  
 </build>
-   <dependencies>
-   	<dependency>
-   		<groupId>log4j</groupId>
-   		<artifactId>log4j</artifactId>
-   	</dependency>
-   </dependencies>
-   <dependencyManagement>
-   	<dependencies>
-   		<dependency>
-   			<groupId>log4j</groupId>
-   			<artifactId>log4j</artifactId>
-   			<version>1.2.17</version>
-   		</dependency>
-   	</dependencies>
-   </dependencyManagement>
 </project>

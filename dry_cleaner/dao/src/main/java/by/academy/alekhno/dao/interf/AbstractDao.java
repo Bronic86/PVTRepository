@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import bundle.Bundle;
 import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.exception.DaoException;
 
@@ -30,7 +31,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException getAll", e);
-			throw new DaoException("Get all exception.");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -51,7 +52,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			preparedStatement.executeUpdate();			
 		}  catch (SQLException e) {
 			logger.error("SQLException update", e);
-			throw new DaoException("Update exception");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(null, preparedStatement);
 		}
@@ -71,7 +72,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			preparedStatement.executeUpdate();			
 		} catch (SQLException e) {
 			logger.debug("SQLException delete", e);
-			throw new DaoException("Delete exception");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(null, preparedStatement);
 		}
@@ -93,7 +94,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			
 		} catch (SQLException e) {
 			logger.debug("SQLException add", e);
-			throw new DaoException("Add exception");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -118,7 +119,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 			}			
 		} catch (SQLException e) {
 			logger.debug("SQLException getByID", e);
-			throw new DaoException("Get by ID exception");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -135,7 +136,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
                 resultSet.close();
             } catch (SQLException e) {
             	logger.debug("SQLException close resultSet", e);
-                throw new DaoException("Close resultSet exception.");
+                throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
             }
             logger.debug("Close resultSet");
         }
@@ -144,7 +145,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
                 preparedStatement.close();
             } catch (SQLException e) {
             	logger.debug("SQLException close preparedStatement", e);
-            	throw new DaoException("Close preparedStatement exception.");
+            	throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
             }
             logger.debug("Close preparedStatement");
         }

@@ -24,7 +24,6 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 	
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			logger.debug("GetSql choose ADD");
@@ -50,7 +49,6 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 
 	@Override
 	protected UserRole getVO(ResultSet resultSet) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.debug("Start getVO");
 		UserRole userRole = new UserRole();
 		User user = new User();
@@ -71,9 +69,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 			role.setName(resultSet.getString("name"));
 			userRole.setRole(role);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			logger.error("SQLException getVO", e);
-			throw new DaoException("Get VO UserRole exception");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		}
 		logger.debug("End getVO");
 		return userRole;
@@ -82,7 +79,6 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, UserRole userRole,
 			SqlMethode sqlMethode) throws DaoException {
-		// TODO Auto-generated method stub
 		switch (sqlMethode){
 		case ADD:
 			try {
@@ -94,9 +90,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				logger.debug("SetParam choose ADD");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException("Set UserRole preparesStatement for ADD exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case DELETE:
 			try {
@@ -104,9 +99,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				logger.debug("SetParam choose DELETE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException("Set UserRole preparesStatement for DELETE exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case UPDATE:
 			try {
@@ -118,9 +112,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				logger.debug("SetParam choose UPDATE");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException("Set UserRole preparesStatement for UPDATE exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -131,9 +124,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				logger.debug("SetParam choose GET_BY_ID");
 				break;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException("Set UserRole preparesStatement for GET_BY_ID exception.");
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 			}
 		default:
 			
@@ -142,7 +134,6 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 	}
 
 	public List<UserRole> getByIdUser(int user_id) throws DaoException {
-		// TODO Auto-generated method stub
 		logger.debug("Start getByIdUser.");
 		List<UserRole> roles = new ArrayList<UserRole>();
 		PreparedStatement preparedStatement = null;
@@ -157,7 +148,7 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 			}			
 		} catch (SQLException e) {
 			logger.debug("SQLException getByIdUser", e);
-			throw new DaoException("Get List UserRole by user_id");
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
 		} finally {
 			close(resultSet, preparedStatement);
 		}
