@@ -2,6 +2,7 @@ package by.academy.alekhno;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,10 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.exception.DaoException;
+import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.service.impl.OrderServiceImpl;
 import by.academy.alekhno.service.interf.OrderService;
 import by.academy.alekhno.vo.Clother;
@@ -28,6 +31,7 @@ public class OrderServiceTest {
 
 	private static Logger logger = Logger.getLogger(OrderServiceTest.class
 			.getName());
+	private static Connection conn;
 
 	private final Order order = new Order();
 	private final int id = 1;
@@ -39,6 +43,19 @@ public class OrderServiceTest {
 	private final String login = "boris";
 	private final Order orderDelete = new Order();
 	private final List<Order> orders = new ArrayList<Order>();
+	
+	private final Connection connection = conn;
+	
+	static {
+		try {
+			conn = ConnectionPool.getInstance().getConnection();
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	@Before
 	public void setParamTest() {
@@ -60,9 +77,10 @@ public class OrderServiceTest {
 	}
 
 	@Test
-	public void add() throws DaoException {
+	public void add() throws DaoException, ServiceException {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).add(order);
 				oneOf(daoOrder).getIdByFields(order);
 				will(returnValue(idList));
@@ -75,9 +93,10 @@ public class OrderServiceTest {
 	}
 
 	@Test
-	public void deleteByID() throws DaoException {
+	public void deleteByID() throws DaoException, ServiceException {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).delete(orderDelete);
 			}
 		});
@@ -88,9 +107,10 @@ public class OrderServiceTest {
 	}
 
 	@Test
-	public void getOrdersByUserId() throws DaoException {
+	public void getOrdersByUserId() throws DaoException, ServiceException {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).getOrdersByUserId(id);
 				will(returnValue(orders));
 			}
@@ -103,9 +123,10 @@ public class OrderServiceTest {
 	}
 
 	@Test
-	public void getOrders() throws DaoException {
+	public void getOrders() throws DaoException, ServiceException {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).getAll();
 				will(returnValue(orders));
 			}

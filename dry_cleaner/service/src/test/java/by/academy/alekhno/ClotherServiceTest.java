@@ -2,6 +2,7 @@ package by.academy.alekhno;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.CustomClotherDao;
 import by.academy.alekhno.dao.interf.CustomModelDao;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
@@ -26,6 +28,7 @@ import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.Type;
 
 public class ClotherServiceTest {
+	private static Connection conn;
 	private CustomTypeDao daoType;
 	private CustomModelDao daoModel;
 	private CustomClotherDao daoClother;
@@ -53,6 +56,18 @@ public class ClotherServiceTest {
 	private final double price = 15000.;
 	private final String name = "jeans";
 	private final int id = 1;
+	
+	private final Connection connection = conn;
+	
+	static {
+		try {
+			conn = ConnectionPool.getInstance().getConnection();
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@Before
 	public void setParamTest() {
@@ -99,9 +114,10 @@ public class ClotherServiceTest {
 	
 	
 	@Test
-	public void getTypes() throws DaoException  {
+	public void getTypes() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoType).getAll();
 				will(returnValue(types));
 			}
@@ -114,9 +130,10 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getModelsByTypeId() throws DaoException  {
+	public void getModelsByTypeId() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(models));
 			}
@@ -129,9 +146,10 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getClothesByModelId() throws DaoException  {
+	public void getClothesByModelId() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(clothes));
 			}
@@ -147,6 +165,7 @@ public class ClotherServiceTest {
 	public void addType() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoType).getByName(name);
 				will(returnValue(null));
 				oneOf(daoType).add(typeAdd);
@@ -162,6 +181,7 @@ public class ClotherServiceTest {
 	public void addTypeEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoType).getByName(name);
 				will(returnValue(type));
 				oneOf(daoType).add(typeAdd);
@@ -177,6 +197,7 @@ public class ClotherServiceTest {
 	public void addModel() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
 				oneOf(daoModel).getIdByFields(modelAdd);
 				will(returnValue(0));
 				oneOf(daoModel).add(modelAdd);
@@ -192,6 +213,7 @@ public class ClotherServiceTest {
 	public void addModelEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
 				oneOf(daoModel).getIdByFields(modelAdd);
 				will(returnValue(id));
 				oneOf(daoModel).add(modelAdd);
@@ -207,6 +229,7 @@ public class ClotherServiceTest {
 	public void addClother() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).getIdByFields(clotherAdd);
 				will(returnValue(0));
 				oneOf(daoClother).add(clotherAdd);
@@ -222,6 +245,7 @@ public class ClotherServiceTest {
 	public void addClotherEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).getIdByFields(clotherAdd);
 				will(returnValue(id));
 				oneOf(daoClother).add(clotherAdd);
@@ -238,6 +262,7 @@ public class ClotherServiceTest {
 	public void updateType() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoType).update(type);
 			}
 		});
@@ -251,6 +276,7 @@ public class ClotherServiceTest {
 	public void updateModel() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
 				oneOf(daoModel).update(model);
 			}
 		});
@@ -264,6 +290,7 @@ public class ClotherServiceTest {
 	public void updateClother() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).update(clother);
 			}
 		});
@@ -277,6 +304,8 @@ public class ClotherServiceTest {
 	public void deleteType() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(new ArrayList<Model>()));
 				oneOf(daoType).delete(typeDelete);
@@ -293,6 +322,8 @@ public class ClotherServiceTest {
 	public void deleteTypeEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
+				oneOf(daoType).setConnection(connection);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(models));
 				oneOf(daoType).delete(typeDelete);
@@ -309,6 +340,8 @@ public class ClotherServiceTest {
 	public void deleteModel() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(new ArrayList<Clother>()));
 				oneOf(daoModel).delete(modelDelete);
@@ -325,6 +358,8 @@ public class ClotherServiceTest {
 	public void deleteModelEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoModel).setConnection(connection);
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(clothes));
 				oneOf(daoModel).delete(modelDelete);
@@ -341,6 +376,8 @@ public class ClotherServiceTest {
 	public void deleteClother() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoOrder).getOrdersByClotherId(id);
 				will(returnValue(new ArrayList<Order>()));
 				oneOf(daoClother).delete(clotherDelete);
@@ -357,6 +394,8 @@ public class ClotherServiceTest {
 	public void deleteClotherEx() throws DaoException, ServiceException  {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
+				oneOf(daoClother).setConnection(connection);
 				oneOf(daoOrder).getOrdersByClotherId(id);
 				will(returnValue(orders));
 				oneOf(daoClother).delete(clotherDelete);

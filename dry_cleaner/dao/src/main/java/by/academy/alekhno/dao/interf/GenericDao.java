@@ -1,7 +1,10 @@
 package by.academy.alekhno.dao.interf;
 
 
+import java.sql.Connection;
 import java.util.List;
+
+
 
 import by.academy.alekhno.exception.DaoException;
 
@@ -17,4 +20,7 @@ public interface GenericDao<T> {
 	
 	T getByID (T t) throws DaoException;
 	
+	void setConnection(Connection connection);
+	
+	Connection getConnection();
 }

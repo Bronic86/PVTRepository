@@ -1,6 +1,8 @@
 package by.academy.alekhno.web.command.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,16 +45,29 @@ public class AuthorizationCommand implements Command {
 		}
 
 		UserService userService = new UserServiceImpl();
-		userService.setDaoUser(new UserImpl());
-		userService.setDaoUserRole(new UserRoleImpl());
+		try {
+			userService.setDaoUser(new UserImpl());
+			userService.setDaoUserRole(new UserRoleImpl());
+		} catch (ServiceException e) {
+			logger.error(e.getMessage(), e);
+			req.setAttribute(Bundle.getResource("request.key.error.message"),
+					e.getMessage());
+			return Bundle.getResource("to.page.error");
+		}
 		try {
 			User user = userService.authorization(login, password);
 			user.setPassword(null);
 			HttpSession session = req.getSession();
-			List<Role> roles = userService.getRoleByUserId(user.getId());
+			List<Role> rolesList = userService.getRoleByUserId(user.getId());
 			session.setAttribute(Bundle.getResource("session.key.user"), user);
-			session.setAttribute(Bundle.getResource("session.key.user.role"),
-					getMaxRole(roles));
+			req.setAttribute(Bundle.getResource("session.key.user.role"),
+					getMaxRole(rolesList));
+			Set<Role> roles = new HashSet<Role>();
+			for (Role role : rolesList){
+				roles.add(role);
+			}
+			session.setAttribute(Bundle.getResource("session.key.user.roles"),
+					roles);
 			return Bundle.getResource("to.start.page");
 		} catch (ServiceException e) {
 			logger.error(e.getMessage(), e);

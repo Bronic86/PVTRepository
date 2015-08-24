@@ -52,7 +52,7 @@ public class ConnectionPool {
             connection = dataSource.getConnection();
         	
         } catch (SQLException e){
-        	throw new DaoException("Open connection error");
+        	throw new DaoException("Open connection error", 2);
         }
     }
 
@@ -66,7 +66,7 @@ public class ConnectionPool {
         	logger.debug("Close connection");
             connection.close();
         } catch (SQLException e) {
-        	throw new DaoException("Close connection error");
+        	throw new DaoException("Close connection error", 2);
         }
     }
 	

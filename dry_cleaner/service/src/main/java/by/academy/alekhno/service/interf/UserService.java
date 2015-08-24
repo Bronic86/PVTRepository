@@ -32,17 +32,17 @@ public interface UserService {
 	
 	CustomUserDao getDaoUser() throws ServiceException;
 	
-	void setDaoUser(CustomUserDao daoUser);
+	void setDaoUser(CustomUserDao daoUser) throws ServiceException;
 	
 	CustomOrderDao getDaoOrder() throws ServiceException;
 	
-	void setDaoOrder(CustomOrderDao daoOrder);
+	void setDaoOrder(CustomOrderDao daoOrder) throws ServiceException;
 	
 	CustomUserRoleDao getDaoUserRole() throws ServiceException;
 	
-	void setDaoUserRole(CustomUserRoleDao daoUserRole);
+	void setDaoUserRole(CustomUserRoleDao daoUserRole) throws ServiceException;
 	
 	CustomRole getDaoRole() throws ServiceException;
 	
-	void setDaoRole(CustomRole daoRole);
+	void setDaoRole(CustomRole daoRole) throws ServiceException;
 }

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomTypeDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -52,7 +51,8 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 			type.setName(resultSet.getString("name"));
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		return type;
 	}
@@ -69,7 +69,8 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -78,7 +79,8 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -88,7 +90,8 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -100,7 +103,8 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
 
@@ -111,17 +115,19 @@ public class TypeImpl extends AbstractDao<Type> implements CustomTypeDao {
 		logger.debug("Start getByName");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.name.type"));
+		try {
+			Connection connection = super.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.by.name.type"));
 			preparedStatement.setString(1, name);
 			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				return getVO(resultSet);
-			}			
+			}
 		} catch (SQLException e) {
 			logger.error("SQLException getByName", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

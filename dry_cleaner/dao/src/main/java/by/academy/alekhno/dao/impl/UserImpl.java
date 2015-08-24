@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomUserDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -17,10 +16,10 @@ import by.academy.alekhno.vo.User;
 
 public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	private Logger logger = Logger.getLogger(UserImpl.class.getName());
-	
+
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			logger.debug("GetSql choose ADD");
 			return Bundle.getQueryResource("query.add.user");
@@ -37,9 +36,9 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 			logger.debug("GetSql choose GET_BY_ID");
 			return Bundle.getQueryResource("query.get.by.id.user");
 		default:
-			
+
 		}
-			
+
 		return null;
 	}
 
@@ -50,13 +49,15 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 		try {
 			user.setId(resultSet.getInt("id"));
 			user.setLogin(resultSet.getString("login"));
+			// May be return password=null
 			user.setPassword(resultSet.getString("password"));
 			user.setFirstName(resultSet.getString("first_name"));
 			user.setSecondName(resultSet.getString("second_name"));
 			user.setTelephone(resultSet.getLong("telephone"));
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		logger.debug("End getVO");
 		return user;
@@ -65,13 +66,11 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 	@Override
 	protected void setParam(PreparedStatement preparedStatement, User user,
 			SqlMethode sqlMethode) throws DaoException {
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			try {
 				preparedStatement.setInt(1, user.getId());
 				preparedStatement.setString(2, user.getLogin());
-				
-			//May be return password=null
 				preparedStatement.setString(3, user.getPassword());
 				preparedStatement.setString(4, user.getFirstName());
 				preparedStatement.setString(5, user.getSecondName());
@@ -80,7 +79,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -89,7 +89,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -103,7 +104,8 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -115,29 +117,32 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
-			
+
 		}
 	}
 
 	public User getByLogin(String login) throws DaoException {
 		logger.debug("Start get user by login");
-		User userFinding = null; 
+		User userFinding = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.login.user"));
+		try {
+			Connection connection = super.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.by.login.user"));
 			preparedStatement.setString(1, login);
 			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				userFinding = getVO(resultSet);
-			}			
+			}
 		} catch (SQLException e) {
 			logger.error("SQLException getByLogin", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -146,21 +151,23 @@ public class UserImpl extends AbstractDao<User> implements CustomUserDao {
 
 	public User getByLoginAndPassword(User user) throws DaoException {
 		logger.debug("Start get user by login and password");
-		User userFinding = null; 
+		User userFinding = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.login.and.password.user"));
+		try {
+			Connection connection = super.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.by.login.and.password.user"));
 			preparedStatement.setString(1, user.getLogin());
 			preparedStatement.setString(2, user.getPassword());
 			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()){
+			if (resultSet.next()) {
 				userFinding = getVO(resultSet);
-			}			
+			}
 		} catch (SQLException e) {
 			logger.error("SQLException getByLoginAndPassword", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

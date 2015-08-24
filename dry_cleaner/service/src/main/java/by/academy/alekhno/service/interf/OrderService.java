@@ -21,5 +21,5 @@ public interface OrderService {
 	
 	CustomOrderDao getDaoOrder() throws ServiceException;
 	
-	void setDaoOrder(CustomOrderDao daoOrder);
+	void setDaoOrder(CustomOrderDao daoOrder) throws ServiceException;
 }

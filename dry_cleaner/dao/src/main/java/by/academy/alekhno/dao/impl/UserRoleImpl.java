@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomUserRoleDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -19,12 +18,13 @@ import by.academy.alekhno.vo.Role;
 import by.academy.alekhno.vo.User;
 import by.academy.alekhno.vo.UserRole;
 
-public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRoleDao {
+public class UserRoleImpl extends AbstractDao<UserRole> implements
+		CustomUserRoleDao {
 	private Logger logger = Logger.getLogger(UserRoleImpl.class.getName());
-	
+
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
-		switch (sqlMethode){
+		switch (sqlMethode) {
 		case ADD:
 			logger.debug("GetSql choose ADD");
 			return Bundle.getQueryResource("query.add.user_role");
@@ -41,9 +41,9 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 			logger.debug("GetSql choose GET_BY_ID");
 			return Bundle.getQueryResource("query.get.by.id.user_role");
 		default:
-			
+
 		}
-			
+
 		return null;
 	}
 
@@ -55,31 +55,32 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 		Role role = new Role();
 		try {
 			userRole.setId(resultSet.getInt("id"));
-			
+
 			user.setId(resultSet.getInt("user_id"));
 			user.setLogin(resultSet.getString("login"));
-			//May be return password NULL
+			// May be return password NULL
 			user.setPassword(resultSet.getString("password"));
 			user.setFirstName(resultSet.getString("first_name"));
 			user.setSecondName(resultSet.getString("second_name"));
 			user.setTelephone(resultSet.getLong("telephone"));
 			userRole.setUser(user);
-			
+
 			role.setId(resultSet.getInt("role_id"));
 			role.setName(resultSet.getString("name"));
 			userRole.setRole(role);
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		logger.debug("End getVO");
 		return userRole;
 	}
 
 	@Override
-	protected void setParam(PreparedStatement preparedStatement, UserRole userRole,
-			SqlMethode sqlMethode) throws DaoException {
-		switch (sqlMethode){
+	protected void setParam(PreparedStatement preparedStatement,
+			UserRole userRole, SqlMethode sqlMethode) throws DaoException {
+		switch (sqlMethode) {
 		case ADD:
 			try {
 				preparedStatement.setInt(1, userRole.getId());
@@ -91,7 +92,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -100,7 +102,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -113,7 +116,8 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -125,12 +129,13 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
-			
+
 		}
-		
+
 	}
 
 	public List<UserRole> getByIdUser(int user_id) throws DaoException {
@@ -138,17 +143,19 @@ public class UserRoleImpl extends AbstractDao<UserRole> implements CustomUserRol
 		List<UserRole> roles = new ArrayList<UserRole>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
-			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.user_id.user_role"));
+		try {
+			Connection connection = super.getConnection();
+			preparedStatement = connection.prepareStatement(Bundle
+					.getQueryResource("query.get.by.user_id.user_role"));
 			preparedStatement.setInt(1, user_id);
 			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()){
+			while (resultSet.next()) {
 				roles.add(getVO(resultSet));
-			}			
+			}
 		} catch (SQLException e) {
 			logger.debug("SQLException getByIdUser", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

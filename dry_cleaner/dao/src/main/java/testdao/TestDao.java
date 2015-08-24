@@ -20,7 +20,7 @@ public class TestDao {
 		user.setTelephone(375291234567l);
 		System.out.println("1 " + user);
 		
-		GenericDao<User> genericU = new UserImpl();
+		CustomUserDao genericU = new UserImpl();
 		try {
 			genericU.add(user);
 		} catch (DaoException e) {

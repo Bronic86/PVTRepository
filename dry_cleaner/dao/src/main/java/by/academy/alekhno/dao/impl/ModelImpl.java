@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomModelDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -59,7 +58,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 			model.setType(type);
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		return model;
 	}
@@ -78,7 +78,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -87,7 +88,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -99,7 +101,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -111,7 +114,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
 
@@ -123,10 +127,9 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			Connection connection = ConnectionPool.getInstance()
-					.getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle
-					.getQueryResource("query.get.id.by.fields.model"));
+					.getQueryResource("query.get.id.by.fields.model"), 1);
 			preparedStatement.setString(1, model.getName());
 			int type_id = model.getType().getId();
 			preparedStatement.setInt(2, type_id);
@@ -136,7 +139,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException getIdByFields", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -149,8 +153,7 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			Connection connection = ConnectionPool.getInstance()
-					.getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle
 					.getQueryResource("query.get.by.type_id.model"));
 			preparedStatement.setInt(1, type_id);
@@ -160,7 +163,8 @@ public class ModelImpl extends AbstractDao<Model> implements CustomModelDao {
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException getByTypeId", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

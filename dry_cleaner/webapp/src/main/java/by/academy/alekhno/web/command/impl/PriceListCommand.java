@@ -12,6 +12,7 @@ import by.academy.alekhno.dao.impl.ClotherImpl;
 import by.academy.alekhno.dao.impl.ModelImpl;
 import by.academy.alekhno.dao.impl.TypeImpl;
 import by.academy.alekhno.exception.DaoException;
+import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.service.impl.ClotherServiceImpl;
 import by.academy.alekhno.service.interf.ClotherService;
 import by.academy.alekhno.vo.Clother;
@@ -28,9 +29,16 @@ public class PriceListCommand implements Command {
 		String type_id_param = req.getParameter(Bundle.getResource("request.key.type.id"));
 
 		ClotherService clotherService = new ClotherServiceImpl();
-		clotherService.setDaoType(new TypeImpl());
-		clotherService.setDaoModel(new ModelImpl());
-		clotherService.setDaoClother(new ClotherImpl());
+		try {
+			clotherService.setDaoType(new TypeImpl());
+			clotherService.setDaoModel(new ModelImpl());
+			clotherService.setDaoClother(new ClotherImpl());
+		} catch (ServiceException e) {
+			logger.error(e.getMessage(), e);
+			req.setAttribute(Bundle.getResource("request.key.error.message"),
+					e.getMessage());
+			return Bundle.getResource("to.page.error");
+		}
 
 		List<Type> types;
 		try {
@@ -61,9 +69,16 @@ public class PriceListCommand implements Command {
 			try {
 				clotherService.setDaoClother(new ClotherImpl());
 				for (Model model : models){
-				clothes.addAll(clotherService.getClothesByModelId(model.getId()));
+					int model_id = model.getId();
+				clothes.addAll(clotherService.getClothesByModelId(model_id));
 				}
 			} catch (DaoException e) {
+				logger.error(e.getMessage(), e);
+				req.setAttribute(
+						Bundle.getResource("request.key.error.message"),
+						e.getMessage());
+				return Bundle.getResource("to.page.error");
+			} catch (ServiceException e) {
 				logger.error(e.getMessage(), e);
 				req.setAttribute(
 						Bundle.getResource("request.key.error.message"),

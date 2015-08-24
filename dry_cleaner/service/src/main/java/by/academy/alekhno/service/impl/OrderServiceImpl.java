@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
@@ -15,7 +16,8 @@ import by.academy.alekhno.vo.Order;
 
 public class OrderServiceImpl implements OrderService {
 	private CustomOrderDao daoOrder;
-	private static Logger logger = Logger.getLogger(OrderServiceImpl.class.getName());
+	private static Logger logger = Logger.getLogger(OrderServiceImpl.class
+			.getName());
 	private Lock lock = new ReentrantLock();
 
 	public OrderServiceImpl() {
@@ -26,8 +28,8 @@ public class OrderServiceImpl implements OrderService {
 		List<Integer> idList = new ArrayList<Integer>();
 		try {
 			lock.lock();
-		daoOrder.add(order);
-		idList = daoOrder.getIdByFields(order);
+			daoOrder.add(order);
+			idList = daoOrder.getIdByFields(order);
 		} finally {
 			lock.unlock();
 		}
@@ -41,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setId(id);
 		try {
 			lock.lock();
-		daoOrder.delete(order);
+			daoOrder.delete(order);
 		} finally {
 			lock.unlock();
 		}
@@ -55,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 			lock.lock();
 			orders = daoOrder.getOrdersByUserId(id);
 		} finally {
-			lock.unlock();			
+			lock.unlock();
 		}
 		return orders;
 	}
@@ -67,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 			lock.lock();
 			orders = daoOrder.getAll();
 		} finally {
-			lock.unlock();			
+			lock.unlock();
 		}
 		return orders;
 	}
@@ -81,9 +83,16 @@ public class OrderServiceImpl implements OrderService {
 		return daoOrder;
 	}
 
-	public void setDaoOrder(CustomOrderDao daoOrder) {
+	public void setDaoOrder(CustomOrderDao daoOrder) throws ServiceException {
 		logger.info("SetDaoOrder.");
 		this.daoOrder = daoOrder;
+		try {
+			this.daoOrder.setConnection(ConnectionPool.getInstance()
+					.getConnection());
+		} catch (DaoException e) {
+			logger.error("Problem with connection to database.", e);
+			throw new ServiceException("Sorry. Problem with server.");
+		}
 	}
 
 	public List<Order> getOrdersByClotherId(int id) throws DaoException {
@@ -93,10 +102,9 @@ public class OrderServiceImpl implements OrderService {
 			lock.lock();
 			orders = daoOrder.getOrdersByClotherId(id);
 		} finally {
-			lock.unlock();			
+			lock.unlock();
 		}
 		return orders;
 	}
 
-	
 }

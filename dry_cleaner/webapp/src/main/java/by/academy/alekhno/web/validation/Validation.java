@@ -11,6 +11,8 @@ public interface Validation {
 	boolean isSecondName(String secondName);
 	
 	boolean isTelephone(String telephone);
+
+	boolean isNumber(String clother_id_param);
 	
 	
 }

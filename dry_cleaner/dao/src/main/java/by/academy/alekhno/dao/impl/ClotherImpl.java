@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomClotherDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -67,7 +66,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 			clother.setPrice(resultSet.getDouble("price"));
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		return clother;
 	}
@@ -86,7 +85,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -95,7 +94,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -107,7 +106,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -119,7 +118,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
 			
@@ -131,7 +130,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.id.by.fields.clother"));
 			Model model = clother.getModel();
 			preparedStatement.setInt(1, model.getId());
@@ -142,7 +141,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 			}			
 		} catch (SQLException e) {
 			logger.error("SQLException getIdByFields", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -155,7 +154,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.model_id.clother"));
 			preparedStatement.setInt(1, model_id);
 			resultSet = preparedStatement.executeQuery();
@@ -164,7 +163,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 			}			
 		} catch (SQLException e) {
 			logger.error("SQLException getByModelId", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

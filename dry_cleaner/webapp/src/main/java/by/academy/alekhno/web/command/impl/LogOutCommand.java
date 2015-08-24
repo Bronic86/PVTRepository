@@ -20,6 +20,7 @@ public class LogOutCommand implements Command {
 			HttpSession session = req.getSession();
 			session.removeAttribute(Bundle.getResource("session.key.user"));
 			session.removeAttribute(Bundle.getResource("session.key.user.role"));
+			session.removeAttribute(Bundle.getResource("session.key.user.roles"));
 			resp.sendRedirect(Bundle.getResource("redirect.to.start.page"));
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
