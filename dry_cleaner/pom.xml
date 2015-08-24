@@ -10,6 +10,7 @@
   	<module>service</module>
   	<module>webapp</module>
     <module>vo</module>
+    <module>dao_hibernate</module>
   </modules>
   
   <properties>
@@ -30,7 +31,7 @@
             <manifest>
             	<addClasspath>true</addClasspath>
              	 <classpathPrefix>lib/</classpathPrefix>
-              <mainClass></mainClass>
+              <mainClass/>
             </manifest>
           </archive>
         </configuration>

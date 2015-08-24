@@ -50,7 +50,8 @@ public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 			role.setName(resultSet.getString("name"));
 		} catch (SQLException e) {
 			logger.error("SQLException getVO", e);
-			throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+			throw new DaoException(
+					Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		return role;
 	}
@@ -67,7 +68,8 @@ public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose ADD", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
@@ -76,7 +78,8 @@ public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose DELETE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -86,7 +89,8 @@ public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose UPDATE", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
 			logger.debug("SetParam choose GET_ALL");
@@ -98,7 +102,8 @@ public class RoleImpl extends AbstractDao<Role> implements CustomRole {
 				break;
 			} catch (SQLException e) {
 				logger.error("SQLException SetParam choose GET_BY_ID", e);
-				throw new DaoException(Bundle.getQueryResource("message.sql.exception"));
+				throw new DaoException(
+						Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
 

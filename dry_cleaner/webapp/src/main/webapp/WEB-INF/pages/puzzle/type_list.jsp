@@ -1,6 +1,6 @@
 <table>
 	<tr>
-		<th> Type </th>
+		<th>  Type  </th>
 	</tr>
 	<c:forEach var='type' items='${types}'>
 		<tr>

@@ -51,9 +51,18 @@ public class RegistrationCommand implements Command {
 		user.setTelephone(Long.parseLong(telephone));
 
 		UserService userService = new UserServiceImpl();
-		userService.setDaoUser(new UserImpl());
-		userService.setDaoRole(new RoleImpl());
-		userService.setDaoUserRole(new UserRoleImpl());
+		
+		try {
+			userService.setDaoUser(new UserImpl());
+			userService.setDaoRole(new RoleImpl());
+			userService.setDaoUserRole(new UserRoleImpl());
+		} catch (ServiceException e) {
+			logger.error(e.getMessage(), e);
+			req.setAttribute(
+					Bundle.getResource("request.key.error.message"),
+					e.getMessage());
+			return Bundle.getResource("to.page.error");
+		}
 
 		try {
 			userService.registration(user);

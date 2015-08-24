@@ -2,6 +2,7 @@ package by.academy.alekhno;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.dao.interf.CustomRole;
 import by.academy.alekhno.dao.interf.CustomUserDao;
@@ -30,6 +32,7 @@ import by.academy.alekhno.vo.UserRole;
 
 public class UserServiceTest {
 
+	private static  Connection conn = null;
 	private final int id = 1;
 	private final String login = "boris123";
 	private final String password = "4dbf44c6b1be736ee92ef90090452fc2";
@@ -45,7 +48,17 @@ public class UserServiceTest {
 	private final List<Order> orders = new ArrayList<Order>();
 	private final List<UserRole> userRoles = new ArrayList<UserRole>();
 	
+	private final Connection connection = conn;
 	
+	static {
+		try {
+			conn = ConnectionPool.getInstance().getConnection();
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 	private Mockery mockingContext = new JUnit4Mockery();
 	
@@ -100,6 +113,7 @@ public class UserServiceTest {
 			
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoUser).setConnection(connection);
 				oneOf(daoUser).getByLoginAndPassword(user1);
 				will(returnValue(user));
 			}
@@ -115,6 +129,7 @@ public class UserServiceTest {
 	public void authorizeEx() throws DaoException, ServiceException {
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoUser).setConnection(connection);
 				oneOf(daoUser).getByLoginAndPassword(user1);
 				will(returnValue(null));
 			}
@@ -124,11 +139,13 @@ public class UserServiceTest {
 		assertTrue(user.equals(fUser));
 	}
 	
-//	@Ignore
 	@Test
 	public void registration() throws DaoException, ServiceException{
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoUser).setConnection(connection);
+				oneOf(daoRole).setConnection(connection);
+				oneOf(daoUserRole).setConnection(connection);
 				oneOf(daoUser).getByLogin(login);
 				will(returnValue(null));
 				oneOf(daoUser).add(user);
@@ -146,9 +163,10 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void addOrder() throws DaoException{
+	public void addOrder() throws DaoException, ServiceException{
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).add(order);
 			}});
 		
@@ -158,9 +176,10 @@ public class UserServiceTest {
 	
 	
 	@Test
-	public void getOrdersByUserId() throws DaoException{
+	public void getOrdersByUserId() throws DaoException, ServiceException{
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).getOrdersByUserId(id);
 				will(returnValue(orders));
 			}});
@@ -171,9 +190,10 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void getOrdersByUserIdEmpty() throws DaoException{
+	public void getOrdersByUserIdEmpty() throws DaoException, ServiceException{
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoOrder).setConnection(connection);
 				oneOf(daoOrder).getOrdersByUserId(id);
 				will(returnValue(new ArrayList<Order>()));
 			}});
@@ -184,9 +204,10 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void getRoleByUserId() throws DaoException{
+	public void getRoleByUserId() throws DaoException, ServiceException{
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoUserRole).setConnection(connection);
 				oneOf(daoUserRole).getByIdUser(id);
 				will(returnValue(userRoles));
 				
@@ -198,13 +219,16 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void getUserByLogin() throws DaoException{
+	public void getUserByLogin() throws DaoException, ServiceException{
+		
 		mockingContext.checking(new Expectations() {
 			{
+				oneOf(daoUser).setConnection(connection);
 				oneOf(daoUser).getByLogin(login);
 				will(returnValue(user));
 			}
 		});
+		
 		userService.setDaoUser(daoUser);
 		User fUser = userService.getUserByLogin(login);
 		assertEquals(fUser, user);

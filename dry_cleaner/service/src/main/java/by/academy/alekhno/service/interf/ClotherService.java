@@ -13,6 +13,8 @@ import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Type;
 
 public interface ClotherService {
+	
+	Clother getClotherById(int clother_id) throws ServiceException;
 
 	List<Type> getTypes() throws DaoException;
 	
@@ -38,19 +40,19 @@ public interface ClotherService {
 	
 	void deleteClother(int id) throws DaoException, ServiceException;
 	
-	void setDaoClother(CustomClotherDao daoClother);
+	void setDaoClother(CustomClotherDao daoClother) throws ServiceException;
 	
 	CustomClotherDao getDaoClother() throws ServiceException;
 	
-	void setDaoModel(CustomModelDao daoModel);
+	void setDaoModel(CustomModelDao daoModel) throws ServiceException;
 	
 	CustomModelDao getDaoModel() throws ServiceException;
 	
-	void setDaoType(CustomTypeDao daoType);
+	void setDaoType(CustomTypeDao daoType) throws ServiceException;
 	
 	CustomTypeDao getDaoType() throws ServiceException;
 	
 	CustomOrderDao getDaoOrder() throws ServiceException;
 	 
-	void setDaoOrder(CustomOrderDao daoOrder);
+	void setDaoOrder(CustomOrderDao daoOrder) throws ServiceException;
 }

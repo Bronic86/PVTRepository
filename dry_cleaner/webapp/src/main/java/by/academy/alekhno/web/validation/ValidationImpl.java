@@ -8,7 +8,8 @@ public class ValidationImpl implements Validation {
 	private static final String PASSWORD_REGEX = "^[\\w\\d]*$";
 	private static final String FIRST_NAME_REGEX = "[A-Za-z0-9_а-яА-ЯёЁ]{1,30}";
 	private static final String SECOND_NAME_REGEX = "[A-Za-z0-9_а-яА-ЯёЁ]{1,30}";
-	private static final String TELEPHONE_REGEX = "[0-9]{12}";
+	private static final String TELEPHONE_REGEX = "^[0-9]{12}$";
+	private static final String DIGIT_REGEX = "^[0-9]{1,5}$";
 
 	public boolean isLogin(String login) {
 		// TODO Auto-generated method stub
@@ -33,6 +34,10 @@ public class ValidationImpl implements Validation {
 	public boolean isTelephone(String telephone) {
 		// TODO Auto-generated method stub
 		return Pattern.compile(TELEPHONE_REGEX).matcher(telephone).find();
+	}
+
+	public boolean isNumber(String clother_id_param) {
+		return Pattern.compile(DIGIT_REGEX).matcher(clother_id_param).find();
 	}
 
 }

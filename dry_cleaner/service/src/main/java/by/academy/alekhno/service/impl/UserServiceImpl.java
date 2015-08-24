@@ -2,13 +2,13 @@ package by.academy.alekhno.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
 
+import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.CustomOrderDao;
 import by.academy.alekhno.dao.interf.CustomRole;
 import by.academy.alekhno.dao.interf.CustomUserDao;
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 			lock.unlock();
 		}
 		if (findingUser == null) {
-			// logger.error("Didn't find user");
+			logger.error("Didn't find user");
 			throw new ServiceException("Login or password is incorrect.");
 		}
 		logger.info("End authoruthation.");
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
 				lock.unlock();
 			}
 		} else {
-			// logger.error("User don't exist");
+			logger.error("User don't exist");
 			throw new ServiceException("Login exist.");
 		}
 		logger.info("End registration.");
@@ -194,61 +194,90 @@ public class UserServiceImpl implements UserService {
 	public CustomUserDao getDaoUser() throws ServiceException {
 		logger.info("Start getDaoUser.");
 		if (daoUser == null) {
-			// logger.error("DaoUser didn't set.");
+			 logger.error("DaoUser didn't set.");
 			throw new ServiceException("Didn't set CustomRole");
 		}
 		logger.info("End getDaoUser.");
 		return daoUser;
 	}
 
-	public void setDaoUser(CustomUserDao daoUser) {
+	public void setDaoUser(CustomUserDao daoUser) throws ServiceException {
 		logger.info("Set daoUser.");
 		this.daoUser = daoUser;
+		try {
+			this.daoUser.setConnection(ConnectionPool.getInstance()
+					.getConnection());
+		} catch (DaoException e) {
+			logger.error("Problem with connection to database.", e);
+			throw new ServiceException("Sorry. Problem with server.");
+		}
 	}
 
 	public CustomOrderDao getDaoOrder() throws ServiceException {
 		logger.info("Start getDaoOrder.");
 		if (daoOrder == null) {
-			// logger.error("DaoOrder didn't set.");
+			 logger.error("DaoOrder didn't set.");
 			throw new ServiceException("Didn't set CustomRole");
 		}
 		logger.info("End getDaoOrder.");
 		return daoOrder;
 	}
 
-	public void setDaoOrder(CustomOrderDao daoOrder) {
+	public void setDaoOrder(CustomOrderDao daoOrder) throws ServiceException {
 		logger.info("Set daoOrder.");
 		this.daoOrder = daoOrder;
+		try {
+			this.daoOrder.setConnection(ConnectionPool.getInstance()
+					.getConnection());
+		} catch (DaoException e) {
+			logger.error("Problem with connection to database.", e);
+			throw new ServiceException("Sorry. Problem with server.");
+		}
 	}
 
 	public CustomUserRoleDao getDaoUserRole() throws ServiceException {
 		logger.info("Start getDaoUserRole.");
 		if (daoUserRole == null) {
-			// logger.error("DaoUserRole didn't set.");
+			 logger.error("DaoUserRole didn't set.");
 			throw new ServiceException("Didn't set CustomRole");
 		}
 		logger.info("End getDaoUserRole.");
 		return daoUserRole;
 	}
 
-	public void setDaoUserRole(CustomUserRoleDao daoUserRole) {
+	public void setDaoUserRole(CustomUserRoleDao daoUserRole)
+			throws ServiceException {
 		logger.info("Set daoUserRole.");
 		this.daoUserRole = daoUserRole;
+		try {
+			this.daoUserRole.setConnection(ConnectionPool.getInstance()
+					.getConnection());
+		} catch (DaoException e) {
+			logger.error("Problem with connection to database.", e);
+			throw new ServiceException("Sorry. Problem with server.");
+		}
 	}
 
 	public CustomRole getDaoRole() throws ServiceException {
 		logger.info("Start getDaoRole.");
 		if (daoRole == null) {
-			// logger.error("DaoRole didn't set.");
+			 logger.error("DaoRole didn't set.");
 			throw new ServiceException("Didn't set CustomRole");
 		}
 		logger.info("End getDaoRole.");
 		return daoRole;
 	}
 
-	public void setDaoRole(CustomRole daoRole) {
+	public void setDaoRole(CustomRole daoRole) throws ServiceException {
 		logger.info("Set daoRole.");
 		this.daoRole = daoRole;
+		try {
+			this.daoRole.setConnection(ConnectionPool.getInstance()
+					.getConnection());
+		} catch (DaoException e) {
+			logger.error("Problem with connection to database.", e);
+			throw new ServiceException("Sorry. Problem with server.");
+		}
 	}
 
 }
