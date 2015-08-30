@@ -10,7 +10,10 @@
   	<module>service</module>
   	<module>webapp</module>
     <module>vo</module>
+    <module>dao_hibernate</module>
+    <module>dao-hibernate</module>
   </modules>
+  
   <properties>
  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  <jdk.version>1.7</jdk.version>
@@ -29,7 +32,7 @@
             <manifest>
             	<addClasspath>true</addClasspath>
              	 <classpathPrefix>lib/</classpathPrefix>
-              <mainClass></mainClass>
+              <mainClass/>
             </manifest>
           </archive>
         </configuration>

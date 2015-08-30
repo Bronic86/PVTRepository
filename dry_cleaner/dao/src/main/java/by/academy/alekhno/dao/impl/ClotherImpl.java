@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import bundle.Bundle;
-import by.academy.alekhno.dao.connection.ConnectionPool;
 import by.academy.alekhno.dao.interf.AbstractDao;
 import by.academy.alekhno.dao.interf.CustomClotherDao;
 import by.academy.alekhno.dao.interf.SqlMethode;
@@ -19,20 +20,26 @@ import by.academy.alekhno.vo.Type;
 
 public class ClotherImpl extends AbstractDao<Clother> implements
 		CustomClotherDao {
+	private Logger logger = Logger.getLogger(ClotherImpl.class.getName());
 
 	@Override
 	protected String getSql(SqlMethode sqlMethode) {
 		// TODO Auto-generated method stub
 		switch (sqlMethode) {
 		case ADD:
+			logger.debug("GetSql choose ADD");
 			return Bundle.getQueryResource("query.add.clother");
 		case DELETE:
+			logger.debug("GetSql choose DELETE");
 			return Bundle.getQueryResource("query.delete.clother");
 		case UPDATE:
+			logger.debug("GetSql choose UPDATE");
 			return Bundle.getQueryResource("query.update.clother");
 		case GET_ALL:
+			logger.debug("GetSql choose GET_ALL");
 			return Bundle.getQueryResource("query.get.all.clother");
 		case GET_BY_ID:
+			logger.debug("GetSql choose GET_BY_ID");
 			return Bundle.getQueryResource("query.get.by.id.clother");
 		default:
 
@@ -46,6 +53,7 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 		// TODO Auto-generated method stub
 		Clother clother = new Clother();
 		try {
+			logger.debug("Start getVO");
 			clother.setId(resultSet.getInt("id"));
 			Model model = new Model();
 			model.setId(resultSet.getInt("model_id"));
@@ -57,7 +65,8 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 			clother.setModel(model);
 			clother.setPrice(resultSet.getDouble("price"));
 		} catch (SQLException e) {
-			throw new DaoException("Get VO Clother exception");
+			logger.error("SQLException getVO", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		}
 		return clother;
 	}
@@ -72,18 +81,20 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				Model model = clother.getModel();
 				preparedStatement.setInt(1, model.getId());
 				preparedStatement.setDouble(2, clother.getPrice());
+				logger.debug("SetParam choose ADD");
 				break;
 			} catch (SQLException e) {
-				throw new DaoException(
-						"Set Clother preparesStatement for ADD exception.");
+				logger.error("SQLException SetParam choose ADD", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case DELETE:
 			try {
 				preparedStatement.setInt(1, clother.getId());
+				logger.debug("SetParam choose DELETE");
 				break;
 			} catch (SQLException e) {
-				throw new DaoException(
-						"Set Clother preparesStatement for DELETE exception. ");
+				logger.error("SQLException SetParam choose DELETE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case UPDATE:
 			try {
@@ -91,32 +102,35 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				preparedStatement.setInt(1, model.getId());
 				preparedStatement.setDouble(2, clother.getPrice());
 				preparedStatement.setInt(3, clother.getId());
+				logger.debug("SetParam choose UPDATE");
 				break;
 			} catch (SQLException e) {
-				throw new DaoException(
-						"Set Clother preparesStatement for UPDATE exception. ");
+				logger.error("SQLException SetParam choose UPDATE", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		case GET_ALL:
+			logger.debug("SetParam choose GET_ALL");
 			break;
 		case GET_BY_ID:
 			try {
 				preparedStatement.setInt(1, clother.getId());
+				logger.debug("SetParam choose GET_BY_ID");
 				break;
 			} catch (SQLException e) {
-				throw new DaoException(
-						"Set Clother preparedStatement for GET_BY_ID exception.");
+				logger.error("SQLException SetParam choose GET_BY_ID", e);
+				throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 			}
 		default:
-
+			
 		}
 	}
 
 	public int getIdByFields(Clother clother) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getIdByFields");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.id.by.fields.clother"));
 			Model model = clother.getModel();
 			preparedStatement.setInt(1, model.getId());
@@ -126,7 +140,8 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				return resultSet.getInt("id");
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("getIdByFields Clother exception");
+			logger.error("SQLException getIdByFields", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}
@@ -134,12 +149,12 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 	}
 
 	public List<Clother> getByModelId(int model_id) throws DaoException {
-		// TODO Auto-generated method stub
+		logger.debug("Start getByModelId");
 		List<Clother> clothes = new ArrayList<Clother>();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try{
-			Connection connection = ConnectionPool.getInstance().getConnection();
+			Connection connection = super.getConnection();
 			preparedStatement = connection.prepareStatement(Bundle.getQueryResource("query.get.by.model_id.clother"));
 			preparedStatement.setInt(1, model_id);
 			resultSet = preparedStatement.executeQuery();
@@ -147,7 +162,8 @@ public class ClotherImpl extends AbstractDao<Clother> implements
 				clothes.add(getVO(resultSet));
 			}			
 		} catch (SQLException e) {
-			throw new DaoException("getByModelId Clother exception");
+			logger.error("SQLException getByModelId", e);
+			throw new DaoException(Bundle.getQueryResource("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

@@ -1,6 +1,11 @@
 package by.academy.alekhno.vo;
 
-public class Model {
+import java.io.Serializable;
+
+public class Model implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String name;
 	private Type type;

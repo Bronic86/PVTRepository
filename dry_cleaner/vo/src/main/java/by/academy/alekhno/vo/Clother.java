@@ -1,6 +1,11 @@
 package by.academy.alekhno.vo;
 
-public class Clother {
+import java.io.Serializable;
+
+public class Clother implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private Model model;
 	private double price;

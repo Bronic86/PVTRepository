@@ -2,7 +2,6 @@ package testdao;
 
 import by.academy.alekhno.dao.impl.UserImpl;
 import by.academy.alekhno.dao.interf.CustomUserDao;
-import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.User;
 
@@ -20,7 +19,7 @@ public class TestDao {
 		user.setTelephone(375291234567l);
 		System.out.println("1 " + user);
 		
-		GenericDao<User> genericU = new UserImpl();
+		CustomUserDao genericU = new UserImpl();
 		try {
 			genericU.add(user);
 		} catch (DaoException e) {

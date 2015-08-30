@@ -1,7 +1,21 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@include file="WEB-INF/pages/puzzle/head_jsp.jsp"%>
 <html>
+	<head>
+		<title>Start page</title>
+	</head>
 <body>
-<h2>Hello World!</h2>
-<p><a href="pages/authorization.jsp">Authorization</a></p>
+	<div>
+		<%@include file="WEB-INF/pages/puzzle/header.jsp"%>
+		<article>
+			<div>
+				<%@include file="WEB-INF/pages/puzzle/menu.jsp"%>
+			</div>
+			<div>
+				<h1>Welcome!</h1>
+				<p>Welcome to Classic Dry-cleaners.</p>
+			</div>
+		</article>
+		<%@include file="WEB-INF/pages/puzzle/footer_jsp.jsp"%>
+	</div>
 </body>
 </html>
