@@ -61,10 +61,10 @@ public class AuthorizationCommand implements Command {
 			List<Role> rolesList = userService.getRoleByUserId(user.getId());
 			session.setAttribute(Bundle.getResource("session.key.user"), user);
 			req.setAttribute(Bundle.getResource("session.key.user.role"),
-					getMaxRole(rolesList));
-			Set<Role> roles = new HashSet<Role>();
+					getMaxRole(rolesList).getName());
+			Set<String> roles = new HashSet<String>();
 			for (Role role : rolesList){
-				roles.add(role);
+				roles.add(role.getName());
 			}
 			session.setAttribute(Bundle.getResource("session.key.user.roles"),
 					roles);
@@ -83,7 +83,6 @@ public class AuthorizationCommand implements Command {
 	}
 
 	private Role getMaxRole(List<Role> roles) {
-		// TODO Auto-generated method stub
 		for (Role role : roles) {
 			if (role.getId() == 2) {
 				return role;

@@ -1,48 +1,65 @@
-package by.academy.alekhno.vo;
+package by.academy.alekhno.database.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 
-public class Model implements Serializable {
-	
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "types")
+public class Type implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	private Type type;
 	
-	
-	
+	public Type() {
+
+	}
+
+	public Type(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public Type getType() {
-		return type;
-	}
-	
-	public void setType(Type type) {
-		this.type = type;
+
+	@Override
+	public String toString() {
+		return "Type [id=" + id + ", name=" + name + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -54,7 +71,7 @@ public class Model implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Model other = (Model) obj;
+		Type other = (Type) obj;
 		if (id != other.id)
 			return false;
 		if (name == null) {
@@ -62,19 +79,7 @@ public class Model implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Model [id=" + id + ", name=" + name + ", type=" + type + "]";
-	}
-	
-	
-	
 }

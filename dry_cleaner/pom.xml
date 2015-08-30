@@ -11,6 +11,7 @@
   	<module>webapp</module>
     <module>vo</module>
     <module>dao_hibernate</module>
+    <module>dao-hibernate</module>
   </modules>
   
   <properties>

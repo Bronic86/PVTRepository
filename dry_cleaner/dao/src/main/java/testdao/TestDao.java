@@ -2,7 +2,6 @@ package testdao;
 
 import by.academy.alekhno.dao.impl.UserImpl;
 import by.academy.alekhno.dao.interf.CustomUserDao;
-import by.academy.alekhno.dao.interf.GenericDao;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.vo.User;
 

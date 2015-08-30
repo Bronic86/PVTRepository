@@ -88,7 +88,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
 		} catch (SQLException e) {
 			logger.debug("SQLException add", e);
 			throw new DaoException(
-					Bundle.getQueryResource("message.sql.exception"), 1);
+					Bundle.getExceptionMessage("message.sql.exception"), 1);
 		} finally {
 			close(resultSet, preparedStatement);
 		}

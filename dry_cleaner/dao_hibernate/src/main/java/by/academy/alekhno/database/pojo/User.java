@@ -1,27 +1,59 @@
-package by.academy.alekhno.vo;
+package by.academy.alekhno.database.pojo;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.hibernate.engine.FetchStyle;
+
+@Entity
+@Table(name = "users")
 public class User implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
-	
-	private int id;
-	private String login;
-	private String password;
-	private String firstName;
-	private String secondName;
-	private long telephone;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(name = "login", unique = true, nullable = false)
+	private String login;
 	
+	@Column(name = "password", nullable = false)
+	private String password;
 	
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+	
+	@Column(name = "second_name", nullable = false)
+	private String secondName;
+	
+	@Column(name = "telephone", nullable = false)
+	private long telephone;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_roles",
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "role_id")})
+	private Set<Role> roles = new HashSet<>();
+
 	public User() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public User(int id, String login, String password, String firstName,
 			String secondName, long telephone) {
-		super();
 		this.id = id;
 		this.login = login;
 		this.password = password;
@@ -79,12 +111,19 @@ public class User implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", password=" + password
+				+ ", firstName=" + firstName + ", secondName=" + secondName
+				+ ", telephone=" + telephone + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + id;
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
@@ -130,11 +169,12 @@ public class User implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password=" + password
-				+ ", firstName=" + firstName + ", secondName=" + secondName
-				+ ", telephone=" + telephone + "]";
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 }

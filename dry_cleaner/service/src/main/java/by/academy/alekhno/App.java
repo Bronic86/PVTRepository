@@ -38,7 +38,7 @@ public class App
         userServ.setDaoOrder(new OrderImpl());
         userServ.setDaoRole(new RoleImpl());
         int id = 1;
-    	String login = "boris1";
+    	String login = "boris1@mail.ru";
     	String password = "boris";
     	String firstName = "Boris";
     	String secondName = "Alekhno";
@@ -66,10 +66,11 @@ public class App
     	int model_id = 1;
     	System.out.println(clotherService.getClothesByModelId(model_id));
     	
-    	OrderService orderService = new OrderServiceImpl();
-    	orderService.setDaoOrder(new OrderImpl());
+    	UserService userService = new UserServiceImpl();
+    	userService.setDaoOrder(new OrderImpl());
     	
     	Order orderAdd = new Order();
+    	
     	addUser.setId(id);
     	orderAdd.setUser(addUser);
     	
@@ -78,8 +79,10 @@ public class App
     	orderAdd.setClother(clother);
     	
     	orderAdd.setQuantity(3);
-    	orderAdd.setOrdering_day(new Date());
+//    	orderAdd.setOrdering_day(new Date());
     	
-    	System.out.println(orderService.add(orderAdd));
+//    	userService.addOrder(orderAdd);
+    	int order_id = 30;
+    	userService.deleteOrderById(order_id);
     }
 }

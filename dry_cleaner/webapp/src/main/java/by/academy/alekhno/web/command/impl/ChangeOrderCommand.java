@@ -1,6 +1,5 @@
 package by.academy.alekhno.web.command.impl;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,16 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import by.academy.alekhno.dao.impl.ClotherImpl;
-import by.academy.alekhno.dao.impl.OrderImpl;
-import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.service.impl.ClotherServiceImpl;
-import by.academy.alekhno.service.impl.OrderServiceImpl;
 import by.academy.alekhno.service.interf.ClotherService;
-import by.academy.alekhno.service.interf.OrderService;
 import by.academy.alekhno.vo.Clother;
-import by.academy.alekhno.vo.Order;
-import by.academy.alekhno.vo.User;
 import by.academy.alekhno.web.bundle.Bundle;
 import by.academy.alekhno.web.command.Command;
 import by.academy.alekhno.web.validation.Validation;
