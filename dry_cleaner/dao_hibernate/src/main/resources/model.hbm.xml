@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="by.academy.alekhno.database.object" auto-import="false" catalog="drycleanerdb">
+	<class name="Model" table="models">
+		<id name="id" type="long" column="id" >
+			<generator class="identity"/>
+		</id>
+		<property name="name" type="string" column="name" not-null="true" unique="true"/>
+		<property name="type_id" type="long" column="type_id" not-null="true"/>
+	</class>
+</hibernate-mapping>

@@ -1,6 +1,6 @@
 <div style='float: left; width: 200px; height: 800px'>
 	<li>
-		<h3>Navigation menu</h3> 
+		<h3>Navigation menu</h3>
 		<c:choose>
 			<c:when test='${empty userRole}'>
 				<ul>
@@ -14,7 +14,7 @@
 						list</a>
 				</ul>
 			</c:when>
-			<c:when test='${userRole.name == "user" }'>
+			<c:when test='${userRole == "user" }'>
 				<ul>
 					<a href="<c:url value='/controller?command=orders' />">Orders</a>
 				</ul>
@@ -26,7 +26,7 @@
 					<a href="<c:url value='/controller?command=log_out' />">Log_out</a>
 				</ul>
 			</c:when>
-			<c:when test='${userRole.name == "admin" }'>
+			<c:when test='${userRole == "admin" }'>
 				<ul>
 					<a href="<c:url value='/controller?command=change_clother_list.jsp' />">Change
 						clother list</a>

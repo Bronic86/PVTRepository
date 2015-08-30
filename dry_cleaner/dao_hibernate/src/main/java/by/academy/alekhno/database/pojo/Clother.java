@@ -1,38 +1,65 @@
-package by.academy.alekhno.vo;
+package by.academy.alekhno.database.pojo;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "clothes")
 public class Clother implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private Model model;
+
+	@Column(name = "price", nullable = false)
 	private double price;
+
+	@OneToOne
+	@PrimaryKeyJoinColumn(name = "model_id")
+	private Model model;
 	
 	
+	public Clother() {
+
+	}
+
+	public Clother(int id, double price, Model model) {
+		this.id = id;
+		this.price = price;
+		this.model = model;
+	}
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public Model getModel() {
-		return model;
-	}
-	
-	public void setModel(Model model) {
-		this.model = model;
-	}
-	
+
 	public double getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
 	}
 
 	@Override
@@ -71,9 +98,8 @@ public class Clother implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Clother [id=" + id + ", model=" + model + ", price=" + price
+		return "Clother [id=" + id + ", price=" + price + ", model=" + model
 				+ "]";
 	}
-	
-		
+
 }

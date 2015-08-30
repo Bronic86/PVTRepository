@@ -9,7 +9,7 @@
 
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/drycleanerdb</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/db_dry_cleaner</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">admin123</property>
 
@@ -20,6 +20,13 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         
         <property name="hibernate.connection.pool_size">10</property>
+        <property name="hibernate.connection.isolation">2</property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+       	<property name="current_session_context_class">thread</property>
+       	
+       	<!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
@@ -27,16 +34,13 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping resource="User.hbm.xml"/>
-        
-        
-        
-        
-        <!-- Enable Hibernate's automatic session context management -->
-       	<!-- <property name="current_session_context_class">thread</property> -->
-
-        <!-- Disable the second-level cache  -->
-        <!-- <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> -->
+       <mapping class="by.academy.alekhno.database.pojo.State"/>
+       <mapping class="by.academy.alekhno.database.pojo.Role"/>
+       <mapping class="by.academy.alekhno.database.pojo.User"/>
+       <mapping class="by.academy.alekhno.database.pojo.Type"/>
+       <mapping class="by.academy.alekhno.database.pojo.Model"/>
+       <mapping class="by.academy.alekhno.database.pojo.Clother"/>
+       <mapping class="by.academy.alekhno.database.pojo.Order"/>
 
     </session-factory>
 

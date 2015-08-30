@@ -1,6 +1,8 @@
 package by.academy.alekhno.web.command.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import by.academy.alekhno.dao.impl.OrderImpl;
-import by.academy.alekhno.dao.impl.UserImpl;
 import by.academy.alekhno.exception.DaoException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.service.impl.UserServiceImpl;

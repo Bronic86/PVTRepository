@@ -9,13 +9,13 @@
 	</tr>
 	<c:forEach var='order' items='${user_orders }'>
 		<tr>
-			<td><c:out value="${order.clother.model}"/></td>
-			<td><c:out value="${order.clother }" /></td>
+			<td><c:out value="${order.clother.model.type.name}"/></td>
+			<td><c:out value="${order.clother.model.name }" /></td>
 			<td><c:out value="${order.clother.price }" /></td>
 			<td><c:out value="${order.quantity }" /></td>
 			<td><c:out value="${order.ordering_day }" /></td>
 			<td><a
-				href="controller?command=delete_order&order_id='${order.id }' ">
+				href="/dry_cleaner/controller?command=delete_order&order_id=${order.id }">
 					Remove </a>
 			</td>
 		</tr>

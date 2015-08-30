@@ -1,8 +1,12 @@
 package by.academy.alekhno.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private User user ;
 	private Clother clother ;

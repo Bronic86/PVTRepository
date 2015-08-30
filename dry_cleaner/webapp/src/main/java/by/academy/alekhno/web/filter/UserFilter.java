@@ -12,11 +12,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.academy.alekhno.vo.Role;
+import org.apache.log4j.Logger;
+
 import by.academy.alekhno.web.bundle.Bundle;
 import by.academy.alekhno.web.command.CommandType;
 
 public class UserFilter implements Filter {
+	private static final Logger logger = Logger.getLogger(UserFilter.class.getName());
+	
 	private FilterConfig config;
 	private HttpServletRequest req;
 	HttpServletResponse resp;
@@ -27,12 +30,14 @@ public class UserFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
+		logger.info("Start doFilter.");
 		
 		req = (HttpServletRequest) request;
 		resp = (HttpServletResponse) response;
 		
 		String commandType = req.getParameter(Bundle.getResource("key.command")).toUpperCase();
-		Set<Role> roles = (Set<Role>) req.getSession().getAttribute(
+		logger.info("Command - " + commandType);
+		Set<String> roles = (Set<String>) req.getSession().getAttribute(
 				Bundle.getResource("session.key.user.roles"));
 		
 		switch (CommandType.valueOf(commandType)) {
@@ -49,7 +54,9 @@ public class UserFilter implements Filter {
 			chain.doFilter(req, resp);
 			break;
 		case PRICE_LIST:
-			//Add role user or guest
+			if (roleNameExist("user", roles)){
+				setUserRole("user");
+			}
 			chain.doFilter(req, resp);
 			break;
 		case ORDERS:
@@ -79,6 +86,14 @@ public class UserFilter implements Filter {
 				resp.sendRedirect(Bundle.getResource("redirect.to.start.page"));
 			}
 			break;
+		case DELETE_ORDER:
+			if (roleNameExist("user", roles)){
+				setUserRole("user");
+				chain.doFilter(req, resp);
+			} else {
+				resp.sendRedirect(Bundle.getResource("redirect.to.start.page"));
+			}
+			break;
 		default:
 			resp.sendRedirect(Bundle.getResource("redirect.to.start.page"));
 			break;
@@ -91,14 +106,11 @@ public class UserFilter implements Filter {
 	}
 	
 	
-	private boolean roleNameExist (String name, Set<Role> roles){
-		for (Role role : roles) {
-			String roleName = role.getName();
-			if (name.equals(roleName)) {
-				return true;
-			}
+	private boolean roleNameExist (String name, Set<String> names){
+		if (names == null){
+			return false;
 		}
-		return false;
+		return names.contains(name);
 	}
 	
 	private void setUserRole (String roleName) {

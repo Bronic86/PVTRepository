@@ -1,37 +1,46 @@
-package by.academy.alekhno.vo;
+package by.academy.alekhno.database.pojo;
 
 import java.io.Serializable;
 
 public class UserRole implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	private int id;
+
 	private User user;
+
 	private Role role;
-	
-	
-	
+
+	public UserRole() {
+
+	}
+
+	public UserRole(int id, User user, Role role) {
+		this.id = id;
+		this.user = user;
+		this.role = role;
+	}
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public Role getRole() {
 		return role;
 	}
-	
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
@@ -69,11 +78,5 @@ public class UserRole implements Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "UserRole [id=" + id + ", user=" + user + ", role=" + role + "]";
-	}
-	
 
 }
