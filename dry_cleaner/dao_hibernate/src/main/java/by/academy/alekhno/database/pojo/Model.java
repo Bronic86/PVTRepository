@@ -9,19 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "models")
 public class Model implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
@@ -29,12 +27,13 @@ public class Model implements Serializable {
 	@JoinColumn(name = "type_id")
 	private Type type;
 
-//	@OneToOne
-//	@PrimaryKeyJoinColumn()
-//	private Clother clother;
-	
 	public Model() {
 
+	}
+
+	public void setFieldsByAnotherModel(Model model) {
+		this.name = model.name;
+		this.type = model.type;
 	}
 
 	public Model(int id, String name, Type type) {

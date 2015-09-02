@@ -4,15 +4,11 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -27,11 +23,9 @@ public class Role implements Serializable {
 
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	
-	
+
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<>();
-	
 
 	public Role() {
 
@@ -40,6 +34,10 @@ public class Role implements Serializable {
 	public Role(int id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+
+	public void setFieldsByAnotherRole(Role role) {
+		this.name = role.getName();
 	}
 
 	public int getId() {

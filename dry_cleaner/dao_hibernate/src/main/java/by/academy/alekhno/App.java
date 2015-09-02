@@ -11,11 +11,15 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import by.academy.alekhno.bundle.Bundle;
+import by.academy.alekhno.dao.impl.RoleDAOImpl;
 import by.academy.alekhno.dao.impl.UserDAOImpl;
 import by.academy.alekhno.dao.impl.UserDaoTest;
+import by.academy.alekhno.dao.interf.CustomRoleDAO;
 import by.academy.alekhno.dao.interf.CustomUserDAO;
 import by.academy.alekhno.dao.interf.CustomUserDaoTest;
 import by.academy.alekhno.database.pojo.Order;
+import by.academy.alekhno.database.pojo.Role;
 import by.academy.alekhno.database.pojo.User;
 import by.academy.alekhno.database.util.HibernateUtil;
 import by.academy.alekhno.exception.DaoHibernateException;
@@ -51,6 +55,13 @@ public class App
         query.setInteger("type_id", type_id);
         List<Order> orders = query.list();
         System.out.println(orders);
+//      String login1 = "boris@mail.ru";
+//      String hql = Bundle.getQueryResource("user.get.by.login");
+//		Query query = session.createQuery(hql);
+//		query.setParameter("user_login", login1);
+//		System.out.println(query.list());
+//		User userF = (User) query.list();
+//		System.out.println(userF);
         transaction.commit();
 //        session.close();
         
@@ -99,9 +110,14 @@ public class App
 //       userG.setLogin(loginChange);
        
        int idAdd = userDao.add(userN);
-       session.disconnect();
-       session = HibernateUtil.getInstance().getSession();
+       
+       
+       
+//       session.disconnect();
+//       session = HibernateUtil.getInstance().getSession();
        userDao.setSession(session);
+//       String login1 = "boris@mail.ru";
+//       System.out.println(userDao.getByLogin(login1));
        idAdd = userDao.add(userN);
        System.out.println(idAdd);
        userG = new User();
@@ -109,13 +125,33 @@ public class App
        userG = userDao.getByID(userG);
        System.out.println("add + getByID " + userG);
        
+       
+       
        userG.setTelephone(telephoneChange);
        userDao.update(userG);
        userG = userDao.getByID(userG);
-       System.out.println("update" + userG);
+       System.out.println("\n update" + userG);
+       CustomRoleDAO roleDao = new RoleDAOImpl();
+       roleDao.setSession(session);
+       Role role = new Role();
+       role.setId(1);
+       role = roleDao.getByID(role);
+       userDao.addRoleForUser(userG, role);
+       
+       System.out.println(userDao.getByID(userG).getRoles());
+       System.out.println("\nStop\n");
        
        userDao.delete(userG);
        System.out.println(userDao.getByID(userG));
+       
+       session.disconnect();
+//       session = HibernateUtil.getInstance().getSession();
+//       userDao.setSession(session);
+       
+       System.out.println(session);
+       String login1 = "boris@mail.ru";
+       System.out.println(userDao.getByLogin(login1));
+       
        
     }
 }

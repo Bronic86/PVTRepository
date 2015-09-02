@@ -27,15 +27,24 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 	public void update(T t) {
 		logger.info("Start update for " + getObjectClass().getName());
 		logger.debug("Object - " + t);
+//		logger.info(t);
+		T updateT = this.getByID(t);
+//		logger.info(updateT);
+		setFields(t, updateT);
+//		logger.info(updateT);
 		startTransaction();
-		session.update(t);
+//		logger.info(session);
+		session.update(updateT);
 		endTransaction();
 	}
+
+	abstract protected void setFields(T t, T updateT);
 
 	@Override
 	public void delete(T t) {
 		logger.info("Start delete for " + getObjectClass().getName());
 		logger.debug("Object - " + t);
+		t = this.getByID(t);
 		startTransaction();
 		session.delete(t);
 		endTransaction();

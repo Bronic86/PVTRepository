@@ -8,10 +8,10 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
        <class>by.academy.alekhno.database.pojo.State</class>
        <class>by.academy.alekhno.database.pojo.Role</class>
-       <class>by.academy.alekhno.database.pojo.User</class>
        <class>by.academy.alekhno.database.pojo.Type</class>
        <class>by.academy.alekhno.database.pojo.Model</class>
        <class>by.academy.alekhno.database.pojo.Clother</class>
+       <class>by.academy.alekhno.database.pojo.User</class>
        <class>by.academy.alekhno.database.pojo.Order</class>
         
 

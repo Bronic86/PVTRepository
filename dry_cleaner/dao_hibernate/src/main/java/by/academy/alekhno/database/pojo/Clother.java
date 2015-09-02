@@ -26,10 +26,14 @@ public class Clother implements Serializable {
 	@OneToOne
 	@PrimaryKeyJoinColumn(name = "model_id")
 	private Model model;
-	
-	
+
 	public Clother() {
 
+	}
+
+	public void setFieldsByAnotherClother(Clother clother) {
+		this.price = clother.price;
+		this.model = clother.model;
 	}
 
 	public Clother(int id, double price, Model model) {

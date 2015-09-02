@@ -1,16 +1,13 @@
 package by.academy.alekhno.database.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "types")
@@ -23,9 +20,13 @@ public class Type implements Serializable {
 
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	
+
 	public Type() {
 
+	}
+
+	public void setFieldsByAnotherType(Type type) {
+		this.name = type.getName();
 	}
 
 	public Type(int id, String name) {

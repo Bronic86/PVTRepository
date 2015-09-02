@@ -9,22 +9,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "states")
 public class State implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name = "state", nullable = false, unique = true)
 	private String state;
-	
-	
+
 	public State() {
 
+	}
+
+	public void setFieldsByAnotherState(State state) {
+		this.state = state.getState();
 	}
 
 	public State(int id, String state) {

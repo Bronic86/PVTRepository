@@ -21,4 +21,23 @@ public class RoleDAOImpl extends AbstractDAO<Role> implements CustomRoleDAO {
 		return role.getId();
 	}
 
+//	@Override
+//	public Set<Role> getByUser(User user) {
+//		logger.info("Start getByUser.");
+//		logger.debug("Login - " + user.getLogin());
+//		super.startTransaction();
+//		String hql = Bundle.getQueryResource("role.get.by.user");
+//		Query query = super.getSession().createQuery(hql);
+//		query.setParameter("user_id", user.getId());
+//		Set<Role> roles = (Set<Role>) query.list();
+//		logger.debug("Roles quantity - " + roles.size());
+//		super.endTransaction();
+//		return roles;
+//	}
+
+	@Override
+	protected void setFields(Role role, Role updateRole) {
+		updateRole.setFieldsByAnotherRole(role);
+	}
+
 }

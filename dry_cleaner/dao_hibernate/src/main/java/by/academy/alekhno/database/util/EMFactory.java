@@ -17,13 +17,14 @@ public class EMFactory {
 	public static synchronized EMFactory getInstance() {
 		if (instance == null) {
 			instance = new EMFactory();
-			logger.debug("Create instance");
+			logger.info("Create instance");
 		}
-		logger.debug("Get instance");
+		logger.info("Get instance");
 		return instance;
 	}
 
 	public EntityManagerFactory getEMFactory() {
+		logger.info(eMFactory);
 		return eMFactory;
 	}
 
