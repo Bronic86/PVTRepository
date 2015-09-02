@@ -23,4 +23,8 @@ void update(Order order) ;
 	List<Order> getOrdersByUserId(int id);
 	
 	List<Order> getOrdersByClotherId(int id);
+	
+	List<Order> getOrdersByTypeId(int id);
+	
+	List<Order> getOrdersByStateId(int id);
 }

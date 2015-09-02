@@ -1,9 +1,12 @@
 package by.academy.alekhno.dao.impl;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 
+import by.academy.alekhno.bundle.Bundle;
 import by.academy.alekhno.dao.interf.AbstractDAO;
 import by.academy.alekhno.dao.interf.CustomRoleDAO;
 import by.academy.alekhno.database.pojo.Role;
@@ -38,6 +41,20 @@ public class RoleDAOImpl extends AbstractDAO<Role> implements CustomRoleDAO {
 	@Override
 	protected void setFields(Role role, Role updateRole) {
 		updateRole.setFieldsByAnotherRole(role);
+	}
+
+	@Override
+	public Role getByName(String name) {
+		logger.info("Start getByName");
+		logger.debug("Name is \"" + name + "\".");
+		super.startTransaction();
+		String hql = Bundle.getQueryResource("role.get.by.name");
+		Query query = super.getSession().createQuery(hql);
+		query.setParameter("name", name);
+		Set<Role> roles = (Set<Role>) query.list();
+		logger.debug("Roles - " + roles.size());
+		super.endTransaction();
+		return null;
 	}
 
 }

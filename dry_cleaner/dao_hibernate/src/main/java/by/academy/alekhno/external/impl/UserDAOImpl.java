@@ -1,7 +1,9 @@
 package by.academy.alekhno.external.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
@@ -22,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> getAll() {
-		List<User> usersVO = new ArrayList<User>();
+		List<User> usersVO = new ArrayList<>();
 		usersP = dao.getAll();
 		for(by.academy.alekhno.database.pojo.User userP : usersP){
 			usersVO.add(ConverterPojoToVO.getUser(userP));
@@ -82,6 +84,17 @@ public class UserDAOImpl implements UserDAO {
 		userP = ConverterVOToPojo.getUser(user);
 		roleP = ConverterVOToPojo.getRole(role);
 		dao.addRoleForUser(userP, roleP);
+	}
+
+	@Override
+	public Set<Role> getRolesByUser(User user) {
+		userP = ConverterVOToPojo.getUser(user);
+		Set<by.academy.alekhno.database.pojo.Role> rolesP = dao.getRolesByUser(userP);
+		Set<Role> rolesVO = new HashSet<>();
+		for(by.academy.alekhno.database.pojo.Role roleP : rolesP){
+			rolesVO.add(ConverterPojoToVO.getRole(roleP));
+		}
+		return rolesVO;
 	}
 
 }

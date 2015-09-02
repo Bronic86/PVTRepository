@@ -1,6 +1,7 @@
 package by.academy.alekhno.external;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
@@ -26,4 +27,6 @@ public interface UserDAO {
 	User getByLoginAndPassword(User user);
 	
 	void addRoleForUser(User user, Role role);
+	
+	Set<Role> getRolesByUser(User user);
 }

@@ -2,9 +2,6 @@ package by.academy.alekhno.dao.impl;
 
 import java.io.Serializable;
 
-
-
-
 import java.util.List;
 import java.util.Set;
 
@@ -68,7 +65,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements CustomUserDAO {
 		super.startTransaction();
 		Set<Role> roles = user.getRoles();
 		roles.add(role);
-//		logger.info(roles);
 		user.setRoles(roles);
 		super.getSession().update(user);
 		super.endTransaction();
@@ -77,6 +73,19 @@ public class UserDAOImpl extends AbstractDAO<User> implements CustomUserDAO {
 	@Override
 	protected void setFields(User user, User updateUser) {
 		updateUser.setFieldsByAnotherUser(user);
+	}
+
+	@Override
+	public Set<Role> getRolesByUser(User user) {
+		logger.info("Start getRolesByUser");
+		logger.debug("Login - " + user.getLogin());
+		super.startTransaction();
+		String hql = Bundle.getQueryResource("user.get.roles.by.user.id");
+		Query query = super.getSession().createQuery(hql);
+		query.setParameter("user_id", user.getId());
+		Set<Role> roles = (Set<Role>) query.list();
+		super.endTransaction();
+		return roles;
 	}
 
 }

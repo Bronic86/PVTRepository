@@ -19,4 +19,6 @@ void update(Role role) ;
 	Role getByID (Role role);
 	
 	void setSession(Session session);
+	
+	Role getByName(String name);
 }

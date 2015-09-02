@@ -58,5 +58,33 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements CustomOrderDAO {
 	protected void setFields(Order order, Order updateOrder) {
 		updateOrder.setFieldsByAnotherOrder(order);
 	}
+
+	@Override
+	public List<Order> getOrdersByTypeId(int type_id) {
+		logger.info("Start getOrdersByTypeId.");
+		logger.debug("type_id - " + type_id);
+		super.startTransaction();
+		String hql = Bundle.getQueryResource("order.get.all.by.type.id");
+		Query query = super.getSession().createQuery(hql);
+		query.setParameter("type_id", type_id);
+		List<Order> orders = query.list();
+		logger.debug("Orders quantity - " + orders.size());
+		super.endTransaction();
+		return orders;
+	}
+
+	@Override
+	public List<Order> getOrdersByStateId(int state_id) {
+		logger.info("Start getOrdersByStateId.");
+		logger.debug("state_id - " + state_id);
+		super.startTransaction();
+		String hql = Bundle.getQueryResource("order.get.all.by.state.id");
+		Query query = super.getSession().createQuery(hql);
+		query.setParameter("state_id", state_id);
+		List<Order> orders = query.list();
+		logger.debug("Orders quantity - " + orders.size());
+		super.endTransaction();
+		return orders;
+	}
 	
 }

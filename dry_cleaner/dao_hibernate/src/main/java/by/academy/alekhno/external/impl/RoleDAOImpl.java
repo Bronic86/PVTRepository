@@ -61,4 +61,11 @@ public class RoleDAOImpl implements RoleDAO {
 		dao.setSession(session);
 	}
 
+	@Override
+	public Role getByName(String name) {
+		roleP = dao.getByName(name);
+		Role role = ConverterPojoToVO.getRole(roleP);
+		return role;
+	}
+
 }

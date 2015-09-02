@@ -80,4 +80,24 @@ public class OrderDAOImpl implements OrderDAO {
 		return ordersVO;
 	}
 
+	@Override
+	public List<Order> getOrdersByTypeId(int type_id) {
+		List<Order> ordersVO = new ArrayList<>();
+		ordersP = dao.getOrdersByTypeId(type_id);
+		for (by.academy.alekhno.database.pojo.Order orderP : ordersP) {
+			ordersVO.add(ConverterPojoToVO.getOrder(orderP));
+		}
+		return ordersVO;
+	}
+
+	@Override
+	public List<Order> getOrdersByStateId(int state_id) {
+		List<Order> ordersVO = new ArrayList<>();
+		ordersP = dao.getOrdersByStateId(state_id);
+		for (by.academy.alekhno.database.pojo.Order orderP : ordersP) {
+			ordersVO.add(ConverterPojoToVO.getOrder(orderP));
+		}
+		return ordersVO;
+	}
+
 }
