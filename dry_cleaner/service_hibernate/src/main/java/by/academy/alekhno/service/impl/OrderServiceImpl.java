@@ -18,13 +18,6 @@ public class OrderServiceImpl implements OrderService {
 	public OrderServiceImpl() {
 	}
 
-	public int add(Order order) {
-		logger.info("Start add.");
-		int id = daoOrder.add(order);
-		logger.info("Order id = " + id);
-		return id;
-	}
-
 	public void deleteByID(int id)  {
 		logger.info("Start deleteByID.");
 		Order order = new Order();

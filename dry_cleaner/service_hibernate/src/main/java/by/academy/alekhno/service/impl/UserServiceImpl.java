@@ -1,7 +1,9 @@
 package by.academy.alekhno.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
@@ -55,6 +57,8 @@ public class UserServiceImpl implements UserService {
 			User newUser = new User();
 			newUser.setId(newId);
 			Role role = daoRole.getByName("user");
+			logger.info(newUser);
+			logger.info(role);
 			daoUser.addRoleForUser(newUser, role);
 		} else {
 			logger.error("User don't exist");
@@ -93,9 +97,9 @@ public class UserServiceImpl implements UserService {
 		return orders;
 	}
 
-	public List<Role> getRoleByUserId(int user_id) {
+	public Set<Role> getRoleByUserId(int user_id) {
 		logger.info("Start getRoleByUserId.");
-		List<Role> roles = new ArrayList<Role>();
+		Set<Role> roles = new HashSet<Role>();
 		User user = new User();
 		user.setId(user_id);
 		roles = daoUser.getRolesByUser(user);

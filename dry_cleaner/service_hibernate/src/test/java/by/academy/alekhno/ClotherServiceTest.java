@@ -2,7 +2,6 @@ package by.academy.alekhno;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -111,6 +110,7 @@ public class ClotherServiceTest {
 	
 	@Test
 	public void getTypes()  {
+		logger.info("Start test getTypes.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoType).setSession(session);
@@ -127,6 +127,7 @@ public class ClotherServiceTest {
 	
 	@Test
 	public void getModelsByTypeId()  {
+		logger.info("Start test getModelsByTypeId.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
@@ -142,29 +143,32 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getClothesByModelId() {
+	public void getClotherByModelId() {
+		logger.info("Start test getClotherByModelId.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoClother).setSession(session);
 				oneOf(daoClother).getByModelId(id);
-				will(returnValue(clothes));
+				will(returnValue(clother));
 			}
 		});
 		
 		clotherServise.setDaoClother(daoClother);
-//		List<Clother> fClothes = clotherServise.getClothesByModelId(id);
-//		assertEquals(clothes, fClothes);
-		logger.info("Test getClothesByModelId is finished.");
+		Clother clotherF = clotherServise.getClotherByModelId(id);
+		assertEquals(clother, clotherF);
+		logger.info("Test getClotherByModelId is finished.");
 	}
 	
 	@Test
 	public void addType() {
+		logger.info("Start test addType.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoType).setSession(session);
 				oneOf(daoType).getByName(name);
 				will(returnValue(null));
 				oneOf(daoType).add(typeAdd);
+				will(returnValue(id));
 			}
 		});
 		
@@ -173,30 +177,31 @@ public class ClotherServiceTest {
 		logger.info("Test addType is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void addTypeEx() {
+	
+	@Test
+	public void addTypeFalse() {
+		logger.info("Start test addTypeFalse.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoType).setSession(session);
 				oneOf(daoType).getByName(name);
 				will(returnValue(type));
-				oneOf(daoType).add(typeAdd);
 			}
 		});
 		
 		clotherServise.setDaoType(daoType);
 		clotherServise.addType(name);
-		logger.info("Test addTypeEx is finished.");
+		logger.info("Test addTypeFalse is finished.");
 	}
 	
 	@Test
 	public void addModel()  {
+		logger.info("Start test addModel.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
-//				oneOf(daoModel).getIdByFields(modelAdd);
-				will(returnValue(0));
+				oneOf(daoModel).getByName(name);
+				will(returnValue(null));
 				oneOf(daoModel).add(modelAdd);
 			}
 		});
@@ -206,30 +211,32 @@ public class ClotherServiceTest {
 		logger.info("Test addModel is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void addModelEx()  {
+	
+	
+	@Test
+	public void addModelFalse()  {
+		logger.info("Start test deleteaddModelFalseByID.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
-//				oneOf(daoModel).getIdByFields(modelAdd);
-				will(returnValue(id));
-				oneOf(daoModel).add(modelAdd);
+				oneOf(daoModel).getByName(name);
+				will(returnValue(model));
 			}
 		});
 		
 		clotherServise.setDaoModel(daoModel);
 		clotherServise.addModel(modelAdd);
-		logger.info("Test addModelEx is finished.");
+		logger.info("Test addModelFalse is finished.");
 	}
 	
 	@Test
 	public void addClother()  {
+		logger.info("Start test addClother.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoClother).setSession(session);
-//				oneOf(daoClother).getIdByFields(clotherAdd);
-				will(returnValue(0));
+				oneOf(daoClother).getByModelId(id);
+				will(returnValue(null));
 				oneOf(daoClother).add(clotherAdd);
 			}
 		});
@@ -239,26 +246,27 @@ public class ClotherServiceTest {
 		logger.info("Test addClother is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void addClotherEx()  {
+	
+	@Test
+	public void addClotherFalse()  {
+		logger.info("Start test addClotherFalse.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoClother).setSession(session);
-//				oneOf(daoClother).getIdByFields(clotherAdd);
-				will(returnValue(id));
-				oneOf(daoClother).add(clotherAdd);
+				oneOf(daoClother).getByModelId(id);
+				will(returnValue(clother));
 			}
 		});
 		
 		clotherServise.setDaoClother(daoClother);
 		clotherServise.addClother(clotherAdd);
-		logger.info("Test addClotherEx is finished.");
+		logger.info("Test addClotherFalse is finished.");
 	}
 	
 	
 	@Test
 	public void updateType()  {
+		logger.info("Start test updateType.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoType).setSession(session);
@@ -273,6 +281,7 @@ public class ClotherServiceTest {
 	
 	@Test
 	public void updateModel()  {
+		logger.info("Start test updateModel.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
@@ -287,6 +296,7 @@ public class ClotherServiceTest {
 	
 	@Test
 	public void updateClother()  {
+		logger.info("Start test updateClother.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoClother).setSession(session);
@@ -301,6 +311,7 @@ public class ClotherServiceTest {
 	
 	@Test
 	public void deleteType()  {
+		logger.info("Start test deleteType.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
@@ -317,33 +328,34 @@ public class ClotherServiceTest {
 		logger.info("Test deleteType is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void deleteTypeEx()  {
+	
+	@Test
+	public void deleteTypeFalse()  {
+		logger.info("Start test deleteTypeFalse.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
 				oneOf(daoType).setSession(session);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(models));
-				oneOf(daoType).delete(typeDelete);
 			}
 		});
 		
 		clotherServise.setDaoModel(daoModel);
 		clotherServise.setDaoType(daoType);
 		clotherServise.deleteType(id);
-		logger.info("Test deleteTypeEx is finished.");
+		logger.info("Test deleteTypeFalse is finished.");
 	}
 	
 	@Test
 	public void deleteModel()  {
+		logger.info("Start test deleteModel.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
 				oneOf(daoClother).setSession(session);
 				oneOf(daoClother).getByModelId(id);
-				will(returnValue(new ArrayList<Clother>()));
+				will(returnValue(null));
 				oneOf(daoModel).delete(modelDelete);
 			}
 		});
@@ -354,27 +366,28 @@ public class ClotherServiceTest {
 		logger.info("Test deleteModel is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void deleteModelEx()  {
+	
+	@Test
+	public void deleteModelFalse()  {
+		logger.info("Start test deleteModelFalse.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoModel).setSession(session);
 				oneOf(daoClother).setSession(session);
 				oneOf(daoClother).getByModelId(id);
-				will(returnValue(clothes));
-				oneOf(daoModel).delete(modelDelete);
+				will(returnValue(new Clother()));
 			}
 		});
 		
 		clotherServise.setDaoModel(daoModel);
 		clotherServise.setDaoClother(daoClother);
 		clotherServise.deleteModel(id);
-		logger.info("Test deleteModelEx is finished.");
+		logger.info("Test deleteModelFalse is finished.");
 	}
 	
 	@Test
 	public void deleteClother()  {
+		logger.info("Start test deleteClother.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoOrder).setSession(session);
@@ -391,22 +404,41 @@ public class ClotherServiceTest {
 		logger.info("Test deleteClother is finished.");
 	}
 	
-	@Ignore
-	@Test(expected = ServiceException.class)
-	public void deleteClotherEx()  {
+	
+	@Test
+	public void deleteClotherFalse()  {
+		logger.info("Start test deleteClotherFalse.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoOrder).setSession(session);
 				oneOf(daoClother).setSession(session);
 				oneOf(daoOrder).getOrdersByClotherId(id);
 				will(returnValue(orders));
-				oneOf(daoClother).delete(clotherDelete);
 			}
 		});
 		
 		clotherServise.setDaoOrder(daoOrder);
 		clotherServise.setDaoClother(daoClother);
 		clotherServise.deleteClother(id);
-		logger.info("Test deleteClother is finished.");
+		logger.info("Test deleteClotherFalse is finished.");
+	}
+	
+	@Test
+	public void getClotherById()  {
+		logger.info("Start test getClotherById.");
+		final Clother clotherS = new Clother();
+		clotherS.setId(id);
+		mockingContext.checking(new Expectations() {
+			{
+				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).getByID(clotherS);
+				will(returnValue(clother));
+			}
+		});
+		
+		clotherServise.setDaoClother(daoClother);
+		Clother clotherF = clotherServise.getClotherById(id);
+		assertEquals(clother, clotherF);
+		logger.info("Test getClotherById is finished.");
 	}
 }

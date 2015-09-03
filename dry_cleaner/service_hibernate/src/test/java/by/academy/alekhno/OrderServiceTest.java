@@ -29,7 +29,7 @@ public class OrderServiceTest {
 
 	private static Logger logger = Logger.getLogger(OrderServiceTest.class
 			.getName());
-	
+
 	private static Session sess;
 
 	private final Order order = new Order();
@@ -40,16 +40,13 @@ public class OrderServiceTest {
 	private final Clother clother = new Clother();
 	private final List<Integer> idList = new ArrayList<Integer>();
 	private final String login = "boris";
-	private final Order orderDelete = new Order();
 	private final List<Order> orders = new ArrayList<Order>();
-	
+
 	private final Session session = sess;
-	
+
 	static {
-			sess = HibernateUtil.getInstance().getSession();
+		sess = HibernateUtil.getInstance().getSession();
 	}
-	
-	
 
 	@Before
 	public void setParamTest() {
@@ -67,27 +64,14 @@ public class OrderServiceTest {
 
 		orders.add(order);
 
-		orderDelete.setId(id);
-	}
-
-	@Test
-	public void add() {
-		mockingContext.checking(new Expectations() {
-			{
-				oneOf(daoOrder).setSession(session);
-				oneOf(daoOrder).add(order);
-//				oneOf(daoOrder).getIdByFields(order);
-				will(returnValue(idList));
-			}
-		});
-		orderService.setDaoOrder(daoOrder);
-		int fId = orderService.add(order);
-		assertEquals(id, fId);
-		logger.info("Test add is finished.");
 	}
 
 	@Test
 	public void deleteByID() {
+		logger.info("Start test deleteByID.");
+		final int idDelete = 1;
+		final Order orderDelete = new Order();
+		orderDelete.setId(idDelete);
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoOrder).setSession(session);
@@ -102,6 +86,7 @@ public class OrderServiceTest {
 
 	@Test
 	public void getOrdersByUserId() {
+		logger.info("Start test getOrdersByUserId.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoOrder).setSession(session);
@@ -118,6 +103,7 @@ public class OrderServiceTest {
 
 	@Test
 	public void getOrders() {
+		logger.info("Start test getOrders.");
 		mockingContext.checking(new Expectations() {
 			{
 				oneOf(daoOrder).setSession(session);
@@ -128,6 +114,24 @@ public class OrderServiceTest {
 
 		orderService.setDaoOrder(daoOrder);
 		List<Order> fOrders = orderService.getOrders();
+		assertEquals(fOrders, orders);
+		logger.info("Test getOrders is finished.");
+	}
+
+	@Test
+	public void getOrdersByClotherId() {
+		logger.info("Start test getOrders.");
+		final int clother_id = 1;
+		mockingContext.checking(new Expectations() {
+			{
+				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).getOrdersByClotherId(clother_id);
+				will(returnValue(orders));
+			}
+		});
+
+		orderService.setDaoOrder(daoOrder);
+		List<Order> fOrders = orderService.getOrdersByClotherId(clother_id);
 		assertEquals(fOrders, orders);
 		logger.info("Test getOrders is finished.");
 	}
