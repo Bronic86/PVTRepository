@@ -1,6 +1,7 @@
 package by.academy.alekhno.service.interf;
 
 import java.util.List;
+import java.util.Set;
 
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.external.OrderDAO;
@@ -24,7 +25,7 @@ public interface UserService {
 	
 	List<Order> getOrdersByUserId(int user_id);
 	
-	List<Role> getRoleByUserId(int user_id);
+	Set<Role> getRoleByUserId(int user_id);
 	
 	User getUserByLogin(String login);
 	

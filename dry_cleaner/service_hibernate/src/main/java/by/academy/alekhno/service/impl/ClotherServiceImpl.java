@@ -116,8 +116,7 @@ public class ClotherServiceImpl implements ClotherService {
 		logger.info("Start deleteType.");
 		Type type = new Type();
 		type.setId(type_id);
-		List<Model> models = new ArrayList<Model>();
-		models = daoModel.getByTypeId(type_id);
+		List<Model> models = daoModel.getByTypeId(type_id);
 		if (models.isEmpty()) {
 			daoType.delete(type);
 		} else {
@@ -132,7 +131,7 @@ public class ClotherServiceImpl implements ClotherService {
 		Model model = new Model();
 		model.setId(model_id);
 		Clother clother = daoClother.getByModelId(model_id);
-		if (clother != null) {
+		if (clother == null) {
 			daoModel.delete(model);
 		} else {
 			logger.error("Clother exist. Didn't delete model.");
