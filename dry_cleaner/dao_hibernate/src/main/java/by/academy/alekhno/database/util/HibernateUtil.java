@@ -14,7 +14,7 @@ public class HibernateUtil {
 
 	private static volatile HibernateUtil util;
 	private SessionFactory sessionFactory;
-	private final ThreadLocal sessions = new ThreadLocal();
+//	private final ThreadLocal sessions = new ThreadLocal();
 
 	private HibernateUtil() {
 		try {
@@ -24,6 +24,7 @@ public class HibernateUtil {
 		} catch (Throwable e) {
 			logger.error("Initial SessionFactory creation failed.", e);
 			throw new ExceptionInInitializerError(e);
+//			Add my exception
 		}
 	}
 
@@ -36,15 +37,15 @@ public class HibernateUtil {
 		logger.debug("Get instance");
 		return util;
 	}
-
-	public Session getSession() {
-		Session session = (Session) sessions.get();
-		if (session == null) {
-			session = sessionFactory.openSession();
-			sessions.set(session);
-		}
-		return session;
-	}
+//
+//	public Session getSession() {
+//		Session session = (Session) sessions.get();
+//		if (session == null) {
+//			session = sessionFactory.openSession();
+//			sessions.set(session);
+//		}
+//		return session;
+//	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;

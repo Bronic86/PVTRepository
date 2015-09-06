@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import by.academy.alekhno.dao.interf.CustomModelDAO;
 import by.academy.alekhno.database.converter.ConverterPojoToVO;
 import by.academy.alekhno.database.converter.ConverterVOToPojo;
+import by.academy.alekhno.exception.DaoHibernateException;
 import by.academy.alekhno.external.ModelDAO;
 import by.academy.alekhno.vo.Model;
 
@@ -18,7 +20,7 @@ public class ModelDAOImpl implements ModelDAO {
 	private List<by.academy.alekhno.database.pojo.Model> modelsP;
 
 	@Override
-	public List<Model> getAll() {
+	public List<Model> getAll() throws DaoHibernateException {
 		List<Model> modelsVO = new ArrayList<>();
 		modelsP = dao.getAll();
 		for (by.academy.alekhno.database.pojo.Model modelP : modelsP) {
@@ -28,26 +30,26 @@ public class ModelDAOImpl implements ModelDAO {
 	}
 
 	@Override
-	public void update(Model model) {
+	public void update(Model model) throws DaoHibernateException {
 		modelP = ConverterVOToPojo.getModel(model);
 		dao.update(modelP);
 	}
 
 	@Override
-	public void delete(Model model) {
+	public void delete(Model model) throws DaoHibernateException {
 		modelP = ConverterVOToPojo.getModel(model);
 		dao.delete(modelP);
 	}
 
 	@Override
-	public int add(Model model) {
+	public int add(Model model) throws DaoHibernateException {
 		modelP = ConverterVOToPojo.getModel(model);
 		int id = dao.add(modelP);
 		return id;
 	}
 
 	@Override
-	public Model getByID(Model model) {
+	public Model getByID(Model model) throws DaoHibernateException {
 		modelP = ConverterVOToPojo.getModel(model);
 		modelP = dao.getByID(modelP);
 		model = ConverterPojoToVO.getModel(modelP);
@@ -55,19 +57,19 @@ public class ModelDAOImpl implements ModelDAO {
 	}
 
 	@Override
-	public void setSession(Session session) {
-		dao.setSession(session);
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		dao.setSessionFactory(sessionFactory);
 	}
 
 	@Override
-	public Model getByName(String name) {
+	public Model getByName(String name) throws DaoHibernateException {
 		modelP = dao.getByName(name);
 		Model model = ConverterPojoToVO.getModel(modelP);
 		return model;
 	}
 
 	@Override
-	public List<Model> getByTypeId(int type_id) {
+	public List<Model> getByTypeId(int type_id) throws DaoHibernateException {
 		List<Model> modelsVO = new ArrayList<>();
 		modelsP = dao.getByTypeId(type_id);
 		for (by.academy.alekhno.database.pojo.Model modelP : modelsP) {
