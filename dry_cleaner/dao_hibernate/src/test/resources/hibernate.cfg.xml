@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test_dry_cleaner</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">admin123</property>
+
+       <!-- JDBC connection pool (use the built-in) -->
+        <property name="hibernate.connection.pool_size">10</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        
+        <property name="hibernate.connection.isolation">2</property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+       	<property name="current_session_context_class">thread</property>
+       	
+       	<!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+       
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+       <mapping class="by.academy.alekhno.database.pojo.State"/>
+       <mapping class="by.academy.alekhno.database.pojo.Role"/>
+       <mapping class="by.academy.alekhno.database.pojo.User"/>
+       <mapping class="by.academy.alekhno.database.pojo.Type"/>
+       <mapping class="by.academy.alekhno.database.pojo.Model"/>
+       <mapping class="by.academy.alekhno.database.pojo.Clother"/>
+       <mapping class="by.academy.alekhno.database.pojo.Order"/>
+
+    </session-factory>
+
+</hibernate-configuration>

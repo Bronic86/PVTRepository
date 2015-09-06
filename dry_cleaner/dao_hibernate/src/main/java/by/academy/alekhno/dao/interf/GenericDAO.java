@@ -3,21 +3,23 @@ package by.academy.alekhno.dao.interf;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import by.academy.alekhno.exception.DaoHibernateException;
 
 
 public interface GenericDAO<T> {
 	
-	List<T> getAll() ;
+	List<T> getAll() throws DaoHibernateException ;
 	
-	void update(T t) ;
+	void update(T t) throws DaoHibernateException;
 	
-	void delete(T t);
+	void delete(T t) throws DaoHibernateException;
 	
-	int add(T t);
+	int add(T t) throws DaoHibernateException;
 	
-	T getByID (T t);
+	T getByID (T t) throws DaoHibernateException;
 	
-	void setSession(Session session);
+	void setSessionFactory (SessionFactory sessionFactory);
 	
-	Session getSession();
 }

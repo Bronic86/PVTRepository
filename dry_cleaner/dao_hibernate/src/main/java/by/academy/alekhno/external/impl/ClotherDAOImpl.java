@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import by.academy.alekhno.dao.interf.CustomClotherDAO;
 import by.academy.alekhno.database.converter.ConverterPojoToVO;
 import by.academy.alekhno.database.converter.ConverterVOToPojo;
+import by.academy.alekhno.exception.DaoHibernateException;
 import by.academy.alekhno.external.ClotherDAO;
 import by.academy.alekhno.vo.Clother;
 
@@ -19,7 +21,7 @@ public class ClotherDAOImpl implements ClotherDAO {
 
 	
 	@Override
-	public List<Clother> getAll() {
+	public List<Clother> getAll() throws DaoHibernateException {
 		List<Clother> clothesVO = new ArrayList<>();
 		clothesP = dao.getAll();
 		for (by.academy.alekhno.database.pojo.Clother clotherP : clothesP) {
@@ -30,26 +32,26 @@ public class ClotherDAOImpl implements ClotherDAO {
 	
 	
 	@Override
-	public void update(Clother clother) {
+	public void update(Clother clother) throws DaoHibernateException {
 		clotherP = ConverterVOToPojo.getClother(clother);
 		dao.update(clotherP);
 	}
 
 	@Override
-	public void delete(Clother clother) {
+	public void delete(Clother clother) throws DaoHibernateException {
 		clotherP = ConverterVOToPojo.getClother(clother);
 		dao.delete(clotherP);
 	}
 
 	@Override
-	public int add(Clother clother) {
+	public int add(Clother clother) throws DaoHibernateException {
 		clotherP = ConverterVOToPojo.getClother(clother);
 		int id = dao.add(clotherP);
 		return id;
 	}
 
 	@Override
-	public Clother getByID(Clother clother) {
+	public Clother getByID(Clother clother) throws DaoHibernateException {
 		clotherP = ConverterVOToPojo.getClother(clother);
 		clotherP = dao.getByID(clotherP);
 		clother = ConverterPojoToVO.getClother(clotherP);
@@ -57,12 +59,12 @@ public class ClotherDAOImpl implements ClotherDAO {
 	}
 
 	@Override
-	public void setSession(Session session) {
-		dao.setSession(session);
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		dao.setSessionFactory(sessionFactory);
 	}
 
 	@Override
-	public Clother getByModelId(int model_id) {
+	public Clother getByModelId(int model_id) throws DaoHibernateException {
 		clotherP = dao.getByModelId(model_id);
 		Clother clother = ConverterPojoToVO.getClother(clotherP);
 		return clother;

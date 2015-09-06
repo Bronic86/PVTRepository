@@ -2,20 +2,22 @@ package by.academy.alekhno.exception;
 
 public class DaoHibernateException extends Exception {
 	private String message = "";
-	private int id;
+	private String exClass;
 	
 
 	public DaoHibernateException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public DaoHibernateException(String message, Throwable cause, int id) {
+	public DaoHibernateException(String message, Throwable cause) {
 		super(message, cause);
 		this.message = message;
-		this.id = id;
 	}
 	
+	public DaoHibernateException(Throwable cause) {
+		super(cause);
+		exClass = cause.getClass().getName();
+	}
 	
 
 	public String getMessage() {
@@ -26,12 +28,14 @@ public class DaoHibernateException extends Exception {
 		this.message = message;
 	}
 
-	public int getId() {
-		return id;
+	public String getExClass() {
+		return exClass;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setExClass(String exClass) {
+		this.exClass = exClass;
 	}
+
+	
 	
 }

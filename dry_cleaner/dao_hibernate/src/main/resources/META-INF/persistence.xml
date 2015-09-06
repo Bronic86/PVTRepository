@@ -6,13 +6,14 @@
     <persistence-unit name="dry_cleaner" transaction-type="RESOURCE_LOCAL">
       
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-       <class>by.academy.alekhno.database.pojo.State</class>
+        
+       <!-- <class>by.academy.alekhno.database.pojo.State</class>
        <class>by.academy.alekhno.database.pojo.Role</class>
        <class>by.academy.alekhno.database.pojo.Type</class>
        <class>by.academy.alekhno.database.pojo.Model</class>
        <class>by.academy.alekhno.database.pojo.Clother</class>
        <class>by.academy.alekhno.database.pojo.User</class>
-       <class>by.academy.alekhno.database.pojo.Order</class>
+       <class>by.academy.alekhno.database.pojo.Order</class> -->
         
 
         <properties>
@@ -23,7 +24,7 @@
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
             <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
 
     </persistence-unit>

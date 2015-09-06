@@ -3,22 +3,24 @@ package by.academy.alekhno.external;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
+import by.academy.alekhno.exception.DaoHibernateException;
 import by.academy.alekhno.vo.Clother;
 
 public interface ClotherDAO {
 	
-	List<Clother> getAll() ;
+	List<Clother> getAll() throws DaoHibernateException ;
 
-	void update(Clother clother) ;
+	void update(Clother clother) throws DaoHibernateException;
 	
-	void delete(Clother clother);
+	void delete(Clother clother) throws DaoHibernateException;
 	
-	int add(Clother clother);
+	int add(Clother clother) throws DaoHibernateException;
 	
-	Clother getByID (Clother clother);
+	Clother getByID (Clother clother) throws DaoHibernateException;
 	
-	void setSession(Session session);
+	void setSessionFactory(SessionFactory sessionFactory);
 	
-	Clother getByModelId(int model_id);
+	Clother getByModelId(int model_id) throws DaoHibernateException;
 }

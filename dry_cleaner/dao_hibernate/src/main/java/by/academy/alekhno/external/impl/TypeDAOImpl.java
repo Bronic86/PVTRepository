@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import by.academy.alekhno.dao.interf.CustomTypeDAO;
 import by.academy.alekhno.database.converter.ConverterPojoToVO;
 import by.academy.alekhno.database.converter.ConverterVOToPojo;
+import by.academy.alekhno.exception.DaoHibernateException;
 import by.academy.alekhno.external.TypeDAO;
 import by.academy.alekhno.vo.Type;
 
@@ -18,7 +20,7 @@ public class TypeDAOImpl implements TypeDAO {
 	private List<by.academy.alekhno.database.pojo.Type> typesP;
 
 	@Override
-	public List<Type> getAll() {
+	public List<Type> getAll() throws DaoHibernateException {
 		List<Type> typesVO = new ArrayList<>();
 		typesP = dao.getAll();
 		for (by.academy.alekhno.database.pojo.Type typeP : typesP) {
@@ -28,26 +30,26 @@ public class TypeDAOImpl implements TypeDAO {
 	}
 
 	@Override
-	public void update(Type type) {
+	public void update(Type type) throws DaoHibernateException {
 		typeP = ConverterVOToPojo.getType(type);
 		dao.update(typeP);
 	}
 
 	@Override
-	public void delete(Type type) {
+	public void delete(Type type) throws DaoHibernateException {
 		typeP = ConverterVOToPojo.getType(type);
 		dao.delete(typeP);
 	}
 
 	@Override
-	public int add(Type type) {
+	public int add(Type type) throws DaoHibernateException {
 		typeP = ConverterVOToPojo.getType(type);
 		int id = dao.add(typeP);
 		return id;
 	}
 
 	@Override
-	public Type getByID(Type type) {
+	public Type getByID(Type type) throws DaoHibernateException {
 		typeP = ConverterVOToPojo.getType(type);
 		typeP = dao.getByID(typeP);
 		type = ConverterPojoToVO.getType(typeP);
@@ -55,12 +57,12 @@ public class TypeDAOImpl implements TypeDAO {
 	}
 
 	@Override
-	public void setSession(Session session) {
-		dao.setSession(session);
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		dao.setSessionFactory(sessionFactory);
 	}
 
 	@Override
-	public Type getByName(String name) {
+	public Type getByName(String name) throws DaoHibernateException {
 		typeP = dao.getByName(name);
 		Type type = ConverterPojoToVO.getType(typeP);
 		return type;
