@@ -4,7 +4,7 @@ public class ServiceException extends Exception {
 	private String message = "";
 //	private String stackTrace;
 
-	public ServiceException(String message) {
+	public ServiceException(String message, StackTraceElement[] stackTraceElements, Throwable throwable) {
 		setMessage(message);
 	}
 	
@@ -13,7 +13,9 @@ public class ServiceException extends Exception {
 //		setStackTrace(stackTrace);
 //	}
 	
-	
+	public ServiceException(String message){
+		this.message += message;
+	}
 
 	public String getMessage() {
 		return message;

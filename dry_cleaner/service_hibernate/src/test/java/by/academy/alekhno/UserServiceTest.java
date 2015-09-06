@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -17,6 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import by.academy.alekhno.database.util.HibernateUtil;
+import by.academy.alekhno.exception.DaoHibernateException;
+import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.external.OrderDAO;
 import by.academy.alekhno.external.RoleDAO;
 import by.academy.alekhno.external.UserDAO;
@@ -32,7 +35,7 @@ public class UserServiceTest {
 	private static Logger logger = Logger.getLogger(UserServiceTest.class
 			.getName());
 
-	private static Session sess;
+	private static SessionFactory sess;
 	private final int id = 1;
 	private final String login = "boris123";
 //	private final String passwordBefore = "boris";
@@ -50,10 +53,10 @@ public class UserServiceTest {
 	private final List<UserRole> userRoles = new ArrayList<UserRole>();
 	private final Set<Role> roleSet = new HashSet<>();
 
-	private final Session session = sess;
+	private final SessionFactory sessionFactory = sess;
 
 	static {
-		sess = HibernateUtil.getInstance().getSession();
+		sess = HibernateUtil.getInstance().getSessionFactory();
 	}
 
 	private Mockery mockingContext = new JUnit4Mockery();
@@ -103,11 +106,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void authorizeTrue() {
+	public void authorizeTrue() throws ServiceException, DaoHibernateException {
 		logger.info("Start test authorizeTrue.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getByLoginAndPassword(user1);
 				will(returnValue(user));
 			}
@@ -119,12 +122,12 @@ public class UserServiceTest {
 		logger.info("Test authorizeTrue is finished.");
 	}
 
-	@Test
-	public void authorizeFalse() {
+	@Test(expected = ServiceException.class)
+	public void authorizeFalse() throws ServiceException, DaoHibernateException {
 		logger.info("Start test authorizeFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getByLoginAndPassword(user1);
 				will(returnValue(null));
 			}
@@ -136,7 +139,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void registrationTrue() {
+	public void registrationTrue() throws ServiceException, DaoHibernateException {
 		logger.info("Start test registrationTrue.");
 		final int idAdd = 1;
 		final String name = "user";
@@ -146,8 +149,8 @@ public class UserServiceTest {
 		roleAdd.setId(idAdd);
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
-				oneOf(daoRole).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
+				oneOf(daoRole).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getByLogin(login);
 				will(returnValue(null));
 				oneOf(daoUser).add(user1);
@@ -163,8 +166,8 @@ public class UserServiceTest {
 		logger.info("Test registrationTrue is finished.");
 	}
 
-	@Test
-	public void registrationFalse() {
+	@Test(expected = ServiceException.class)
+	public void registrationFalse() throws ServiceException, DaoHibernateException {
 		logger.info("Start test registrationFalse.");
 		final int idAdd = 1;
 		final String name = "user";
@@ -172,8 +175,8 @@ public class UserServiceTest {
 		user.setId(idAdd);
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
-				oneOf(daoRole).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
+				oneOf(daoRole).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getByLogin(login);
 				will(returnValue(user));
 				oneOf(daoUser).add(user);
@@ -190,12 +193,12 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void addOrder() {
+	public void addOrder() throws ServiceException, DaoHibernateException {
 		logger.info("Start test addOrder.");
 		final int idAdd = 1;
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).add(order);
 				will(returnValue(idAdd));
 			}
@@ -207,11 +210,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void updateOrder() {
+	public void updateOrder() throws ServiceException, DaoHibernateException {
 		logger.info("Start test updateOrder.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).update(order);
 			}
 		});
@@ -222,14 +225,14 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void deleteOrderById() {
+	public void deleteOrderById() throws ServiceException, DaoHibernateException {
 		logger.info("Start test deleteOrderById.");
 		final int idDelete = 1;
 		final Order orderDelete = new Order();
 		orderDelete.setId(idDelete);
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).delete(orderDelete);
 			}
 		});
@@ -240,11 +243,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void getOrdersByUserId() {
+	public void getOrdersByUserId() throws ServiceException, DaoHibernateException {
 		logger.info("Start test getOrdersByUserId.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).getOrdersByUserId(id);
 				will(returnValue(orders));
 			}
@@ -257,11 +260,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void getOrdersByUserIdEmpty() {
+	public void getOrdersByUserIdEmpty() throws ServiceException, DaoHibernateException {
 		logger.info("Start test getOrdersByUserIdEmpty.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).getOrdersByUserId(id);
 				will(returnValue(new ArrayList<Order>()));
 			}
@@ -274,14 +277,14 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void getRoleByUserId() {
+	public void getRoleByUserId() throws ServiceException, DaoHibernateException {
 		logger.info("Start test deleteByID.");
 		final int idUser = 1;
 		final User userM = new User();
 		userM.setId(idUser);
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getRolesByUser(userM);
 				will(returnValue(roleSet));
 
@@ -295,11 +298,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void getUserByLogin() {
+	public void getUserByLogin() throws ServiceException, DaoHibernateException {
 		logger.info("Start test deleteByID.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoUser).setSession(session);
+				oneOf(daoUser).setSessionFactory(sessionFactory);
 				oneOf(daoUser).getByLogin(login);
 				will(returnValue(user));
 			}

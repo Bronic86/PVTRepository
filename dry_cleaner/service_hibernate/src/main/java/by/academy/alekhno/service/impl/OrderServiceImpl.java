@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.academy.alekhno.database.util.HibernateUtil;
+import by.academy.alekhno.exception.DaoHibernateException;
+import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.external.OrderDAO;
 import by.academy.alekhno.service.interf.OrderService;
 import by.academy.alekhno.vo.Order;
@@ -18,24 +20,39 @@ public class OrderServiceImpl implements OrderService {
 	public OrderServiceImpl() {
 	}
 
-	public void deleteByID(int id)  {
+	public void deleteByID(int id) throws ServiceException  {
 		logger.info("Start deleteByID.");
 		Order order = new Order();
 		order.setId(id);
-		daoOrder.delete(order);
+		try {
+			daoOrder.delete(order);
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoOrder, method delete.");
+			throw new ServiceException("deleteByID error", e.getStackTrace(), e.getCause());
+		}
 	}
 
-	public List<Order> getOrdersByUserId(int id) {
+	public List<Order> getOrdersByUserId(int id) throws ServiceException {
 		logger.info("GetOrdersByUserId.");
 		List<Order> orders = new ArrayList<Order>();
-		orders = daoOrder.getOrdersByUserId(id);
+		try {
+			orders = daoOrder.getOrdersByUserId(id);
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoOrder, method getOrdersByUserId.");
+			throw new ServiceException("getOrdersByUserId error", e.getStackTrace(), e.getCause());
+		}
 		return orders;
 	}
 
-	public List<Order> getOrders() {
+	public List<Order> getOrders() throws ServiceException {
 		logger.info("GetOrders.");
 		List<Order> orders = new ArrayList<Order>();
-		orders = daoOrder.getAll();
+		try {
+			orders = daoOrder.getAll();
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoOrder, method getAll.");
+			throw new ServiceException("getOrders error", e.getStackTrace(), e.getCause());
+		}
 		return orders;
 	}
 
@@ -51,13 +68,18 @@ public class OrderServiceImpl implements OrderService {
 	public void setDaoOrder(OrderDAO daoOrder) {
 		logger.info("SetDaoOrder.");
 		this.daoOrder = daoOrder;
-		this.daoOrder.setSession(HibernateUtil.getInstance().getSession());
+		this.daoOrder.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
 	}
 
-	public List<Order> getOrdersByClotherId(int id) {
+	public List<Order> getOrdersByClotherId(int id) throws ServiceException {
 		logger.info("getOrdersByClotherId.");
 		List<Order> orders = new ArrayList<Order>();
-		orders = daoOrder.getOrdersByClotherId(id);
+		try {
+			orders = daoOrder.getOrdersByClotherId(id);
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoOrder, method getOrdersByClotherId.");
+			throw new ServiceException("getOrdersByClotherId error", e.getStackTrace(), e.getCause());
+		}
 		return orders;
 	}
 
