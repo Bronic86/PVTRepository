@@ -26,10 +26,8 @@ public class UserServiceImpl implements UserService {
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class
 			.getName());
 
-	public UserServiceImpl() {
-	}
-
-	public User authorization(String login, String password) throws ServiceException {
+	public User authorization(String login, String password)
+			throws ServiceException {
 		logger.info("Start authoruthation.");
 		User user = new User();
 		user.setLogin(login);
@@ -40,11 +38,11 @@ public class UserServiceImpl implements UserService {
 			findingUser = daoUser.getByLoginAndPassword(user);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoUser, method getByLoginAndPassword.");
-			throw new ServiceException("authorization error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("authorization error", e);
 		}
 		if (findingUser == null) {
 			logger.error("Didn't find user");
-			 throw new ServiceException("authorization error");
+			throw new ServiceException("authorization error");
 		}
 		logger.info("End authoruthation.");
 		return findingUser;
@@ -66,7 +64,7 @@ public class UserServiceImpl implements UserService {
 				newId = daoUser.add(user);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoUser, method add.");
-				throw new ServiceException("registration error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("registration error", e);
 			}
 			User newUser = new User();
 			newUser.setId(newId);
@@ -75,7 +73,7 @@ public class UserServiceImpl implements UserService {
 				role = daoRole.getByName("user");
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoRole, method getByName.");
-				throw new ServiceException("registration error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("registration error", e);
 			}
 			logger.info(newUser);
 			logger.info(role);
@@ -83,7 +81,7 @@ public class UserServiceImpl implements UserService {
 				daoUser.addRoleForUser(newUser, role);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoUser, method addRoleForUser.");
-				throw new ServiceException("registration error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("registration error", e);
 			}
 		} else {
 			logger.error("User don't exist");
@@ -98,7 +96,7 @@ public class UserServiceImpl implements UserService {
 			user = daoUser.getByLogin(login);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoUser, method getByLogin.");
-			throw new ServiceException("loginExist error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("loginExist error", e);
 		}
 		return user != null;
 	}
@@ -110,7 +108,7 @@ public class UserServiceImpl implements UserService {
 			id = daoOrder.add(order);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoOrder, method add.");
-			throw new ServiceException("addOrder error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("addOrder error", e);
 		}
 		logger.info("Order id = " + id);
 	}
@@ -121,7 +119,7 @@ public class UserServiceImpl implements UserService {
 			daoOrder.update(order);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoOrder, method update.");
-			throw new ServiceException("updateOrder error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("updateOrder error", e);
 		}
 	}
 
@@ -133,7 +131,7 @@ public class UserServiceImpl implements UserService {
 			daoOrder.delete(order);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoOrder, method delete.");
-			throw new ServiceException("deleteOrderById error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("deleteOrderById error", e);
 		}
 	}
 
@@ -144,7 +142,7 @@ public class UserServiceImpl implements UserService {
 			orders = daoOrder.getOrdersByUserId(user_id);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoOrder, method getOrdersByUserId.");
-			throw new ServiceException("getOrdersByUserId error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getOrdersByUserId error", e);
 		}
 		return orders;
 	}
@@ -158,7 +156,7 @@ public class UserServiceImpl implements UserService {
 			roles = daoUser.getRolesByUser(user);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoUser, method getRolesByUser.");
-			throw new ServiceException("getRoleByUserId error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getRoleByUserId error", e);
 		}
 		return roles;
 	}
@@ -170,80 +168,54 @@ public class UserServiceImpl implements UserService {
 			user = daoUser.getByLogin(login);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoUser, method getByLogin.");
-			throw new ServiceException("getUserByLogin error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getUserByLogin error", e);
 		}
 		return user;
 	}
 
-//	public CustomUserDao getDaoUser() throws ServiceException {
-//		logger.info("Start getDaoUser.");
-//		if (daoUser == null) {
-//			logger.error("DaoUser didn't set.");
-//			throw new ServiceException("Didn't set CustomRole");
-//		}
-//		logger.info("End getDaoUser.");
-//		return daoUser;
-//	}
-
 	public void setDaoUser(UserDAO daoUser) {
 		logger.info("Set daoUser.");
 		this.daoUser = daoUser;
-		this.daoUser.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoUser.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
-
-//	public CustomOrderDao getDaoOrder() throws ServiceException {
-//		logger.info("Start getDaoOrder.");
-//		if (daoOrder == null) {
-//			logger.error("DaoOrder didn't set.");
-//			throw new ServiceException("Didn't set CustomRole");
-//		}
-//		logger.info("End getDaoOrder.");
-//		return daoOrder;
-//	}
 
 	public void setDaoOrder(OrderDAO daoOrder) {
 		logger.info("Set daoOrder.");
 		this.daoOrder = daoOrder;
-			this.daoOrder.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoOrder.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
-
-//	public CustomUserRoleDao getDaoUserRole() throws ServiceException {
-//		logger.info("Start getDaoUserRole.");
-//		if (daoUserRole == null) {
-//			logger.error("DaoUserRole didn't set.");
-//			throw new ServiceException("Didn't set CustomRole");
-//		}
-//		logger.info("End getDaoUserRole.");
-//		return daoUserRole;
-//	}
-
-//	public void setDaoUserRole(CustomUserRoleDao daoUserRole)
-//			throws ServiceException {
-//		logger.info("Set daoUserRole.");
-//		this.daoUserRole = daoUserRole;
-//		try {
-//			this.daoUserRole.setConnection(ConnectionPool.getInstance()
-//					.getConnection());
-//		} catch (DaoException e) {
-//			logger.error("Problem with connection to database.", e);
-//			throw new ServiceException("Sorry. Problem with server.");
-//		}
-//	}
-
-//	public CustomRole getDaoRole() throws ServiceException {
-//		logger.info("Start getDaoRole.");
-//		if (daoRole == null) {
-//			logger.error("DaoRole didn't set.");
-//			throw new ServiceException("Didn't set CustomRole");
-//		}
-//		logger.info("End getDaoRole.");
-//		return daoRole;
-//	}
 
 	public void setDaoRole(RoleDAO daoRole) {
 		logger.info("Set daoRole.");
 		this.daoRole = daoRole;
-			this.daoRole.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoRole.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
+	}
+
+	@Override
+	public void addRoleToUser(User user, Role role) throws ServiceException {
+		logger.info("Start addRoleToUser.");
+		try {
+			daoUser.addRoleForUser(user, role);
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoUser, method addRoleToUser.");
+			throw new ServiceException("addRoleToUser error", e);
+		}
+	}
+
+	@Override
+	public Set<User> getAll() throws ServiceException {
+		logger.info("Start getAll.");
+		Set<User> users = new HashSet<User>();
+		try {
+			users.addAll(daoUser.getAll());
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoUser, method getAll.");
+			throw new ServiceException("getAll error", e);
+		}
+		return users;
 	}
 
 }

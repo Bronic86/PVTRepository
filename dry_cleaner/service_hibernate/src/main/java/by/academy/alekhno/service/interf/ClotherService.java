@@ -47,4 +47,6 @@ public interface ClotherService {
 	void setDaoType(TypeDAO daoType);
 	
 	void setDaoOrder(OrderDAO daoOrder);
+
+	List<Clother> getClothesByTypeId(int type_id) throws ServiceException;
 }

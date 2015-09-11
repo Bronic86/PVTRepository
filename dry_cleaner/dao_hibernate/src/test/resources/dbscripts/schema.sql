@@ -35,18 +35,19 @@ CREATE TABLE user_roles
 	user_id INT,
 	role_id INT
 );
+CREATE TABLE states
+(
+	id INT PRIMARY KEY NOT NULL DEFAULT 0,
+	state VARCHAR(50)
+);
 CREATE TABLE orders
 (
 	id INT PRIMARY KEY NOT NULL DEFAULT 0,
 	user_id INT,
 	clother_id INT,
 	quantity INT,
-    ordering_day DATETIME
-);
-CREATE TABLE states
-(
-	id INT PRIMARY KEY NOT NULL DEFAULT 0,
-	state VARCHAR(50)
+    ordering_day DATETIME,
+    state_id INT
 );
 ALTER TABLE models ADD FOREIGN KEY (type_id) REFERENCES types (id);
 ALTER TABLE clothes ADD FOREIGN KEY (model_id) REFERENCES models (id);

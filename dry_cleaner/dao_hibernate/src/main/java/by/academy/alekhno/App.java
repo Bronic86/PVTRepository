@@ -6,20 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import by.academy.alekhno.dao.impl.RoleDAOImpl;
-import by.academy.alekhno.dao.impl.UserDAOImpl;
+import by.academy.alekhno.dao.impl.CustomRoleDAOImpl;
+import by.academy.alekhno.dao.impl.CustomUserDAOImpl;
 import by.academy.alekhno.dao.interf.CustomRoleDAO;
 import by.academy.alekhno.dao.interf.CustomUserDAO;
-import by.academy.alekhno.database.pojo.Order;
-import by.academy.alekhno.database.pojo.Role;
-import by.academy.alekhno.database.pojo.User;
+import by.academy.alekhno.database.pojo.OrderPojo;
+import by.academy.alekhno.database.pojo.RolePojo;
+import by.academy.alekhno.database.pojo.UserPojo;
 import by.academy.alekhno.database.util.HibernateUtil;
 import by.academy.alekhno.exception.DaoHibernateException;
+import by.academy.alekhno.external.UserDAO;
+import by.academy.alekhno.external.impl.UserDAOImpl;
 
 
 public class App 
@@ -44,14 +48,14 @@ public class App
         SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String hql = "SELECT o FROM Order o "
+        String hql = "SELECT o FROM OrderPojo o "
         		+ "JOIN o.clother c "
         		+ "JOIN c.model m "
         		+ "JOIN m.type t "
         		+ "WHERE t.id = :type_id";
         Query query = session.createQuery(hql);
         query.setInteger("type_id", type_id);
-        List<Order> orders = query.list();
+        List<OrderPojo> orders = query.list();
         System.out.println(orders);
         transaction.commit();
         session.close();
@@ -62,7 +66,7 @@ public class App
         String secondName = "A";
         long telephone = 375292766536L;
         
-       User user = new User();
+       UserPojo user = new UserPojo();
        user.setLogin(login);
        user.setPassword(password);
        user.setFirstName(firstName);
@@ -70,9 +74,9 @@ public class App
        user.setTelephone(telephone);
        
        
-       CustomUserDAO userDao = new UserDAOImpl();
+       CustomUserDAO userDao = new CustomUserDAOImpl();
        userDao.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-       List<User> users = new ArrayList<User>();
+       List<UserPojo> users = new ArrayList<UserPojo>();
        users.addAll(userDao.getAll());
        System.out.println(users.size());
        System.out.println(users);
@@ -81,13 +85,13 @@ public class App
        String loginChange = "Boris";
        long telephoneChange = 123L;
        int idChange = 1;
-       User userG = new User();
+       UserPojo userG = new UserPojo();
        userG.setId(idChange);
        userG = userDao.getByID(userG);
        System.out.println("getByID " + userG);
        
        userDao.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-       User userN = new User();
+       UserPojo userN = new UserPojo();
        userN.setLogin(loginChange);
        userN.setPassword(userG.getPassword());
        userN.setFirstName(userG.getFirstName());
@@ -102,7 +106,7 @@ public class App
 
        userDao.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
        System.out.println(idAdd);
-       userG = new User();
+       userG = new UserPojo();
        userG.setId(idAdd);
        userG = userDao.getByID(userG);
        System.out.println("add + getByID " + userG);
@@ -115,9 +119,9 @@ public class App
        userG = userDao.getByID(userG);
        System.out.println("\n update" + userG);
        userDao.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-       CustomRoleDAO roleDao = new RoleDAOImpl();
+       CustomRoleDAO roleDao = new CustomRoleDAOImpl();
        roleDao.setSessionFactory(sessionFactory);
-       Role role = new Role();
+       RolePojo role = new RolePojo();
        role.setId(1);
        role = roleDao.getByID(role);
        userDao.addRoleForUser(userG, role);
@@ -137,6 +141,7 @@ public class App
        String login1 = "boris@mail.ru";
        System.out.println(userDao.getByLogin(login1));
        
-       
+       UserDAO daoU = new UserDAOImpl();
+       System.out.println(daoU.getByID(null));
     }
 }

@@ -14,7 +14,6 @@
   	<types id="1" name="jeans"/>
   	<types id="2" name="shirt"/>
   	
-  	
   	<states id="1" state="create"/>
   	<states id="2" state="processed"/>
   
@@ -33,5 +32,6 @@
   	<orders id="1" user_id="1" clother_id="2" ordering_day="2015-08-11" quantity="1" state_id="1"/>
   	<orders id="2" user_id="2" clother_id="5" ordering_day="2015-08-09" quantity="2" state_id="1"/>
   	<orders id="3" user_id="2" clother_id="3" ordering_day="2015-08-15" quantity="1" state_id="2"/>
+  	
   	
 </dataset>

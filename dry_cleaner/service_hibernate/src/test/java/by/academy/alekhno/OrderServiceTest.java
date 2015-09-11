@@ -13,6 +13,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import by.academy.alekhno.database.util.HibernateUtil;
@@ -25,6 +26,7 @@ import by.academy.alekhno.vo.Clother;
 import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.User;
 
+//@Ignore
 public class OrderServiceTest {
 	private OrderDAO daoOrder;
 	private OrderService orderService = new OrderServiceImpl();

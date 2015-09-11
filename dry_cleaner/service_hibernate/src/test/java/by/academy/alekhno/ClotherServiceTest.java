@@ -29,6 +29,7 @@ import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.Type;
 
+//@Ignore
 public class ClotherServiceTest {
 	private static SessionFactory sess;
 	private TypeDAO daoType;
@@ -215,7 +216,7 @@ public class ClotherServiceTest {
 	
 	
 	
-	@Test
+	@Test(expected = ServiceException.class)
 	public void addModelFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteaddModelFalseByID.");
 		mockingContext.checking(new Expectations() {
@@ -369,7 +370,7 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
+	@Test(expected = ServiceException.class)
 	public void deleteModelFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteModelFalse.");
 		mockingContext.checking(new Expectations() {

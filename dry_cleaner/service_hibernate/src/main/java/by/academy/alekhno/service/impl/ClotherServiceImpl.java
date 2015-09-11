@@ -26,18 +26,17 @@ public class ClotherServiceImpl implements ClotherService {
 	private static final Logger logger = Logger
 			.getLogger(ClotherServiceImpl.class.getName());
 
-	public ClotherServiceImpl() {
-	}
-
 	public List<Type> getTypes() throws ServiceException {
 		logger.info("GetTypes.");
 		List<Type> types = new ArrayList<Type>();
-			try {
-				types = daoType.getAll();
-			} catch (DaoHibernateException e) {
-				logger.error("Problem to daoType, method getAll.");
-				throw new ServiceException("getTypes error", e.getStackTrace(), e.getCause());
-			}
+		logger.info("types " + types);
+		try {
+			logger.info("Dao " + daoType);
+			types.addAll(daoType.getAll());
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoType, method getAll.");
+			throw new ServiceException("getTypes error", e);
+		}
 		return types;
 	}
 
@@ -45,10 +44,10 @@ public class ClotherServiceImpl implements ClotherService {
 		logger.info("GetModelsByTypeId.");
 		List<Model> models = new ArrayList<Model>();
 		try {
-			models = daoModel.getByTypeId(type_id);
+			models.addAll(daoModel.getByTypeId(type_id));
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoModel, method getByTypeId.");
-			throw new ServiceException("getModelsByTypeId error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getModelsByTypeId error", e);
 		}
 		return models;
 	}
@@ -60,7 +59,7 @@ public class ClotherServiceImpl implements ClotherService {
 			clother = daoClother.getByModelId(model_id);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoClother, method getByModelId.");
-			throw new ServiceException("getClotherByModelId error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getClotherByModelId error", e);
 		}
 		return clother;
 	}
@@ -70,12 +69,12 @@ public class ClotherServiceImpl implements ClotherService {
 		Type type = new Type();
 		type.setName(name);
 		if (!existName(name)) {
-				try {
-					daoType.add(type);
-				} catch (DaoHibernateException e) {
-					logger.error("Problem to daoType, method add.");
-					throw new ServiceException("addType error", e.getStackTrace(), e.getCause());
-				}
+			try {
+				daoType.add(type);
+			} catch (DaoHibernateException e) {
+				logger.error("Problem to daoType, method add.");
+				throw new ServiceException("addType error", e);
+			}
 		} else {
 			logger.error("Type exist");
 			throw new ServiceException("Type exist.");
@@ -89,7 +88,7 @@ public class ClotherServiceImpl implements ClotherService {
 			type = daoType.getByName(name);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoType, method getByName.");
-			throw new ServiceException("existName error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("existName error", e);
 		}
 		return type != null;
 	}
@@ -101,11 +100,11 @@ public class ClotherServiceImpl implements ClotherService {
 				daoModel.add(model);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoModel, method add.");
-				throw new ServiceException("addModel error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("addModel error", e);
 			}
 		} else {
 			logger.error("Model exist");
-//			throw new ServiceException("Type exist.");
+			throw new ServiceException("Model exist.");
 		}
 		logger.info("End addModel.");
 	}
@@ -116,7 +115,7 @@ public class ClotherServiceImpl implements ClotherService {
 			model = daoModel.getByName(name);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoModel, method getByName.");
-			throw new ServiceException("existModel error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("existModel error", e);
 		}
 		return model != null;
 	}
@@ -128,7 +127,7 @@ public class ClotherServiceImpl implements ClotherService {
 				daoClother.add(clother);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoClother, method add.");
-				throw new ServiceException("addClother error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("addClother error", e);
 			}
 		} else {
 			logger.error("Clother exist");
@@ -143,7 +142,7 @@ public class ClotherServiceImpl implements ClotherService {
 			clother = daoClother.getByModelId(model.getId());
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoClother, method getByModelId.");
-			throw new ServiceException("existClother error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("existClother error", e);
 		}
 		return clother != null;
 	}
@@ -154,7 +153,7 @@ public class ClotherServiceImpl implements ClotherService {
 			daoType.update(type);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoType, method update.");
-			throw new ServiceException("updateType error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("updateType error", e);
 		}
 	}
 
@@ -164,7 +163,7 @@ public class ClotherServiceImpl implements ClotherService {
 			daoModel.update(model);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoModel, method update.");
-			throw new ServiceException("updateModel error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("updateModel error", e);
 		}
 	}
 
@@ -174,7 +173,7 @@ public class ClotherServiceImpl implements ClotherService {
 			daoClother.update(clother);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoClother, method update.");
-			throw new ServiceException("updateClother error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("updateClother error", e);
 		}
 	}
 
@@ -187,14 +186,14 @@ public class ClotherServiceImpl implements ClotherService {
 			models = daoModel.getByTypeId(type_id);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoModel, method getByTypeId.");
-			throw new ServiceException("deleteType error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("deleteType error", e);
 		}
 		if (models.isEmpty()) {
 			try {
 				daoType.delete(type);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoType, method delete.");
-				throw new ServiceException("deleteType error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("deleteType error", e);
 			}
 		} else {
 			logger.error("Models exist. Didn't delete type.");
@@ -212,18 +211,18 @@ public class ClotherServiceImpl implements ClotherService {
 			clother = daoClother.getByModelId(model_id);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoClother, method getByModelId.");
-			throw new ServiceException("deleteModel error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("deleteModel error", e);
 		}
 		if (clother == null) {
 			try {
 				daoModel.delete(model);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoModel, method delete.");
-				throw new ServiceException("deleteModel error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("deleteModel error", e);
 			}
 		} else {
 			logger.error("Clother exist. Didn't delete model.");
-//			throw new ServiceException("Can't delete model.");
+			throw new ServiceException("Can't delete model.");
 		}
 		logger.info("End deleteModel.");
 	}
@@ -237,14 +236,14 @@ public class ClotherServiceImpl implements ClotherService {
 			orders = daoOrder.getOrdersByClotherId(clother_id);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoOrder, method getOrdersByClotherId.");
-			throw new ServiceException("deleteClother error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("deleteClother error", e);
 		}
 		if (orders.isEmpty()) {
 			try {
 				daoClother.delete(clother);
 			} catch (DaoHibernateException e) {
 				logger.error("Problem to daoClother, method delete.");
-				throw new ServiceException("deleteClother error", e.getStackTrace(), e.getCause());
+				throw new ServiceException("deleteClother error", e);
 			}
 		} else {
 			logger.error("Order exist. Didn't delete model.");
@@ -253,67 +252,36 @@ public class ClotherServiceImpl implements ClotherService {
 		logger.info("End deleteClother.");
 	}
 
-//	public CustomTypeDao getDaoType() throws ServiceException {
-//		logger.info("GetDaoType.");
-//		if (daoType == null) {
-//			logger.error("DaoType didn't set.");
-//			throw new ServiceException("Didn't set daoType.");
-//		}
-//		return daoType;
-//	}
-
 	public void setDaoType(TypeDAO daoType) {
 		logger.info("SetDaoType.");
 		this.daoType = daoType;
-		this.daoType.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoType.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
-
-//	public CustomModelDao getDaoModel() throws ServiceException {
-//		logger.info("GetDaoModel.");
-//		if (daoModel == null) {
-//			logger.error("DaoModel didn't set.");
-//			throw new ServiceException("Didn't set daoModel.");
-//		}
-//		return daoModel;
-//	}
 
 	public void setDaoModel(ModelDAO daoModel) {
 		logger.info("SetDaoModel.");
 		this.daoModel = daoModel;
-		this.daoModel.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoModel.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
-
-//	public CustomClotherDao getDaoClother() throws ServiceException {
-//		logger.info("GetDaoClother.");
-//		if (daoClother == null) {
-//			logger.error("DaoClother didn't set.");
-//			throw new ServiceException("Didn't set daoClother.");
-//		}
-//		return daoClother;
-//	}
 
 	public void setDaoClother(ClotherDAO daoClother) {
 		logger.info("SetDaoClother.");
 		this.daoClother = daoClother;
-		this.daoClother.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoClother.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
-
-//	public CustomOrderDao getDaoOrder() throws ServiceException {
-//		logger.info("getDaoOrder.");
-//		if (daoOrder == null) {
-//			logger.error("getDaoOrder didn't set.");
-//			throw new ServiceException("Didn't set daoClother.");
-//		}
-//		return daoOrder;
-//	}
 
 	public void setDaoOrder(OrderDAO daoOrder) {
 		logger.info("setDaoOrder.");
 		this.daoOrder = daoOrder;
-		this.daoOrder.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
+		this.daoOrder.setSessionFactory(HibernateUtil.getInstance()
+				.getSessionFactory());
 	}
 
 	public Clother getClotherById(int clother_id) throws ServiceException {
+		logger.info("Start getClotherById.");
 		Clother clother = new Clother();
 		clother.setId(clother_id);
 		Clother fClother;
@@ -321,8 +289,21 @@ public class ClotherServiceImpl implements ClotherService {
 			fClother = daoClother.getByID(clother);
 		} catch (DaoHibernateException e) {
 			logger.error("Problem to daoClother, method getByID.");
-			throw new ServiceException("getClotherById error", e.getStackTrace(), e.getCause());
+			throw new ServiceException("getClotherById error", e);
 		}
 		return fClother;
+	}
+
+	@Override
+	public List<Clother> getClothesByTypeId(int type_id) throws ServiceException {
+		logger.info("Start getClothesByTypeId.");
+		List<Clother> clothes = new ArrayList<Clother>();
+		try {
+			clothes.addAll(daoClother.getByTypeId(type_id));
+		} catch (DaoHibernateException e) {
+			logger.error("Problem to daoClother, method getByTypeId.");
+			throw new ServiceException("getClothesByTypeId error", e);
+		}
+		return clothes;
 	}
 }

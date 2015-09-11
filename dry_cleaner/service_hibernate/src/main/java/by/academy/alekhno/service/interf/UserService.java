@@ -35,4 +35,8 @@ public interface UserService {
 	void setDaoOrder(OrderDAO daoOrder);
 	
 	void setDaoRole(RoleDAO daoRole);
+
+	void addRoleToUser(User user, Role role) throws ServiceException;
+
+	Set<User> getAll() throws ServiceException;
 }

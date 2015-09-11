@@ -1,10 +1,10 @@
 package by.academy.alekhno.dao.interf;
 
-import by.academy.alekhno.database.pojo.State;
+import by.academy.alekhno.database.pojo.StatePojo;
 import by.academy.alekhno.exception.DaoHibernateException;
 
-public interface CustomStateDAO extends GenericDAO<State> {
+public interface CustomStateDAO extends GenericDAO<StatePojo> {
 	
-	State getByState(String state) throws DaoHibernateException;
+	StatePojo getByState(String state) throws DaoHibernateException;
 	
 }

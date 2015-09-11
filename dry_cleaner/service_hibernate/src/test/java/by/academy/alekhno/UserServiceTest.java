@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import by.academy.alekhno.database.util.HibernateUtil;
@@ -31,6 +31,8 @@ import by.academy.alekhno.vo.Role;
 import by.academy.alekhno.vo.User;
 import by.academy.alekhno.vo.UserRole;
 
+
+//@Ignore
 public class UserServiceTest {
 	private static Logger logger = Logger.getLogger(UserServiceTest.class
 			.getName());

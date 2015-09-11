@@ -2,7 +2,8 @@ package by.academy.alekhno.exception;
 
 public class DaoHibernateException extends Exception {
 	private String message = "";
-	private String exClass;
+	private Throwable exClass;
+	StackTraceElement[] stackTrace;
 	
 
 	public DaoHibernateException() {
@@ -16,9 +17,17 @@ public class DaoHibernateException extends Exception {
 	
 	public DaoHibernateException(Throwable cause) {
 		super(cause);
-		exClass = cause.getClass().getName();
+		exClass = cause;
 	}
 	
+
+	public DaoHibernateException(String message, Throwable cause,
+			StackTraceElement[] stackTrace) {
+		super(cause);
+		this.message = message;
+		exClass = cause;
+		this.stackTrace = stackTrace;
+	}
 
 	public String getMessage() {
 		return message;
@@ -28,11 +37,11 @@ public class DaoHibernateException extends Exception {
 		this.message = message;
 	}
 
-	public String getExClass() {
+	public Throwable getExClass() {
 		return exClass;
 	}
 
-	public void setExClass(String exClass) {
+	public void setExClass(Throwable exClass) {
 		this.exClass = exClass;
 	}
 
