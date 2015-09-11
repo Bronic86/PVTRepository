@@ -1,12 +1,9 @@
 package by.academy.alekhno;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import by.academy.alekhno.database.pojo.State;
-import by.academy.alekhno.database.pojo.User;
-import by.academy.alekhno.database.util.EMFactory;
+import by.academy.alekhno.database.pojo.StatePojo;
 
 public class App2 {
 
@@ -22,7 +19,7 @@ public class App2 {
 
 		EntityManager em = Persistence.createEntityManagerFactory("dry_cleaner").createEntityManager();
 		em.getTransaction().begin();
-		System.out.println(em.find(State.class, 1));
+		System.out.println(em.find(StatePojo.class, 1));
 		em.getTransaction().commit();
 		
 		

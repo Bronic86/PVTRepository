@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -15,6 +16,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import by.academy.alekhno.database.util.HibernateUtil;
+import by.academy.alekhno.exception.DaoHibernateException;
 import by.academy.alekhno.exception.ServiceException;
 import by.academy.alekhno.external.ClotherDAO;
 import by.academy.alekhno.external.ModelDAO;
@@ -27,8 +29,9 @@ import by.academy.alekhno.vo.Model;
 import by.academy.alekhno.vo.Order;
 import by.academy.alekhno.vo.Type;
 
+//@Ignore
 public class ClotherServiceTest {
-	private static Session sess;
+	private static SessionFactory sess;
 	private TypeDAO daoType;
 	private ModelDAO daoModel;
 	private ClotherDAO daoClother;
@@ -57,10 +60,10 @@ public class ClotherServiceTest {
 	private final String name = "jeans";
 	private final int id = 1;
 	
-	private final Session session = sess;
+	private final SessionFactory sessionFactory = sess;
 	
 	static {
-			sess = HibernateUtil.getInstance().getSession();
+			sess = HibernateUtil.getInstance().getSessionFactory();
 	}
 	
 	
@@ -109,11 +112,11 @@ public class ClotherServiceTest {
 	
 	
 	@Test
-	public void getTypes()  {
+	public void getTypes() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test getTypes.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoType).setSession(session);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoType).getAll();
 				will(returnValue(types));
 			}
@@ -126,11 +129,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getModelsByTypeId()  {
+	public void getModelsByTypeId() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test getModelsByTypeId.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(models));
 			}
@@ -143,11 +146,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getClotherByModelId() {
+	public void getClotherByModelId() throws DaoHibernateException, ServiceException {
 		logger.info("Start test getClotherByModelId.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(clother));
 			}
@@ -160,11 +163,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void addType() {
+	public void addType() throws ServiceException, DaoHibernateException {
 		logger.info("Start test addType.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoType).setSession(session);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoType).getByName(name);
 				will(returnValue(null));
 				oneOf(daoType).add(typeAdd);
@@ -178,12 +181,12 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
-	public void addTypeFalse() {
+	@Test(expected = ServiceException.class)
+	public void addTypeFalse() throws ServiceException, DaoHibernateException {
 		logger.info("Start test addTypeFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoType).setSession(session);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoType).getByName(name);
 				will(returnValue(type));
 			}
@@ -195,11 +198,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void addModel()  {
+	public void addModel() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test addModel.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
 				oneOf(daoModel).getByName(name);
 				will(returnValue(null));
 				oneOf(daoModel).add(modelAdd);
@@ -213,12 +216,12 @@ public class ClotherServiceTest {
 	
 	
 	
-	@Test
-	public void addModelFalse()  {
+	@Test(expected = ServiceException.class)
+	public void addModelFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteaddModelFalseByID.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
 				oneOf(daoModel).getByName(name);
 				will(returnValue(model));
 			}
@@ -230,11 +233,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void addClother()  {
+	public void addClother() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test addClother.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(null));
 				oneOf(daoClother).add(clotherAdd);
@@ -247,12 +250,12 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
-	public void addClotherFalse()  {
+	@Test(expected = ServiceException.class)
+	public void addClotherFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test addClotherFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(clother));
 			}
@@ -265,11 +268,11 @@ public class ClotherServiceTest {
 	
 	
 	@Test
-	public void updateType()  {
+	public void updateType() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test updateType.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoType).setSession(session);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoType).update(type);
 			}
 		});
@@ -280,11 +283,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void updateModel()  {
+	public void updateModel() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test updateModel.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
 				oneOf(daoModel).update(model);
 			}
 		});
@@ -295,11 +298,11 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void updateClother()  {
+	public void updateClother() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test updateClother.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).update(clother);
 			}
 		});
@@ -310,12 +313,12 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void deleteType()  {
+	public void deleteType() throws DaoHibernateException, ServiceException  {
 		logger.info("Start test deleteType.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
-				oneOf(daoType).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(new ArrayList<Model>()));
 				oneOf(daoType).delete(typeDelete);
@@ -329,13 +332,13 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
-	public void deleteTypeFalse()  {
+	@Test(expected = ServiceException.class)
+	public void deleteTypeFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteTypeFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
-				oneOf(daoType).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
+				oneOf(daoType).setSessionFactory(sessionFactory);
 				oneOf(daoModel).getByTypeId(id);
 				will(returnValue(models));
 			}
@@ -348,12 +351,12 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void deleteModel()  {
+	public void deleteModel() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteModel.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
-				oneOf(daoClother).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(null));
 				oneOf(daoModel).delete(modelDelete);
@@ -367,13 +370,13 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
-	public void deleteModelFalse()  {
+	@Test(expected = ServiceException.class)
+	public void deleteModelFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteModelFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoModel).setSession(session);
-				oneOf(daoClother).setSession(session);
+				oneOf(daoModel).setSessionFactory(sessionFactory);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByModelId(id);
 				will(returnValue(new Clother()));
 			}
@@ -386,12 +389,12 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void deleteClother()  {
+	public void deleteClother() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteClother.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
-				oneOf(daoClother).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).getOrdersByClotherId(id);
 				will(returnValue(new ArrayList<Order>()));
 				oneOf(daoClother).delete(clotherDelete);
@@ -405,13 +408,13 @@ public class ClotherServiceTest {
 	}
 	
 	
-	@Test
-	public void deleteClotherFalse()  {
+	@Test(expected = ServiceException.class)
+	public void deleteClotherFalse() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test deleteClotherFalse.");
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoOrder).setSession(session);
-				oneOf(daoClother).setSession(session);
+				oneOf(daoOrder).setSessionFactory(sessionFactory);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoOrder).getOrdersByClotherId(id);
 				will(returnValue(orders));
 			}
@@ -424,13 +427,13 @@ public class ClotherServiceTest {
 	}
 	
 	@Test
-	public void getClotherById()  {
+	public void getClotherById() throws ServiceException, DaoHibernateException  {
 		logger.info("Start test getClotherById.");
 		final Clother clotherS = new Clother();
 		clotherS.setId(id);
 		mockingContext.checking(new Expectations() {
 			{
-				oneOf(daoClother).setSession(session);
+				oneOf(daoClother).setSessionFactory(sessionFactory);
 				oneOf(daoClother).getByID(clotherS);
 				will(returnValue(clother));
 			}

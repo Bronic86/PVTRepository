@@ -23,10 +23,6 @@
   </parent>
   <dependencies>
   	<dependency>
-  		<groupId>by.academy.alekhno</groupId>
-  		<artifactId>service</artifactId>
-  	</dependency>
-  	<dependency>
   		<groupId>javax.servlet</groupId>
   		<artifactId>servlet-api</artifactId>
   	</dependency>
@@ -35,12 +31,16 @@
   		<artifactId>javax.servlet.jsp.jstl-api</artifactId>
   	</dependency>
   	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>jstl</artifactId>
+  	</dependency>
+  	<dependency>
   		<groupId>by.academy.alekhno</groupId>
   		<artifactId>vo</artifactId>
   	</dependency>
   	<dependency>
-  		<groupId>javax.servlet</groupId>
-  		<artifactId>jstl</artifactId>
+  		<groupId>by.academy.alekhno</groupId>
+  		<artifactId>service</artifactId>
   	</dependency>
   </dependencies>
   
@@ -48,11 +48,6 @@
   
   <dependencyManagement>
   	<dependencies>
-  		<dependency>
-  			<groupId>by.academy.alekhno</groupId>
-  			<artifactId>service</artifactId>
-  			<version>1.0</version>
-  		</dependency>
   		<dependency>
   			<groupId>javax.servlet</groupId>
   			<artifactId>servlet-api</artifactId>
@@ -72,6 +67,11 @@
   			<groupId>javax.servlet</groupId>
   			<artifactId>jstl</artifactId>
   			<version>1.2</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>by.academy.alekhno</groupId>
+  			<artifactId>service</artifactId>
+  			<version>1.0</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

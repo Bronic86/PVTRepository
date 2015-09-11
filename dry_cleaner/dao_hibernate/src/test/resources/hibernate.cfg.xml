@@ -32,15 +32,15 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
 
-       <mapping class="by.academy.alekhno.database.pojo.State"/>
-       <mapping class="by.academy.alekhno.database.pojo.Role"/>
-       <mapping class="by.academy.alekhno.database.pojo.User"/>
-       <mapping class="by.academy.alekhno.database.pojo.Type"/>
-       <mapping class="by.academy.alekhno.database.pojo.Model"/>
-       <mapping class="by.academy.alekhno.database.pojo.Clother"/>
-       <mapping class="by.academy.alekhno.database.pojo.Order"/>
+       <mapping class="by.academy.alekhno.database.pojo.StatePojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.RolePojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.UserPojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.TypePojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.ModelPojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.ClotherPojo"/>
+       <mapping class="by.academy.alekhno.database.pojo.OrderPojo"/>
 
     </session-factory>
 

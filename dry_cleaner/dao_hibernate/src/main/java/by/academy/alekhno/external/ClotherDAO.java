@@ -1,8 +1,8 @@
 package by.academy.alekhno.external;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import by.academy.alekhno.exception.DaoHibernateException;
@@ -23,4 +23,6 @@ public interface ClotherDAO {
 	void setSessionFactory(SessionFactory sessionFactory);
 	
 	Clother getByModelId(int model_id) throws DaoHibernateException;
+
+	List<Clother> getByTypeId(int type_id) throws DaoHibernateException;
 }

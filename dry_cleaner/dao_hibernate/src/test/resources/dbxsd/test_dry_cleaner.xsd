@@ -51,9 +51,9 @@
 	<xsd:complexType name="orders__type">
 		<xsd:attribute name="id" use="optional" />
 		<xsd:attribute name="state_id" use="optional" />
-		<xsd:attribute name="user_id" use="optional" />
-		<xsd:attribute name="clother_id" use="optional" />
 		<xsd:attribute name="quantity" use="optional" />
+		<xsd:attribute name="clother_id" use="optional" />
+		<xsd:attribute name="user_id" use="optional" />
 		<xsd:attribute name="ordering_day" use="optional" />
 	</xsd:complexType>
 	<xsd:complexType name="types__type">

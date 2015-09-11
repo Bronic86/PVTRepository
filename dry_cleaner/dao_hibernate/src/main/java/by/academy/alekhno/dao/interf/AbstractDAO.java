@@ -1,6 +1,7 @@
 package by.academy.alekhno.dao.interf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -21,16 +22,17 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 	@Override
 	public List<T> getAll() throws DaoHibernateException {
 		logger.info("Start getAll for " + getObjectClass().getName());
-		List<T> tList;
+		List<T> tList = new ArrayList<T>();
 		try {
 			startTransaction();
-			tList = session.createCriteria(getObjectClass()).list();
+			logger.info(tList);
+			tList.addAll(session.createCriteria(getObjectClass()).list());
+			logger.info(tList);
 			endTransaction();
 		} catch (HibernateException e) {
 			logger.debug("getAll method error.");
-			logger.debug(e.getStackTrace());
 			transaction.rollback();
-			throw new DaoHibernateException(e.getCause());
+			throw new DaoHibernateException(e);
 		} finally {
 			closeSession();
 		}
@@ -45,17 +47,14 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 		logger.debug("Object - " + t);
 		try {
 			startTransaction();
-			T updateT = t;
-//			(T) session.get(getObjectClass(), getId(t));
-//			session.flush();
-//			setFields(t, updateT);
-			session.update(updateT);
+			T tP = (T) session.get(getObjectClass(), getId(t));
+			setFields(t, tP);
+			session.update(tP);
 			endTransaction();
 		} catch (HibernateException e) {
-			logger.debug("update method error.");
-			logger.debug(e.getStackTrace());
+			logger.debug("update method error.\n");
 			transaction.rollback();
-			throw new DaoHibernateException(e.getCause());
+			throw new DaoHibernateException(e);
 		} finally {
 			closeSession();
 		}
@@ -74,9 +73,8 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			endTransaction();
 		} catch (HibernateException e) {
 			logger.debug("delete method error.");
-			logger.debug(e.getStackTrace());
 			transaction.rollback();
-			throw new DaoHibernateException(e.getCause());
+			throw new DaoHibernateException(e);
 		} finally {
 			closeSession();
 		}
@@ -93,9 +91,8 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			endTransaction();
 		} catch (HibernateException e) {
 			logger.debug("add method error.");
-			logger.debug(e.getStackTrace());
 			transaction.rollback();
-			throw new DaoHibernateException(e.getCause());
+			throw new DaoHibernateException(e);
 		} finally {
 			closeSession();
 		}
@@ -112,9 +109,8 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 			endTransaction();
 		} catch (HibernateException e) {
 			logger.debug("getByID method error.");
-			logger.debug(e.getStackTrace());
 			transaction.rollback();
-			throw new DaoHibernateException(e.getCause());
+			throw new DaoHibernateException(e);
 		} finally {
 			closeSession();
 		}
@@ -125,6 +121,8 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
 	protected void startTransaction() {
 		logger.debug("Start transaction.");
+		logger.debug("Create transaction.");
+		transaction = session.getTransaction();
 		transaction.begin();
 	}
 
@@ -136,13 +134,15 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 	}
 
 	protected void closeSession() {
-		session.close();
+		if (session != null) {
+			session.close();
+		}
 	}
 
 	protected Session getSession() {
 		return session;
 	}
-	
+
 	protected Transaction getTransaction() {
 		return transaction;
 	}
@@ -153,7 +153,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 		this.sessionFactory = sessionFactory;
 		logger.debug("Open session.");
 		session = sessionFactory.openSession();
-		logger.debug("Create transaction.");
-		transaction = session.getTransaction();
+		
 	}
 }

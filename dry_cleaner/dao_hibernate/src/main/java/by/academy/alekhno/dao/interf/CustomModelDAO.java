@@ -2,12 +2,12 @@ package by.academy.alekhno.dao.interf;
 
 import java.util.List;
 
-import by.academy.alekhno.database.pojo.Model;
+import by.academy.alekhno.database.pojo.ModelPojo;
 import by.academy.alekhno.exception.DaoHibernateException;
 
-public interface CustomModelDAO extends GenericDAO<Model> {
+public interface CustomModelDAO extends GenericDAO<ModelPojo> {
 
-	Model getByName(String name) throws DaoHibernateException;
+	ModelPojo getByName(String name) throws DaoHibernateException;
 	
-	List<Model> getByTypeId(int type_id) throws DaoHibernateException;
+	List<ModelPojo> getByTypeId(int type_id) throws DaoHibernateException;
 }

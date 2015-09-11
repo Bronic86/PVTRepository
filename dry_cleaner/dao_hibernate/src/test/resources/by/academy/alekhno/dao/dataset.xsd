@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:dflt="dry_cleaner_test">
+	<xsd:import namespace="dry_cleaner_test" schemaLocation="dry_cleaner_test.xsd" />
+	<xsd:element name="dataset">
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="dbmaintain_scripts" type="dflt:dbmaintain_scripts__type" />
+				<xsd:element name="users" type="dflt:users__type" />
+				<xsd:element name="users_role" type="dflt:users_role__type" />
+				<xsd:element name="roles" type="dflt:roles__type" />
+				<xsd:element name="types" type="dflt:types__type" />
+				<xsd:element name="models" type="dflt:models__type" />
+				<xsd:element name="clothes" type="dflt:clothes__type" />
+				<xsd:element name="orders" type="dflt:orders__type" />
+				<xsd:any namespace="dry_cleaner_test" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

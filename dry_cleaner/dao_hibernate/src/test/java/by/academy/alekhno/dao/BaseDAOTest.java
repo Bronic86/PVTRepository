@@ -7,7 +7,6 @@ import org.unitils.UnitilsJUnit4;
 import org.unitils.orm.hibernate.annotation.HibernateSessionFactory;
 
 import by.academy.alekhno.dao.interf.CustomStateDAO;
-import by.academy.alekhno.database.util.HibernateUtil;
 
 
 

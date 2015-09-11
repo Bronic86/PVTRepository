@@ -1,8 +1,8 @@
 package by.academy.alekhno;
 
-import by.academy.alekhno.dao.impl.RoleDAOImpl;
+import by.academy.alekhno.dao.impl.CustomRoleDAOImpl;
 import by.academy.alekhno.dao.interf.CustomRoleDAO;
-import by.academy.alekhno.database.pojo.Role;
+import by.academy.alekhno.database.pojo.RolePojo;
 import by.academy.alekhno.database.util.HibernateUtil;
 import by.academy.alekhno.exception.DaoHibernateException;
 
@@ -13,14 +13,13 @@ public class CrudRole {
 		String nameN = "testing new";
 		
 		
-		CustomRoleDAO daoObj = new RoleDAOImpl();
+		CustomRoleDAO daoObj = new CustomRoleDAOImpl();
 		daoObj.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
 		
-		Role obj = new Role();
-		Role objN = new Role();
-		Role objU = new Role();
+		RolePojo obj = new RolePojo();
+		RolePojo objN = new RolePojo();
+		RolePojo objU = new RolePojo();
 		
-//		name = "admin";
 		
 		obj.setName(name);
 		int id = daoObj.add(obj);
@@ -37,18 +36,18 @@ public class CrudRole {
 		daoObj.update(objU);
 		
 		daoObj.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-		objN = new Role();
+		objN = new RolePojo();
 		objN.setId(id);
 		objN = daoObj.getByID(obj);
 		System.out.println("Update  - " + objN);
 		
 		daoObj.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-		objU = new Role();
+		objU = new RolePojo();
 		objU.setId(id);
 		daoObj.delete(objU);
 		
 		daoObj.setSessionFactory(HibernateUtil.getInstance().getSessionFactory());
-		objN = new Role();
+		objN = new RolePojo();
 		objN.setId(id);
 		objN = daoObj.getByID(obj);
 		System.out.println("Delete  - " + objN);

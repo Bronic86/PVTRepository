@@ -13,21 +13,21 @@ import by.academy.alekhno.vo.User;
 
 public interface UserService {
 
-	User authorization(String login, String password);
+	User authorization(String login, String password) throws ServiceException;
 	
-	void registration(User user);
+	void registration(User user) throws ServiceException;
 	
-	void addOrder(Order order);
+	void addOrder(Order order) throws ServiceException;
 	
-	void updateOrder(Order order);
+	void updateOrder(Order order) throws ServiceException;
 	
-	void deleteOrderById(int id);
+	void deleteOrderById(int id) throws ServiceException;
 	
-	List<Order> getOrdersByUserId(int user_id);
+	List<Order> getOrdersByUserId(int user_id) throws ServiceException;
 	
-	Set<Role> getRoleByUserId(int user_id);
+	Set<Role> getRoleByUserId(int user_id) throws ServiceException;
 	
-	User getUserByLogin(String login);
+	User getUserByLogin(String login) throws ServiceException;
 	
 	
 	void setDaoUser(UserDAO daoUser);
@@ -35,4 +35,8 @@ public interface UserService {
 	void setDaoOrder(OrderDAO daoOrder);
 	
 	void setDaoRole(RoleDAO daoRole);
+
+	void addRoleToUser(User user, Role role) throws ServiceException;
+
+	Set<User> getAll() throws ServiceException;
 }

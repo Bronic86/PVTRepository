@@ -1,0 +1,27 @@
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+
+
+	<servlet>
+		<servlet-name>controller</servlet-name>
+		<servlet-class>by.academy.alekhno.web.controller.Controller</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>controller</servlet-name>
+		<url-pattern>/controller</url-pattern>
+		<url-pattern>/pages/controller</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>UserFilter</filter-name>
+		<filter-class>by.academy.alekhno.web.filter.UserFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserFilter</filter-name>
+		<url-pattern>/controller</url-pattern>
+	</filter-mapping>
+
+</web-app>
