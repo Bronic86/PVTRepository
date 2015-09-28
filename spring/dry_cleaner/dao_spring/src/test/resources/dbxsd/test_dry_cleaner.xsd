@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="test_dry_cleaner" targetNamespace="test_dry_cleaner">
+	<xsd:element name="models" type="models__type" />
+	<xsd:element name="dbmaintain_scripts" type="dbmaintain_scripts__type" />
+	<xsd:element name="users" type="users__type" />
+	<xsd:element name="user_roles" type="user_roles__type" />
+	<xsd:element name="clothes" type="clothes__type" />
+	<xsd:element name="roles" type="roles__type" />
+	<xsd:element name="states" type="states__type" />
+	<xsd:element name="orders" type="orders__type" />
+	<xsd:element name="types" type="types__type" />
+	<xsd:complexType name="models__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+		<xsd:attribute name="type_id" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="dbmaintain_scripts__type">
+		<xsd:attribute name="succeeded" use="optional" />
+		<xsd:attribute name="file_last_modified_at" use="optional" />
+		<xsd:attribute name="executed_at" use="optional" />
+		<xsd:attribute name="checksum" use="optional" />
+		<xsd:attribute name="file_name" use="optional" />
+		<xsd:attribute name="version" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="users__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="first_name" use="optional" />
+		<xsd:attribute name="second_name" use="optional" />
+		<xsd:attribute name="login" use="optional" />
+		<xsd:attribute name="telephone" use="optional" />
+		<xsd:attribute name="password" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="user_roles__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="role_id" use="optional" />
+		<xsd:attribute name="user_id" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="clothes__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="price" use="optional" />
+		<xsd:attribute name="model_id" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="roles__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="states__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="state" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="orders__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="state_id" use="optional" />
+		<xsd:attribute name="quantity" use="optional" />
+		<xsd:attribute name="clother_id" use="optional" />
+		<xsd:attribute name="user_id" use="optional" />
+		<xsd:attribute name="ordering_day" use="optional" />
+	</xsd:complexType>
+	<xsd:complexType name="types__type">
+		<xsd:attribute name="id" use="optional" />
+		<xsd:attribute name="name" use="optional" />
+	</xsd:complexType>
+</xsd:schema>
