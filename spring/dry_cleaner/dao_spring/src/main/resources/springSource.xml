@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+<bean class="by.academy.alekhno.test.annotation.RunThisMethodAnnotationBeanPostProccessor"/>
+<bean class="by.academy.alekhno.test.annotation.BenchMarkBeanPostProccessor"/>
+<bean class="by.academy.alekhno.test.annotation.TransactionBeanPostProccessor"/>
+<bean class="by.academy.alekhno.test.annotation.DestroyBeanFactoryDefinition"/>
+<bean class="by.academy.alekhno.test.annotation.MyDepricatedBeanFactoryPostProccessor"/>
+
+<bean id="stringMy" class="java.lang.String">
+	<constructor-arg>
+		<value>Trust me</value>
+	</constructor-arg>
+</bean>
+
+<bean id="SheikspierQuoter" class="by.academy.alekhno.test.SheikspierQuoter" destroy-method="sayQuoter" scope="prototype">
+	<property name="message" value="To be or not to be"></property>
+</bean>
+
+<bean id="TerminatorQuoter" class="by.academy.alekhno.test.TerminatorQuoter">
+	<property name="messages">
+	
+		<list>
+			<value>I'll be back</value>
+			<value>Sarra Conor must dye</value>
+			<ref bean="stringMy"/>
+		</list>
+	</property>
+</bean>
+
+<bean id="talkingRobot" class="by.academy.alekhno.test.TalkingRobotImpl">
+	<property name="quoters">
+		<list>
+			<ref bean="SheikspierQuoter"/>
+			<ref bean="TerminatorQuoter"/>
+		</list>
+	</property>
+</bean>
+
+</beans>
