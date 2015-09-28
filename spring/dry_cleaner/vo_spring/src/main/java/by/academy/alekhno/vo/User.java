@@ -1,31 +1,40 @@
 package by.academy.alekhno.vo;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class User implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int id;
 	private String login;
 	private String password;
 	private String firstName;
 	private String secondName;
 	private long telephone;
+	private Set<Role> roles;
 
-	
-	
 	public User() {
 	}
 
-	public User(int id, String login, String password, String firstName,
-			String secondName, long telephone) {
+	public User(int id, String login, String password, String firstName, String secondName,
+			long telephone, Set<Role> roles) {
 		this.id = id;
 		this.login = login;
 		this.password = password;
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.telephone = telephone;
+		this.roles = roles;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public int getId() {
@@ -80,14 +89,12 @@ public class User implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((secondName == null) ? 0 : secondName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((secondName == null) ? 0 : secondName.hashCode());
 		result = prime * result + (int) (telephone ^ (telephone >>> 32));
 		return result;
 	}
@@ -118,6 +125,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
 		if (secondName == null) {
 			if (other.secondName != null)
 				return false;
@@ -130,9 +142,9 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password=" + password
-				+ ", firstName=" + firstName + ", secondName=" + secondName
-				+ ", telephone=" + telephone + "]";
+		return "User [id=" + id + ", login=" + login + ", password=" + password + ", firstName="
+				+ firstName + ", secondName=" + secondName + ", telephone=" + telephone
+				+ ", roles=" + roles + "]";
 	}
 
 }
