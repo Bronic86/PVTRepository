@@ -112,19 +112,19 @@ public class ClotherServiceImpl implements ClotherService {
 
 	@Override
 	public void deleteType(int id) {
-		//Model dependency exist
+		// Model dependency exist
 		typeRepository.delete(id);
 	}
 
 	@Override
 	public void deleteModel(int id) {
-		//Clother dependency exist
+		// Clother dependency exist
 		modelRepository.delete(id);
 	}
 
 	@Override
 	public void deleteClother(int id) {
-		//Order dependency exist
+		// Order dependency exist
 		clotherRepository.delete(id);
 	}
 
