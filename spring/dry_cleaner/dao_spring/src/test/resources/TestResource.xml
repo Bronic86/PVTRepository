@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dbxsd/dataset.xsd">
+         
+  	<users id="1" login="boris@mail.ru" password="123" first_name="Boris" second_name="Alekhno" telephone="375292766536"/>
+  	<users id="2" login="test@mail.ru" password="321" first_name="Andrew" second_name="Pupkin" telephone="375295592117"/>
+  	
+  	<roles id="1" name="user"/>
+  	<roles id="2" name="admin"/>
+  	
+  	<user_roles id="1" role_id="1" user_id="1"/>
+  	<user_roles id="2" role_id="1" user_id="2"/>
+  	<user_roles id="3" role_id="2" user_id="1"/>
+  	
+  	<types id="1" name="jeans"/>
+  	<types id="2" name="shirt"/>
+  	
+  	<states id="1" state="create"/>
+  	<states id="2" state="processed"/>
+  
+  	<models id="1" type_id="1" name="thin jeans"/>
+  	<models id="2" type_id="1" name="heavy jeans"/>
+  	<models id="3" type_id="2" name="cotton collor shirt"/>
+  	<models id="4" type_id="2" name="white shirt"/>
+  	<models id="5" type_id="2" name="nightshirt"/>
+  	
+  	<clothes id="1" model_id="1" price="100000"/>
+  	<clothes id="2" model_id="2" price="200000"/>
+  	<clothes id="3" model_id="3" price="50000"/>
+  	<clothes id="4" model_id="4" price="90000"/>
+  	<clothes id="5" model_id="5" price="110000"/>
+  	
+  	<orders id="1" user_id="1" clother_id="3" ordering_day="2015-08-11" quantity="1" state_id="1"/>
+  	<orders id="2" user_id="2" clother_id="5" ordering_day="2015-08-09" quantity="2" state_id="1"/>
+  	<orders id="3" user_id="2" clother_id="3" ordering_day="2015-08-15" quantity="1" state_id="2"/>
+  	
+  	
+</dataset>
