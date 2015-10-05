@@ -2,6 +2,37 @@
 <html>
 <head>
 <title>Authorization</title>
+<style>
+.error {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.msg {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+#login-box {
+	width: 300px;
+	padding: 20px;
+	margin: 100px auto;
+	background: #fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 1px solid #000;
+}
+</style>
 </head>
 <body>
 
@@ -11,32 +42,40 @@
 			<div>
 				<%@include file="puzzle/menu.jsp"%>
 			</div>
-			<div>
-				<form
-					action="<fmt:message key='key.controller' bundle='${resource}'/>"
-					method="post">
-					<table>
-						<caption>Input login and password</caption>
-						<tr>
-							<th>Login</th>
-							<td><input
-								name="<fmt:message key='user.column.login' bundle='${resource}'/>"
-								type="text" placeholder="Login"></td>
-						</tr>
-						<tr>
-							<th>Password</th>
-							<td><input
-								name="<fmt:message key='user.column.password' bundle='${resource}'/>"
-								type="password" placeholder="Password"></td>
-						</tr>
-					</table>
-					<br> <input type="submit" value="<fmt:message key='button.authorization' bundle='${resource}'/>"> 
-					<input
-						name="<fmt:message key='key.command' bundle='${resource}'/>"
-						type="hidden"
-						value="<fmt:message key='command.key.authorization' bundle='${resource}'/>">
-				</form>
-			</div>
+			<div id="login-box">
+
+		<h3>Please, enter login and password for authorization</h3>
+
+		<c:if test="${not empty error}">
+			<div class="error">${error}</div>
+		</c:if>
+		<c:if test="${not empty msg}">
+			<div class="msg">${msg}</div>
+		</c:if>
+		<c:url value="/j_spring_security_check" var="loginUrl" />
+		<form name='loginForm'
+			action="${loginUrl}" method='POST'>
+
+			<table>
+				<tr>
+					<td>Login:</td>
+					<td><input type='text'  name='j_username'></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type='password' name='j_password' /></td>
+				</tr>
+				<tr>
+					<td colspan='2'><input name="submit" type="submit" 
+						value="submit" /></td>
+				</tr>
+			</table>
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+
+		</form>
+	</div>
 		</article>
 		<footer><%=new java.util.Date()%></footer>
 	</div>

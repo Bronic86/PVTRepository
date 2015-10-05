@@ -3,13 +3,13 @@
 		<h3>Navigation menu</h3>
 			<c:if test='${empty roles}'>
 				<ul>
-					<a href="<c:url value='/controller?command=to_authorization' />">Authorization</a>
+					<a href="<c:url value='/authorization' />">Authorization</a>
 				</ul>
 				<ul>
-					<a href="<c:url value='/controller?command=to_registration' />">Registration</a>
+					<a href="<c:url value='/registration' />">Registration</a>
 				</ul>
 				<ul>
-					<a href="<c:url value='/controller?command=price_list' />">Price
+					<a href="<c:url value='/price_list' />">Price
 						list</a>
 				</ul>
 			</c:if>
