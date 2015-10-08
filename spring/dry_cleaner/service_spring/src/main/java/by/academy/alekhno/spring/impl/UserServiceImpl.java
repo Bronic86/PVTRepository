@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,13 @@ import by.academy.alekhno.vo.User;
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
+	private Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
 	@Autowired
 	private UserPojoRepository userRepository;
+
+	@Autowired
+	private Md5PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private RolePojoRepository roleRepository;
@@ -42,7 +47,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private String modifyPassword(String password) {
-		return DigestUtils.md5Hex(password);
+		return passwordEncoder.encodePassword(password, null);
+		// return DigestUtils.md5Hex(password);
 	}
 
 	/**
@@ -50,10 +56,12 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User registration(User user) {
-		UserPojo userPojo = ConverterVOToPojo.getUser(user);
-		if (!loginExist(userPojo.getLogin())) {
+		if (!loginExist(user.getLogin())) {
+			UserPojo userPojo = ConverterVOToPojo.getUser(user);
 			RolePojo rolePojo = roleRepository.getByName("user");
 			userPojo.setRoles(new HashSet<RolePojo>(Arrays.asList(rolePojo)));
+			// modify password
+			userPojo.setPassword(modifyPassword(userPojo.getPassword()));
 			UserPojo userSaving = userRepository.saveAndFlush(userPojo);
 			return ConverterPojoToVO.getUser(userSaving);
 		} else {
@@ -94,8 +102,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addRoleToUser(User user, Role role) {
 		UserPojo persistentUser = userRepository.findOne(user.getId());
+		RolePojo persistentRole = roleRepository.findOne(role.getId());
 		Set<RolePojo> rolesPojo = persistentUser.getRoles();
-		rolesPojo.add(ConverterVOToPojo.getRole(role));
+		rolesPojo.add(persistentRole);
 		persistentUser.setRoles(rolesPojo);
 	}
 
@@ -110,6 +119,45 @@ public class UserServiceImpl implements UserService {
 			users.add(ConverterPojoToVO.getUser(userPojo));
 		}
 		return users;
+	}
+
+	/**
+	 * Get Set of all roles
+	 */
+	@Override
+	public Set<Role> getAllRoles() {
+		Set<RolePojo> rolesPojo = new HashSet<>(roleRepository.findAll());
+		Set<Role> roles = new HashSet<>();
+		for (RolePojo rolePojo : rolesPojo) {
+			roles.add(ConverterPojoToVO.getRole(rolePojo));
+		}
+		return roles;
+	}
+
+	/**
+	 * Get User by id
+	 */
+	@Override
+	public User getUserById(int user_id) {
+		UserPojo userPojo = userRepository.findOne(user_id);
+
+		return ConverterPojoToVO.getUser(userPojo);
+	}
+
+	/**
+	 * Remove Role for User
+	 */
+	@Override
+	public void removeRoleFromUser(User user, Role role) {
+		UserPojo persistentUser = userRepository.findOne(user.getId());
+		RolePojo persistentRole = roleRepository.findOne(role.getId());
+		Set<RolePojo> rolesPojo = persistentUser.getRoles();
+
+		if (rolesPojo.contains(persistentRole)) {
+			rolesPojo.remove(persistentRole);
+		}
+
+		persistentUser.setRoles(rolesPojo);
 	}
 
 }

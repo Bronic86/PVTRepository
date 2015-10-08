@@ -3,16 +3,40 @@ package by.academy.alekhno.vo;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+
+	@NotEmpty(message = "Please enter your login.")
+	@Email(message = "Your login must be e-mail.")
 	private String login;
+
+	@NotEmpty(message = "Please enter your password.")
+	@Pattern(regexp = "^[\\w\\d]*$", message = "Incorrect symbols in password. Change please.")
+	@Size(min = 4, max = 12, message = "Password must be contain more then 4 and less then 12 symbols")
 	private String password;
+
+	@NotEmpty(message = "Please enter your first name.")
+	@Size(min = 1, max = 15, message = "First name must be contain more then 1 and less then 15 symbols")
 	private String firstName;
+
+	@NotEmpty(message = "Please enter your second name.")
+	@Size(min = 1, max = 15, message = "Second name must be contain more then 1 and less then 15 symbols")
 	private String secondName;
+
+	// @NotEmpty(message = "Please enter your telephone number.")
+	// @Pattern(regexp = "^[0-9]{12}$", message =
+	// "Incorrect symbols in data. Write only 12 decimals (375292766536).")
 	private long telephone;
+
 	private Set<Role> roles;
 
 	public User() {

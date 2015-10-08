@@ -29,8 +29,10 @@ public class ConverterVOToPojo {
 			return null;
 		}
 		Set<RolePojo> roles = new HashSet<RolePojo>();
-		for (Role role : user.getRoles()) {
-			roles.add(getRole(role));
+		if (user.getRoles() != null) {
+			for (Role role : user.getRoles()) {
+				roles.add(getRole(role));
+			}
 		}
 
 		return new UserPojo(user.getId(), user.getLogin(), user.getPassword(), user.getFirstName(),

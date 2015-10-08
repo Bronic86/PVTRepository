@@ -1,4 +1,5 @@
 <%@include file="puzzle/head_jsp.jsp"%>
+
 <html>
 <head>
 <title>Registration</title>
@@ -11,48 +12,43 @@
 		<div style='float: left; width: 200px; height: 800px'>
 			<%@include file="puzzle/menu.jsp"%>
 		</div>
-		<form
-			action="<fmt:message key='key.controller' bundle='${resource}'/>"
-			method="post">
+		<form:form action="registration" method="POST" modelAttribute="userForm" >
 
 			<table>
 				<caption>Registration form</caption>
 				<tr>
 					<th>Login (e-mail)</th>
-					<td><input type="text"
-						name="<fmt:message key='user.column.login' bundle='${resource}'/>"
-						placeholder="Login"></td>
+					<td><form:input  path="login"  placeholder="Login"/></td>
+					<td><form:errors path="login" cssStyle="color: #ff0000;"/>
+						<label cssStyle="color: #ff0000;">${errorLoginExist}</label>
+					</td>
 				</tr>
 				<tr>
 					<th>Password</th>
-					<td><input type="password"
-						name="<fmt:message key='user.column.password' bundle='${resource}'/>"
-						placeholder="Password"></td>
+					<td><form:input type="password"	path="password"	placeholder="Password"/></td>
+					<td><form:errors path="password" cssStyle="color: #ff0000;"/></td>
 				</tr>
 				<tr>
 					<th>Name</th>
-					<td><input type="text"
-						name="<fmt:message key='user.column.first.name' bundle='${resource}'/>"
-						placeholder="Name"></td>
+					<td><form:input type="text"	path="firstName" placeholder="Name"/></td>
+					<td><form:errors path="firstName" cssStyle="color: #ff0000;"/></td>
 				</tr>
 				<tr>
 					<th>Surname</th>
-					<td><input type="text"
-						name="<fmt:message key='user.column.second.name' bundle='${resource}'/>"
-						placeholder="Second name"></td>
+					<td><form:input type="text"	path="secondName" placeholder="Second name"/></td>
+					<td><form:errors path="secondName" cssStyle="color: #ff0000;"/></td>
 				</tr>
 				<tr>
 					<th>Telephone</th>
-					<td><input type="text"
-						name="<fmt:message key='user.column.telephone' bundle='${resource}'/>"
-						placeholder="375291234567"></td>
+					<td><form:input type="text"	path="telephone" placeholder="375291234567"/></td>
+					<td><form:errors path="telephone" cssStyle="color: #ff0000;"/></td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="<fmt:message key='button.registrate' bundle='${resource}'/>"></td>
+					<td><input type="submit" value="Registrate"/></td>
 				</tr>
 			</table>
-			<input type="hidden" name="command" value="registration">
-		</form>
+			
+		</form:form>
 	</article>
 	<%@include file="puzzle/footer_jsp.jsp"%>
 </body>

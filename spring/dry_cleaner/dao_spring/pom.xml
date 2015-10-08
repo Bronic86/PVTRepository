@@ -127,11 +127,6 @@
 			<version>5.1.10</version>
 		</dependency>
 		<dependency>
-			<groupId>by.academy.alekhno</groupId>
-			<artifactId>vo_spring</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
@@ -222,6 +217,11 @@
 					<groupId>junit</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>by.academy.alekhno</groupId>
+			<artifactId>vo_spring</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 </project>

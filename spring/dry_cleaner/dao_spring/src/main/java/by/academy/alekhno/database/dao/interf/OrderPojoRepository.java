@@ -23,4 +23,7 @@ public interface OrderPojoRepository extends JpaRepository<OrderPojo, Integer> {
 
 	@Query("SELECT o FROM OrderPojo o JOIN o.state s WHERE s.id = :state_id")
 	List<OrderPojo> getOrdersByStateId(@Param("state_id") int state_id);
+
+	@Query("SELECT o FROM OrderPojo o JOIN o.user u WHERE u.login = :login")
+	List<OrderPojo> getOrdersByUserLogin(@Param("login") String login);
 }

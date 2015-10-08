@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 import by.academy.alekhno.database.dao.interf.RolePojoRepository;
 import by.academy.alekhno.database.dao.interf.UserPojoRepository;
@@ -30,13 +31,16 @@ public class UserServiceTest {
 	private static Logger logger = Logger.getLogger(UserServiceTest.class.getName());
 
 	@InjectMocks
-	UserServiceImpl userService;
+	private UserServiceImpl userService;
 
 	@Mock
 	private UserPojoRepository userRepository;
 
 	@Mock
 	private RolePojoRepository roleRepository;
+
+	@Mock
+	private Md5PasswordEncoder passwordEncoder;
 
 	@Before
 	public void setUp() {
@@ -60,8 +64,10 @@ public class UserServiceTest {
 		logger.info("Start test authorizeTrue.");
 
 		Mockito.when(userRepository.getByLoginAndPassword(login, passwordCh)).thenReturn(userPojo);
+		Mockito.when(passwordEncoder.encodePassword(password, null)).thenReturn(passwordCh);
 
 		User fUser = userService.authorization(login, password);
+		logger.info("\n" + fUser + "\n");
 		assertEquals(fUser, user);
 		logger.info("Test authorizeTrue is finished.");
 	}
@@ -71,6 +77,7 @@ public class UserServiceTest {
 		logger.info("Start test authorizeFalse.");
 
 		Mockito.when(userRepository.getByLoginAndPassword(login, passwordCh)).thenReturn(null);
+		Mockito.when(passwordEncoder.encodePassword(password, null)).thenReturn(passwordCh);
 
 		User fUser = userService.authorization(login, password);
 		assertNull(fUser);

@@ -5,7 +5,7 @@
 	<c:forEach var='type' items='${types}'>
 		<tr>
 			<td><a
-				href="/dry_cleaner/controller?command=price_list&type_id=${type.id}">
+				href="/dry_cleaner/price_list/${type.id}">
 					<c:out value="${type.name}" />
 			</a></td>
 		</tr>

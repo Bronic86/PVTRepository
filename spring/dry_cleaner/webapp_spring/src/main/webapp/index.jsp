@@ -10,12 +10,12 @@
 			<div>
 				<%@include file="WEB-INF/pages/puzzle/menu.jsp"%>
 			</div>
-			<div>
+			<div> 
 				<h1>Welcome!</h1>
 				<p>Welcome to Classic Dry-cleaners.</p>
 			</div>
 		</article>
-		<%@include file="WEB-INF/pages/puzzle/footer_jsp.jsp"%>
+		<%@include file="WEB-INF/pages/puzzle/footer_jsp.jsp"%> 
 	</div>
 </body>
 </html>

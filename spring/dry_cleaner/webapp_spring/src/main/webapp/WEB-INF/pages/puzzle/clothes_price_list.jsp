@@ -2,21 +2,21 @@
 	<tr>
 		<th> Model </th>
 		<th> Price </th>
-		<c:if test='${not empty user}'>
+		<sec:authorize access="hasRole('ROLE_USER')" >
 			<th><br></th>
-		</c:if>
+		</sec:authorize>
 	</tr>
 	<c:forEach var='clother' items='${clothes}'>
 		<tr>
 			<td><c:out value="${clother.model.name}" /></td>
 			<td><c:out value="${clother.price}" /></td>
-			<c:if test='${not empty user}'>
+			<sec:authorize access="hasRole('ROLE_USER')" >
 				<td>
-					<a href="/dry_cleaner/controller?command=change_order&clother_id=${clother.id}">
+					<a href="order/${clother.id}">
 					Add order
 					</a>
 				</td>
-			</c:if>
+			</sec:authorize>
 		</tr>
 	</c:forEach>
 </table>

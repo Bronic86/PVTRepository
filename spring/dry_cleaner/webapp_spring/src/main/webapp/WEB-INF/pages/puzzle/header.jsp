@@ -1,13 +1,12 @@
 <header style='text-align: center'>
 	<h1>
-		Hello
-		<c:choose>
-			<c:when test= '${empty user}'>
-				Guest
-			</c:when>
-			<c:otherwise>				
-				${user.firstName} ${user.secondName }
-			</c:otherwise>
-		</c:choose>.
+		Hello 
+		
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.username" />
+		</sec:authorize>
+		<sec:authorize access="isAnonymous()" >
+		Guest
+		</sec:authorize>.
 	</h1>
 </header>
