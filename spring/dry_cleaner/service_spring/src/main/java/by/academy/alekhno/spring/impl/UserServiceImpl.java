@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,13 @@ import by.academy.alekhno.vo.User;
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
+	private Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
 	@Autowired
 	private UserPojoRepository userRepository;
+
+	@Autowired
+	private Md5PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private RolePojoRepository roleRepository;
@@ -42,7 +47,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private String modifyPassword(String password) {
-		return DigestUtils.md5Hex(password);
+		return passwordEncoder.encodePassword(password, null);
+		// return DigestUtils.md5Hex(password);
 	}
 
 	/**
@@ -50,8 +56,8 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User registration(User user) {
-		UserPojo userPojo = ConverterVOToPojo.getUser(user);
-		if (!loginExist(userPojo.getLogin())) {
+		if (!loginExist(user.getLogin())) {
+			UserPojo userPojo = ConverterVOToPojo.getUser(user);
 			RolePojo rolePojo = roleRepository.getByName("user");
 			userPojo.setRoles(new HashSet<RolePojo>(Arrays.asList(rolePojo)));
 			UserPojo userSaving = userRepository.saveAndFlush(userPojo);

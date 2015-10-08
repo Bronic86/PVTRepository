@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import by.academy.alekhno.database.dao.interf.OrderPojoRepository;
+import by.academy.alekhno.database.dao.interf.StatePojoRepository;
 import by.academy.alekhno.spring.converter.ConverterPojoToVO;
 import by.academy.alekhno.spring.converter.ConverterVOToPojo;
 import by.academy.alekhno.spring.interf.OrderService;
 import by.academy.alekhno.spring.pojo.OrderPojo;
+import by.academy.alekhno.spring.pojo.StatePojo;
 import by.academy.alekhno.vo.Order;
 
 @Service("orderService")
@@ -21,6 +23,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderPojoRepository orderRepository;
 
+	@Autowired
+	private StatePojoRepository stateRepository;
+
 	@Override
 	public void deleteByID(int id) {
 		orderRepository.delete(id);
@@ -29,6 +34,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void addOrder(Order order) {
 		OrderPojo orderPojo = ConverterVOToPojo.getOrder(order);
+		StatePojo statePojo = stateRepository.getByState("create");
+		orderPojo.setState(statePojo);
 		orderRepository.saveAndFlush(orderPojo);
 	}
 
@@ -66,6 +73,16 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getOrdersByClotherId(int clother_id) {
 		List<OrderPojo> ordersPojo = orderRepository.getOrdersByClotherId(clother_id);
+		List<Order> orders = new ArrayList<Order>();
+		for (OrderPojo orderPojo : ordersPojo) {
+			orders.add(ConverterPojoToVO.getOrder(orderPojo));
+		}
+		return orders;
+	}
+
+	@Override
+	public List<Order> getOrdersByUserName(String login) {
+		List<OrderPojo> ordersPojo = orderRepository.getOrdersByUserLogin(login);
 		List<Order> orders = new ArrayList<Order>();
 		for (OrderPojo orderPojo : ordersPojo) {
 			orders.add(ConverterPojoToVO.getOrder(orderPojo));

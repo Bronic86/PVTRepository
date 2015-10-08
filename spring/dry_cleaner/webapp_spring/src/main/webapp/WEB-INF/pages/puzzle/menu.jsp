@@ -1,7 +1,7 @@
 <div style='float: left; width: 200px; height: 800px'>
 	<li>
 		<h3>Navigation menu</h3>
-			<c:if test='${empty roles}'>
+			<sec:authorize access="isAnonymous()" >
 				<ul>
 					<a href="<c:url value='/authorization' />">Authorization</a>
 				</ul>
@@ -9,59 +9,47 @@
 					<a href="<c:url value='/registration' />">Registration</a>
 				</ul>
 				<ul>
-					<a href="<c:url value='/price_list' />">Price
-						list</a>
+					<a href="<c:url value='/price_list' />">Price list</a>
 				</ul>
-			</c:if>
-			<c:if test='${roles.contains("user")}'>
+			</sec:authorize>
+			
+			<sec:authorize access="hasRole('ROLE_USER')" >
 				<ul>
-					<a href="<c:url value='/controller?command=orders' />">Orders</a>
+					<a href="<c:url value='/orders' />">Orders</a>
 				</ul>
 				<ul>
-					<a href="<c:url value='/controller?command=price_list' />">Price
-						list</a>
+					<a href="<c:url value='/price_list' />">Price list</a>
 				</ul>
+			</sec:authorize>
+			
+			<sec:authorize access="hasRole('ROLE_MANAGER')" >
+				<ul>
+					<a href="<c:url value='/clothes/change' />">Change clother list</a>
+				</ul>
+				<ul>
+					<a href="<c:url value='/models/change' />">Change model list</a>
+				</ul>
+				<ul>
+					<a href="<c:url value='/types/change' />">Change type list</a>
+				</ul>
+				<ul>
+					<a href="<c:url value='/orders/add' />">Add	order</a>
+				</ul>
+				</sec:authorize>
 				
-			</c:if>
-			<c:if test='${roles.contains("manager") }'>
-				<ul>
-					<a href="<c:url value='/controller?command=change_clother_list.jsp' />">Change
-						clother list</a>
-				</ul>
-				<ul>
-					<a href="<c:url value='/controller?command=change_model_list.jsp' />">Change
-						model list</a>
-				</ul>
-				<ul>
-					<a href="<c:url value='/controller?command=change_type_list.jsp' />">Change
-						type list</a>
-				</ul>
-				<ul>
-					<a href="<c:url value='/controller?command=add_order.jsp' />">Add
-						order</a>
-				</ul>
-				<ul>
-					<a href="<c:url value='/controller?command=orders' />">Orders</a>
-				</ul>
-				<ul>
-					<a href="<c:url value='/controller?command=price_list' />">Price
-						list</a>
-				</ul>
-				
-				</c:if>
-				<c:if test='${roles.contains("admin") }'>
+				<sec:authorize access="hasRole('ROLE_ADMIN')" >
 					<ul>
-					<a href="<c:url value='/controller?command=all_users' />">See all users.</a>
-				</ul>
-				</c:if>
-				
-				<c:if test='${not empty roles }'>
-				<ul>
-					<a href="<c:url value='/controller?command=user_information&login=${user.login }' />">About myself.</a>
-				</ul>
-					<ul>
-						<a href="<c:url value='/controller?command=log_out' />">Log out</a>
+						<a href="<c:url value='/users'/> ">See all users.</a>
 					</ul>
-				</c:if>
+				</sec:authorize>				
+				
+				<sec:authorize access="isAuthenticated()">
+					<ul>
+						<a href="<c:url value='/user' />">About myself.</a>
+					</ul>
+					<ul>
+						<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
+					</ul>
+				</sec:authorize>
 	</li>
 </div>

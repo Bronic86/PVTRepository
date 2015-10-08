@@ -15,7 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import by.academy.alekhno.database.config.AppDAOJPAConfig;
+import by.academy.alekhno.dao.spring.config.AppDAOJPAConfigTest;
 import by.academy.alekhno.database.dao.interf.RolePojoRepository;
 import by.academy.alekhno.spring.pojo.RolePojo;
 
@@ -23,7 +23,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { AppDAOJPAConfig.class })
+@ContextConfiguration(classes = { AppDAOJPAConfigTest.class })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 @Transactional

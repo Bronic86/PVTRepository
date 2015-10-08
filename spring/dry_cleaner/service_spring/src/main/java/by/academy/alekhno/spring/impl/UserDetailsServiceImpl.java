@@ -3,7 +3,6 @@ package by.academy.alekhno.spring.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +18,8 @@ import by.academy.alekhno.spring.pojo.UserPojo;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-	private Logger logger = Logger.getLogger(UserDetailsServiceImpl.class.getName());
+	// private Logger logger =
+	// Logger.getLogger(UserDetailsServiceImpl.class.getName());
 
 	@Autowired
 	private UserPojoRepository userRepository;
@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		UserPojo user = userRepository.getByLogin(login);
-		logger.info(user);
+		// logger.info(user);
 		// if (user == null) {
 		// throw new UsernameNotFoundException("Username not found");
 		// }
@@ -38,8 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
 				user.getLogin(), user.getPassword(), roles);
-		logger.info(userDetails.getUsername() + " - name\n" + userDetails.getPassword()
-				+ " - name\n");
+		// logger.info(userDetails.getUsername() + " - name\n" +
+		// userDetails.getPassword()
+		// + " - name\n");
 		return userDetails;
 	}
 

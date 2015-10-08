@@ -13,8 +13,8 @@
 			</div>
 			<div>
 				<c:choose>
-					<c:when test="${not empty user_orders }">
-						<%@include file="puzzle/user_orders.jsp" %>
+					<c:when test='${not empty add_clother}'>
+						<%@include file="puzzle/add_order_form.jsp" %>
 					</c:when>
 					<c:otherwise>
 						<c:out value="You didn't have orders."/>

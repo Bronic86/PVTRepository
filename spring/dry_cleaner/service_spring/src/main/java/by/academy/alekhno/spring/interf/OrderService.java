@@ -18,4 +18,6 @@ public interface OrderService {
 
 	List<Order> getOrdersByClotherId(int id);
 
+	List<Order> getOrdersByUserName(String login);
+
 }

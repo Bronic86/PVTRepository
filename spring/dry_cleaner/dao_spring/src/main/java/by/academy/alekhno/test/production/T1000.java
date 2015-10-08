@@ -1,4 +1,4 @@
-package by.academy.alekhno.test;
+package by.academy.alekhno.test.production;
 
 public class T1000 extends TerminatorQuoter {
 

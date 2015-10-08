@@ -2,7 +2,10 @@ package by.academy.alekhno.spring.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,59 +23,41 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 
 	@Autowired
+	private Md5PasswordEncoder passwordEncoder;
+
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(authenticationProvider());
+	}
+
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder);
+		return authenticationProvider;
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().authorizeRequests()
-				.antMatchers("/registration", "/authorization", "/").permitAll()
+				.antMatchers("/registration", "/authorization", "/", "/price_list").permitAll()
 				// .anyRequest().permitAll()
-				.antMatchers("/price_list/**").access("hasRole('ROLE_USER')").and();
+				.antMatchers("/price_list/**").access("hasRole('ROLE_USER')")
+				.antMatchers("/authorized**").access("isAuthenticated()").and();
 
-		http.formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
-				.failureUrl("/login?error").usernameParameter("j_username")
+		http.formLogin().loginPage("/authorization").loginProcessingUrl("/j_spring_security_check")
+				.failureUrl("/authorization/error").usernameParameter("j_username")
 				.passwordParameter("j_password").permitAll();
 
-		http.logout().permitAll().logoutUrl("/logout").logoutSuccessUrl("/login?logout")
-				.invalidateHttpSession(true);
+		http.logout().permitAll().logoutUrl("/j_spring_security_logout")
+				.logoutSuccessUrl("/authorization/logout").invalidateHttpSession(true);
 
-		http.authorizeRequests().and().formLogin().defaultSuccessUrl("/");
+		http.authorizeRequests().and().formLogin().defaultSuccessUrl("/authorized");
+
 		http.exceptionHandling().accessDeniedPage("/403");
 
-		// http.authorizeRequests().antMatchers("/price_list/**").access("hasRole('ROLE_ADMIN')")
-		// .antMatchers("/registration/**").access("hasRole('ROLE_SUPERADMIN')").and()
-		// .formLogin().defaultSuccessUrl("/",
-		// false).and().formLogin().loginPage("/login")
-		// .usernameParameter("login").passwordParameter("password").and().csrf().and()
-		// .exceptionHandling().accessDeniedPage("/");
-		// http.authorizeRequests().antMatchers("/price_list/**").access("hasRole('ROLE_USER')")
-		// .and().formLogin().loginPage("/authorization").failureUrl("/authorization/error")
-		// .usernameParameter("username").passwordParameter("password").and().logout()
-		// .logoutSuccessUrl("/authorization?logout").and().csrf()
-		// .and().exceptionHandling().accessDeniedPage("/403");
-
-		// http.csrf().disable().authorizeRequests().antMatchers("/resources/**",
-		// "/**").permitAll()
-		// .anyRequest().permitAll().and();
-
-		// http.authorizeRequests().antMatchers("/price_list/**").access("hasRole('ROLE_USER')")
-		// .formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
-		// .failureUrl("/autherithation?error").usernameParameter("j_username")
-		// .passwordParameter("j_password").permitAll().and().exceptionHandling()
-		// .accessDeniedPage("/403");
-
-		// http.logout().permitAll().logoutUrl("/logout").logoutSuccessUrl("/authorization?logout")
-		// .invalidateHttpSession(true);
-		//
-		// http.authorizeRequests().and().formLogin().defaultSuccessUrl("/",
-		// false);
-
-		// http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/price_list/**")
-		// .access("hasRole('ROLE_ADMIN')").and().formLogin().loginPage("/authorization")
-		// .usernameParameter("j_username").passwordParameter("j_password").and().csrf().and()
-		// .exceptionHandling().accessDeniedPage("/403");
 	}
 }

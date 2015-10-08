@@ -1,4 +1,5 @@
-<form action="add" method="POST" >
+
+<form:form action="add" method="post" modelAttribute="addOrder" >
 	<table>
 
 		<tr>
@@ -11,12 +12,10 @@
 			<td><c:out value='${add_clother.model.type.name }' /></td>
 			<td><c:out value='${add_clother.model.name }' /></td>
 			<td><c:out value='${add_clother.price }' /></td>
-			<td><input type="text" name="quantity" value="0"></td>
+			<td><form:input path="quantity" type="text" value="0"/></td>
 			<td><input type="submit" value="add order"></td>
 		</tr>
-		
 	</table>
 	
-	<input name='clother_id' type='hidden' value='${add_clother.id }'>
-	
-</form>
+	<form:input path='clother' type='hidden' value='${add_clother }'/> 
+</form:form>

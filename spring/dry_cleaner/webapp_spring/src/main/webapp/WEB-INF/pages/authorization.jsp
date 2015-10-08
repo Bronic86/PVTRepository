@@ -46,12 +46,8 @@
 
 		<h3>Please, enter login and password for authorization</h3>
 
-		<c:if test="${not empty error}">
-			<div class="error">${error}</div>
-		</c:if>
-		<c:if test="${not empty msg}">
-			<div class="msg">${msg}</div>
-		</c:if>
+		
+		
 		<c:url value="/j_spring_security_check" var="loginUrl" />
 		<form name='loginForm'
 			action="${loginUrl}" method='POST'>
@@ -73,9 +69,12 @@
 
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
-
+		
 		</form>
-	</div>
+		<c:if test="${not empty error}">
+			<div class="error">${error}</div>
+		</c:if>
+			</div>
 		</article>
 		<footer><%=new java.util.Date()%></footer>
 	</div>
