@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -12,7 +13,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy
-@ComponentScan("by.academy.alekhno.spring.web.controller")
+@ComponentScan({ "by.academy.alekhno.spring.web.controller",
+		"by.academy.alekhno.spring.web.validation" })
 public class Config extends WebMvcConfigurerAdapter {
 
 	@Bean
@@ -24,8 +26,8 @@ public class Config extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 
-	// @Override
-	// public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	// registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/*");
-	// }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/*");
+	}
 }

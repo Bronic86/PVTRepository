@@ -17,7 +17,7 @@
 						<%@include file="puzzle/add_order_form.jsp" %>
 					</c:when>
 					<c:otherwise>
-						<c:out value="You didn't have orders."/>
+						<c:out value="You didn't choose clother."/>
 					</c:otherwise>
 				</c:choose>
 			</div>

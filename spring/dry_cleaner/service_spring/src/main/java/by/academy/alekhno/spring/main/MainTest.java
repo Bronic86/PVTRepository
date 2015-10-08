@@ -21,7 +21,8 @@ public class MainTest {
 
 		userDetailsService.loadUserByUsername("boris@mail.ru");
 
-		System.out.println("\n\n" + userDetailsService.loadUserByUsername("test") + "\n\n");
+		// System.out.println("\n\n" +
+		// userDetailsService.loadUserByUsername("test") + "\n\n");
 
 		String password = "boris";
 		String login = "boris@mail.ru";
@@ -30,6 +31,14 @@ public class MainTest {
 		System.out.println(passwordEncoder.encodePassword(password, null) + "\n\n");
 
 		System.out.println(userService.authorization(login, password));
+
+		// int user_id = 23;
+		// User user = new User();
+		// user.setId(user_id);
+		// Role role = new Role();
+		// role.setId(3);
+		// userService.addRoleToUser(user, role);
+		// System.out.println(userService.getUserById(user_id));
 	}
 
 }

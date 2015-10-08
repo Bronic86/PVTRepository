@@ -16,7 +16,7 @@
 			<td style='text-align: center'><c:out value="${order.ordering_day }" /></td>
 			<td style='text-align: center'><c:out value="${order.state.state }" /></td>
 			<td style='text-align: center'><a
-				href="/dry_cleaner/controller?command=delete_order&order_id=${order.id }">
+				href="orders/delete/${order.id }">
 					Remove </a>
 			</td>
 		</tr>

@@ -1,24 +1,33 @@
 <table>
 	<tr>
 		<th> Login </th>
+		<th> First name </th>
+		<th> Second name </th>
+		<th> Telephone </th>
 		<th> Roles </th>
+		
 		<c:if test='${not empty user}'>
 			<th><br></th>
 		</c:if>
 	</tr>
-	<c:forEach var='userRoles' items='${usersRoles}'>
+	<c:forEach var='user' items='${users}'>
 		<tr>
-			<td><c:out value="${userRoles.user.login}" /></td>
-			<td><ul>
-				<c:forEach var='role' items='${usersRoles.roles}'>
-					<li>
-						<c:out value="${role.name}" />
-					</li>
-				</ul></c:forEach>
+			<td><c:out value="${user.login}" /></td>
+			<td><c:out value="${user.firstName}" /></td>
+			<td><c:out value="${user.secondName}" /></td>
+			<td><c:out value="${user.telephone}" /></td>
+			<td>
+				<ul>
+					<c:forEach var='role' items='${user.roles}'>
+						<li>
+							<c:out value="${role.name}" />
+						</li>
+					</c:forEach>
+				</ul>
 			</td>
 			<td>
-				<a href="/dry_cleaner/controller?command=user_information&login=${userRoles.user.login}">
-					Add order
+				<a href="users/user/${user.id }">
+					Change roles
 					</a>
 			</td>
 		</tr>

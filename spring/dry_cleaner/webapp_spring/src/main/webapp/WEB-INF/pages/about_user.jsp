@@ -12,7 +12,7 @@
 				<header style='text-align: center'><h2>Information about user.</h2></header>
 				<article>
 					<div style='float: left; width: 200px; height: 800px'>
-						<%@include file="puzzle/about_user.jsp"%>
+						<%@include file="puzzle/user_information.jsp"%>
 					</div>
 				</article>
 			</article>

@@ -42,11 +42,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests()
-				.antMatchers("/registration", "/authorization", "/", "/price_list").permitAll()
+		http.csrf()
+				.disable()
+				.authorizeRequests()
+				.antMatchers("/registration", "/authorization", "/", "/price_list", "/price_list/*")
+				.permitAll()
 				// .anyRequest().permitAll()
-				.antMatchers("/price_list/**").access("hasRole('ROLE_USER')")
-				.antMatchers("/authorized**").access("isAuthenticated()").and();
+				// .antMatchers("/price_list/order/add").access("hasRole('ROLE_USER')")
+				.antMatchers("/authorized**", "/authorization/**", "/403", "/price_list/order**",
+						"/orders**", "/user**").access("isAuthenticated()").and();
 
 		http.formLogin().loginPage("/authorization").loginProcessingUrl("/j_spring_security_check")
 				.failureUrl("/authorization/error").usernameParameter("j_username")

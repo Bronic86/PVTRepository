@@ -18,4 +18,10 @@ public interface UserService {
 	void addRoleToUser(User user, Role role);
 
 	Set<User> getAll();
+
+	Set<Role> getAllRoles();
+
+	User getUserById(int user_id);
+
+	void removeRoleFromUser(User user, Role role);
 }

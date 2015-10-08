@@ -9,6 +9,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 import by.academy.alekhno.spring.config.AppServiceConfig;
+import by.academy.alekhno.spring.web.aspect.LogMethodsAspect;
 
 public class DryCleanerWebAplicationInitializer implements WebApplicationInitializer {
 
@@ -18,6 +19,7 @@ public class DryCleanerWebAplicationInitializer implements WebApplicationInitial
 		ctx.register(Config.class);
 		ctx.register(AppSecurityConfig.class);
 		ctx.register(AppServiceConfig.class);
+		ctx.register(LogMethodsAspect.class);
 
 		servletContext.addListener(new ContextLoaderListener(ctx));
 

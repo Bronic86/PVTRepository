@@ -32,21 +32,10 @@ public class PriceListController {
 	public String toPriceListWithType(Model model, @PathVariable int type_id) {
 		List<Clother> clothes = clotherService.getClothesByTypeId(type_id);
 		model.addAttribute("clothes", clothes);
-
-		// Loose type???
-
-		List<Type> types = clotherService.getTypes();
-		model.addAttribute("types", types);
-
+		if (!model.containsAttribute("types")) {
+			List<Type> types = clotherService.getTypes();
+			model.addAttribute("types", types);
+		}
 		return "price_list";
 	}
-
-	// @Secured("ROLE_USER")
-	// @RequestMapping(value = "/add/{clother_id}", method = RequestMethod.GET)
-	// public String toAddOrder(Model model, @PathVariable int clother_id) {
-	// Clother clother = clotherService.getClotherById(clother_id);
-	// model.addAttribute("add_clother", clother);
-	//
-	// return "orders";
-	// }
 }
